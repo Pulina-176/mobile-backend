@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    profilePicture:{
+        type: String,
+        default: "https://thumbs.dreamstime.com/b/default-placeholder-profile-icon-avatar-gray-man-90197957.jpg",
+    }
 },{timeseries: true}); //the time of creation and the time of edit
 
 userSchema.index({ username: 1 }, { unique: true });
