@@ -10,6 +10,7 @@ import UserSignIn from "./pages/UserSignIn";
 import UserProfile from "./pages/UserProfile";
 import UserSignUp from "./pages/UserSignUp";
 import Header from "./components/Header";
+import PrivateRoute from "./components/PrivateRoute";
 
 const App = () => {
   return (
@@ -24,7 +25,9 @@ const App = () => {
         <Route path="/restaurant/delete/:id" element={<DeleteRestaurant />} />
         <Route path="/sign-in" element={<UserSignIn />} />
         <Route path="/sign-up" element={<UserSignUp />} />
-        <Route path="/profile" element={<UserProfile />} />
+        <Route element={<PrivateRoute />}>
+                <Route path="/profile" element={<UserProfile />} />
+        </Route>
       </Routes>
     </>
   );

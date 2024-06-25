@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     },
     profilePicture:{
         type: String,
-        default: "https://thumbs.dreamstime.com/b/default-placeholder-profile-icon-avatar-gray-man-90197957.jpg",
+        default: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Fvector-art%2F27501843-a-cartoon-pizza-character-with-a-cute-face&psig=AOvVaw0NxwDLKmysfdcPfnnFWdeI&ust=1719384059645000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIjDqfOS9oYDFQAAAAAdAAAAABAE",
     }
 },{timeseries: true}); //the time of creation and the time of edit
 

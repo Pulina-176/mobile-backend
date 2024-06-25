@@ -11,6 +11,7 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const navigation = [
   { name: "About Us", href: "/", current: true },
@@ -24,6 +25,7 @@ function classNames(...classes) {
 }
 
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [currentNav, setCurrentNav] = useState("About Us");
 
   const handleNavClick = (name) => {
@@ -90,7 +92,7 @@ const Header = () => {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        src={(currentUser) ? currentUser?.profilePicture : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Fvector-art%2F27501843-a-cartoon-pizza-character-with-a-cute-face&psig=AOvVaw0NxwDLKmysfdcPfnnFWdeI&ust=1719384059645000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIjDqfOS9oYDFQAAAAAdAAAAABAE"} //"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                         alt=""
                       />
                     </MenuButton>
@@ -107,7 +109,7 @@ const Header = () => {
                       <MenuItem>
                         {({ active }) => (
                           <a
-                            href="/profile"
+                          href= "/profile"
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
@@ -120,26 +122,14 @@ const Header = () => {
                       <MenuItem>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="/sign-in"
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
-                            Settings
-                          </a>
-                        )}
-                      </MenuItem>
-                      <MenuItem>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Sign out
+                            {(currentUser) ? "Sign out" : "Sign in"}
+                           
                           </a>
                         )}
                       </MenuItem>
