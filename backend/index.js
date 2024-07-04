@@ -8,11 +8,12 @@ import userRoute from './routes/userRoute.js';
 import authRoute from  './routes/authRoute.js';
 import cors from 'cors';
 import helmet from 'helmet';
+import cookieParser from "cookie-parser";
 
 const app = express();
 dotenv.config();
 app.use(express.json()); //alow json as the input of our backend
-
+app.use(cookieParser());
 //Middleware for handling CORS POLICY
 app.use(cors()); //to recieve data from different URLS
 app.use(helmet());
