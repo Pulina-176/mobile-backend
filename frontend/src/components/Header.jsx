@@ -12,6 +12,8 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { signOut } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 
 const navigation = [
   { name: "About Us", href: "/", current: true },
@@ -20,11 +22,25 @@ const navigation = [
   { name: "Reviews", href: "/sign-in", current: false },
 ];
 
+
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+
+
 const Header = () => {
+  const dispatch = useDispatch();
+  const handleSignout = async() => {
+    try {
+      await fetch('http://localhost:5555/auth/signout');
+      dispatch(signOut());
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const { currentUser } = useSelector((state) => state.user);
   const [currentNav, setCurrentNav] = useState("About Us");
 
@@ -123,7 +139,8 @@ const Header = () => {
                       <MenuItem>
                         {({ active }) => (
                           <a
-                            href="/sign-in"
+                            href="#"
+                            onClick={handleSignout}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"

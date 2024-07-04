@@ -80,7 +80,7 @@ const UserProfile = () => {
         dispatch(updateUserFailure(data));
         return;
       }
-      dispatch(updateUserSuccess(data));
+      dispatch(deleteUserSuccess(data));
   } catch (error) {
     dispatch(deleteUserFailure(error));
   } };
