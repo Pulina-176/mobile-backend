@@ -31,37 +31,18 @@ const UserSignIn = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        credentials: "include",
       });
-
-      if (!res.ok) {
-        const contentType = res.headers.get("content-type");
-        let errorData;
-        if (contentType && contentType.includes("application/json")) {
-          errorData = await res.json();
-        } else {
-          errorData = await res.text();
-        }
-        dispatch(
-          SignInFailure(
-            errorData.message || `HTTP error! status: ${res.status}`
-          )
-        );
-        throw new Error(
-          errorData.message || `HTTP error! status: ${res.status}`
-        );
-      }
-
       const data = await res.json();
+      if (data.success === false) {
+        dispatch(SignInFailure(data));
+        return;
+      }
       dispatch(signInSuccess(data));
-      setSuccess(true);
-
-      setTimeout(() => {
-        setSuccess(false);
-        navigate("/restaurant/home");
-      }, 500);
+      navigate('/');
     } catch (error) {
-      dispatch(SignInFailure(error.message));
-    }
+      dispatch(SignInFailure(error));
+    } 
   };
 
   return (
