@@ -4,7 +4,7 @@ import { useRef, useEffect } from "react";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
 import { app } from "../firebase";
 import { useDispatch } from "react-redux";
-import { updateUserStart, updateUserSuccess, updateUserFailure } from "../redux/user/userSlice";
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure } from "../redux/user/userSlice";
 
 const UserProfile = () => {
   const fileRef = useRef(null);
@@ -67,6 +67,23 @@ const UserProfile = () => {
   } catch (error) {
     dispatch(updateUserFailure(error));
   }};
+
+  const handleDelete = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`http://localhost:5555/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.success === false){
+        dispatch(updateUserFailure(data));
+        return;
+      }
+      dispatch(updateUserSuccess(data));
+  } catch (error) {
+    dispatch(deleteUserFailure(error));
+  } };
   return (
     <>
       <div className="flex justify-center items-center h-screen">
@@ -167,6 +184,7 @@ const UserProfile = () => {
             </button>
             <button
               type="button"
+              onClick={handleDelete}
               className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
             >
               Delete Account
