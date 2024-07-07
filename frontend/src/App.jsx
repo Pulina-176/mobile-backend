@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import CreateRestaurant from "./pages/CreateRestaurant";
+import RestaurantSignUp from "./pages/RestaurantSignUp";
 import DeleteRestaurant from "./pages/DeleteRestaurant";
 import EditRestaurant from "./pages/EditRestaurant";
 import RestaurantHome from "./pages/RestaurantHome";
@@ -19,7 +19,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/restaurant/home" element={<RestaurantHome />} />
-        <Route path="/restaurant/create" element={<CreateRestaurant />} />
+        <Route path="/restaurant/sign-up" element={<RestaurantSignUp />} />
         <Route path="/restaurant/details/:id" element={<ShowRestaurant />} />
         <Route path="/restaurant/edit/:id" element={<EditRestaurant />} />
         <Route path="/restaurant/delete/:id" element={<DeleteRestaurant />} />

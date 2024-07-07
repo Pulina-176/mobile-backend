@@ -1,9 +1,10 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import userReducer from './user/userSlice';
+import restaurantReducer from './user/restaurantSlice';
 import{persistStore, persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-const rootReducer = combineReducers({user: userReducer});
+const rootReducer = combineReducers({user: userReducer, restaurant: restaurantReducer});
 
 const persistConfig = {
     key: 'root',

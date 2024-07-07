@@ -8,6 +8,7 @@ const dealSchema = new mongoose.Schema({
 })
 
 const menuItemSchema = new mongoose.Schema({
+    category: String,
     itemName: String,
     description: String,
     photo: String,
@@ -20,7 +21,11 @@ const restaurantSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        /*password: {
+        categoryList:{
+            type: [String],
+            //required: false,
+        },
+        password: {
             type: String,
             required: true,
         },
@@ -28,24 +33,26 @@ const restaurantSchema = mongoose.Schema(
             type: {
                 type: String,
                 enum: ['Point'],
-                required: true
+                //required: true
             },
             coordinates: {
                 type: [Number],
-                required: true
+                //required: true
             },
-            adress: String
-        },*/
+            //adress: String
+        },
         description: String,
-        //officialEmail: {type: String, required: true},
+        officialEmail: {
+            type: String, 
+            required: true},
         hotline: String,
-        /*photo: String,
+        photo: String,
         menu: [menuItemSchema],
-        specialDeals: [dealSchema],*/
+        specialDeals: [dealSchema],
     }
 );
 
 restaurantSchema.index({ location: '2dsphere'});
+const Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
-
-export const Restaurant = mongoose.model('Restaurant', restaurantSchema);
+export default Restaurant;
