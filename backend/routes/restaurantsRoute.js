@@ -1,10 +1,11 @@
 import express from 'express';
 //import { Restaurant } from '../models/restaurantModel.js';
-import { signuprestaurant } from '../controllers/restaurantController.js';
+import { signuprestaurant, signinrestaurant } from '../controllers/restaurantController.js';
 
 const router = express.Router();
 
 router.post('/signup', signuprestaurant);
+router.post('/signin', signinrestaurant);
 
 //Save a new Restaurant
 // router.post('/',async (request, response) => {
