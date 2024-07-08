@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
-
+import Header from "../components/Header";
 const UserSignUp = () => {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
@@ -52,6 +52,7 @@ const UserSignUp = () => {
 
   return (
     <>
+      <Header />
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img

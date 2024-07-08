@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Header from "../components/Header";
 import { useSelector } from "react-redux";
 import { useRef, useEffect } from "react";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
@@ -86,6 +87,7 @@ const UserProfile = () => {
   } };
   return (
     <>
+      <Header />
       <div className="flex justify-center items-center h-screen">
         <form className="w-full max-w-3xl px-20" onSubmit={handleSubmit}>
           <div>

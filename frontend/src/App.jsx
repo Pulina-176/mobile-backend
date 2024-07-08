@@ -10,16 +10,17 @@ import ShowRestaurant from "./pages/ShowRestaurant";
 import UserSignIn from "./pages/UserSignIn";
 import UserProfile from "./pages/UserProfile";
 import UserSignUp from "./pages/UserSignUp";
-import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
+import RestaurantPrivateRoute from "./components/RestaurantPrivateRoute";
 
 const App = () => {
   return (
     <>
-      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route element={<RestaurantPrivateRoute />}>
         <Route path="/restaurant/home" element={<RestaurantHome />} />
+        </Route>
         <Route path="/restaurant/sign-up" element={<RestaurantSignUp />} />
         <Route path="/restaurant/sign-in" element={<RestaurantSignIn />} />
         <Route path="/restaurant/details/:id" element={<ShowRestaurant />} />

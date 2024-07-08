@@ -1,7 +1,10 @@
 import React from 'react'
+import RestaurantHeader from '../components/RestaurantHeader'
 
 const RestaurantHome = () => {
   return (
+    <>
+    <RestaurantHeader />
     <div className="flex min-h-full flex-col justify-center px-32 py-32 lg:px-48">
       <form>
         <div className="space-y-12">
@@ -197,6 +200,7 @@ const RestaurantHome = () => {
         </div>
       </form>
     </div>
+    </>
   )
 }
 
