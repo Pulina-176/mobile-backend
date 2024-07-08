@@ -39,14 +39,16 @@ const restaurantSchema = mongoose.Schema(
                 type: [Number],
                 //required: true
             },
-            //adress: String
+            adress: String
         },
+
         description: String,
         officialEmail: {
             type: String, 
             required: true},
         hotline: String,
         photo: String,
+        coverPhoto: String,
         menu: [menuItemSchema],
         specialDeals: [dealSchema],
     }

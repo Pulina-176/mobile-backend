@@ -8,10 +8,12 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import OAuth from "../components/OAuth";
+import { signInFailure } from "../redux/user/restaurantSlice";
 
 const UserSignIn = () => {
   const [formData, setFormData] = useState({});
-  const { loading, error } = useSelector((state) => state.user);
+  const[error,setError] = useState(null);
+  //const { loading, error } = useSelector((state) => state.user);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,7 +24,7 @@ const UserSignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setError(null);
     try {
       dispatch(signInStart());
       const res = await fetch("http://localhost:5555/auth/signin", {
@@ -42,6 +44,7 @@ const UserSignIn = () => {
       navigate('/');
     } catch (error) {
       dispatch(SignInFailure(error));
+      setError(error);
     } 
   };
 
@@ -129,7 +132,7 @@ const UserSignIn = () => {
 
         {error && (
           <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-            {error}
+            Wrong email or password
           </div>
         )}
 
