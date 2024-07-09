@@ -235,7 +235,6 @@ const RestaurantHome = () => {
                         <button type="button" color="yellow" onClick={() => coverPickerRef.current.click()}> Upload Cover</button>
                         
                       </label>
-                      <p className="pl-1">or drag and drop</p>
                     </div>
                     <p className="text-xs leading-5 text-gray-600">PNG, JPG, up to 2MB</p>
                   </div>

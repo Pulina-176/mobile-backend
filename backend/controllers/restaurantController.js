@@ -1,6 +1,7 @@
 import Restaurant from "../models/restaurantModel.js";
 import bcryptjs from "bcryptjs";
 import jwt from 'jsonwebtoken';
+import { errorHandler } from "../utils/error.js";
 
 export const signuprestaurant = async (req, res) => {
     const { title, officialEmail, password } = req.body;
@@ -48,3 +49,40 @@ export const signuprestaurant = async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   };
+
+  export const updateRestaurant = async (req, res, next) => {
+    if (req.restaurant.id !== req.params.id) {
+      return next(errorHandler(401, "You can update only your account!"));
+    } 
+
+    try {
+      if(req.body.password) {
+        req.body.password = bcryptjs.hashSync(req.body.password, 10);
+      }
+
+      const updatedRestaurant = await Restaurant.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: {
+            title: req.body.title,
+            about: req.body.about,
+            officialEmail: req.body.officialEmail,
+            hotline: req.body.hotline,
+            password: req.body.password,
+            profilePicture: req.body.profilePicture,
+            coverPhoto: req.body.coverPhoto,
+            address: req.body.address,
+          }
+        },
+        { new: true } //to see the updated data
+      );
+
+      const { password, ...rest } = updatedRestaurant._doc;
+      res.status(200).json(rest);
+    }
+
+    catch (error) {
+      next(error);
+    }
+  }
+    

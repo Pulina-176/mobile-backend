@@ -38,11 +38,11 @@ const restaurantSchema = mongoose.Schema(
             coordinates: {
                 type: [Number],
                 //required: true
-            },
-            adress: String
+            }
+            
         },
-
-        description: String,
+        address: String,
+        about: String,
         officialEmail: {
             type: String, 
             required: true},
