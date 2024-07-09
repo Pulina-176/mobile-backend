@@ -12,6 +12,7 @@ import UserProfile from "./pages/UserProfile";
 import UserSignUp from "./pages/UserSignUp";
 import PrivateRoute from "./components/PrivateRoute";
 import RestaurantPrivateRoute from "./components/RestaurantPrivateRoute";
+import RestaurantDashboard from "./pages/RestaurantDashboard";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route element={<RestaurantPrivateRoute />}>
         <Route path="/restaurant/home" element={<RestaurantHome />} />
         </Route>
+        <Route path="/restaurant/dashboard" element={<RestaurantDashboard />} />
         <Route path="/restaurant/sign-up" element={<RestaurantSignUp />} />
         <Route path="/restaurant/sign-in" element={<RestaurantSignIn />} />
         <Route path="/restaurant/details/:id" element={<ShowRestaurant />} />
