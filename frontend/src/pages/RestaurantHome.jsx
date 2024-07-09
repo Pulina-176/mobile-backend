@@ -1,7 +1,53 @@
 import React from 'react'
 import RestaurantHeader from '../components/RestaurantHeader'
+import {useRef,useEffect} from 'react'
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
+import { app } from "../firebase";
 
 const RestaurantHome = () => {
+  const filePickerRef = useRef(null);
+  const [image, setImage] = useState(undefined);
+  console.log(image)
+  const {currentRestaurant} = useSelector((state) => state.restaurant);
+  const [imagePercent, setImagePercent] = useState(0);
+  const [imageError, setImageError] = useState(false);
+  const [formData, setFormData] = useState({});
+  console.log(formData);
+
+  useEffect(() => {
+    if (image) {
+      handleFileUpload(image);
+    }
+  }, [image]);
+
+  const handleFileUpload = async (image) => {
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + image.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, image);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setImagePercent(Math.round(progress));
+      
+        console.log("Upload is " + imagePercent+ "% done");
+      },
+      (error) => {
+        console.log(error);
+        setImageError(true);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setFormData({ ...formData, photo: downloadURL });
+        });
+      });
+  };
+
   return (
     <>
     <RestaurantHeader />
@@ -84,21 +130,23 @@ const RestaurantHome = () => {
               <div className="col-span-full">
                 <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">Photo</label>
                 <div className="mt-2 flex items-center gap-x-3">
-                  <svg
-                    className="h-12 w-12 text-gray-300"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <div>
+                <img
+                  src={formData.photo || currentRestaurant.profilePicture}
+                  alt="profile"
+                  className="h-24 w-24 self-center rounded-full object-cover"
+                />
+                {imageError ? (
+                    <progress className="progress progress-error w-56" value="100" max="100">Error Uploading Image</progress>): imagePercent > 0  && imagePercent < 100 ? (
+                      <progress className="progress progress-warning w-56" value={imagePercent} max="100"><span className="text-sm font-medium leading-6 text-yellow-600">{imagePercent}</span></progress>) : imagePercent === 100 ? (
+                        <span className="text-sm font-medium leading-6 text-yellow-600">Image Uploaded Successfully!</span>) : ('')}
+
+                  </div>
+                <input type="file" ref={filePickerRef} hidden accept='image/*' onChange={(e) => setImage(e.target.files[0])}/>
                   <button
                     type="button"
                     className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                    onClick={() => filePickerRef.current.click()}
                   >
                     Change
                   </button>
@@ -204,4 +252,4 @@ const RestaurantHome = () => {
   )
 }
 
-export default RestaurantHome
+export default RestaurantHome;

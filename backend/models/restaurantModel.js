@@ -47,8 +47,12 @@ const restaurantSchema = mongoose.Schema(
             type: String, 
             required: true},
         hotline: String,
-        photo: String,
-        coverPhoto: String,
+        photo: {
+            type: String,
+            default: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Fvector-art%2F27501843-a-cartoon-pizza-character-with-a-cute-face&psig=AOvVaw0NxwDLKmysfdcPfnnFWdeI&ust=1719384059645000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIjDqfOS9oYDFQAAAAAdAAAAABAE"},
+        coverPhoto: {
+            type: String,
+            default: " https://images.unsplash.com/photo-1504674900247-0877df9cc812?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"},
         menu: [menuItemSchema],
         specialDeals: [dealSchema],
     }
