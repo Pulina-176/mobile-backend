@@ -35,8 +35,20 @@ const restaurantSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
     },
+    updateStart: (state) => {
+      state.loading = true;
+    },
+    updateSuccess: (state, action) => {
+      state.currentRestaurant = action.payload;
+      state.loading = false;
+      state.error = false;
+    },
+    updateFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const { signUpStart, signUpSuccess, signUpFailure,signInStart,signInSuccess,signInFailure } = restaurantSlice.actions;
+export const { signUpStart, signUpSuccess, signUpFailure,signInStart,signInSuccess,signInFailure,updateStart,updateSuccess,updateFailure } = restaurantSlice.actions;
 export default restaurantSlice.reducer;

@@ -5,19 +5,23 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
 import { app } from "../firebase";
+import { useDispatch } from "react-redux";
+import { updateStart, updateSuccess, updateFailure } from "../redux/user/restaurantSlice";
 
 const RestaurantHome = () => {
+  const dispatch = useDispatch();
   const filePickerRef = useRef(null);
   const coverPickerRef = useRef(null);
   const [image, setImage] = useState(undefined);
   const [cover, setCover] = useState(undefined);
   console.log(image)
-  const {currentRestaurant} = useSelector((state) => state.restaurant);
+  const {currentRestaurant, loading, error} = useSelector((state) => state.restaurant);
   const [imagePercent, setImagePercent] = useState(0);
   const [coverPercent, setCoverPercent] = useState(0);
   const [imageError, setImageError] = useState(false);
   const [coverError, setCoverError] = useState(false);
   const [formData, setFormData] = useState({});
+  const[isSuccess, setIsSuccess] = useState(false);
   console.log(formData);
 
   useEffect(() => {
@@ -78,16 +82,45 @@ const RestaurantHome = () => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log("File available at", downloadURL);
-          setFormData({ ...formData, photo: downloadURL });
+          setFormData({ ...formData, profilePicture: downloadURL });
         });
       });
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try{
+      dispatch(updateStart());
+      const res = await fetch(` http://localhost:5555/restaurant/update/${currentRestaurant._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+        credentials: "include",
+    });
+    const data = await res.json();
+    if (data.success === false) {
+      dispatch(updateFailure(data));
+      return;
+    }
+    dispatch(updateSuccess(data));
+    setIsSuccess(true);
+
+    } catch(error) {
+      dispatch(updateFailure(error));
+    }
   };
 
   return (
     <>
     <RestaurantHeader />
     <div className="flex min-h-full flex-col justify-center px-32 py-32 lg:px-48">
-      <form>
+      <form onSubmit={handleSubmit}> 
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h1 className="text-xl font-semibold leading-7 text-gray-900">Profile</h1>
@@ -99,12 +132,14 @@ const RestaurantHome = () => {
                 <div className="mt-2">
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-yellow-600 sm:max-w-md">
                     <input
+                      defaultValue={currentRestaurant.title}
                       type="text"
-                      name="username"
-                      id="username"
+                      name="title"
+                      id="title"
                       autoComplete="username"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:max-w-md"
                       placeholder="janesmith"
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -114,10 +149,12 @@ const RestaurantHome = () => {
                 <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">About</label>
                 <div className="mt-2">
                   <textarea
+                    defaultValue={currentRestaurant.about}
                     id="about"
                     name="about"
                     rows="3"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
+                    onChange={handleChange}
                   />
                 </div>
                 <p className="mt-3 text-sm leading-6 text-gray-600">About your restaurant.</p>
@@ -127,11 +164,13 @@ const RestaurantHome = () => {
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                 <div className="mt-2">
                   <input
-                    id="email"
-                    name="email"
+                    defaultValue={currentRestaurant.officialEmail}
+                    id="officialEmail"
+                    name="officialEmail"
                     type="email"
                     autoComplete="email"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:max-w-md"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -140,11 +179,13 @@ const RestaurantHome = () => {
                 <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">Phone number</label>
                 <div className="mt-2">
                   <input
-                    id="phone"
-                    name="phone"
+                    defaultValue={currentRestaurant.hotline}
+                    id="hotline"
+                    name="hotline"
                     type="text"
                     autoComplete="phone"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:max-w-md"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -153,10 +194,12 @@ const RestaurantHome = () => {
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
                 <div className="mt-2">
                   <input
+                    defaultValue={currentRestaurant.password}
                     id="password"
                     name="password"
                     type="password"
                     autoComplete="password"
+                    onChange={handleChange}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:max-w-md"
                   />
                 </div>
@@ -167,7 +210,7 @@ const RestaurantHome = () => {
                 <div className="mt-2 flex items-center gap-x-3">
                   <div>
                 <img
-                  src={formData.photo || currentRestaurant.profilePicture}
+                  src={formData.profilePicture || currentRestaurant.profilePicture}
                   alt="profile"
                   className="h-24 w-24 self-center rounded-full object-cover"
                 />
@@ -251,9 +294,11 @@ const RestaurantHome = () => {
                 <label htmlFor="street-address" className="block text-sm font-medium leading-6 text-gray-900">Address</label>
                 <div className="mt-2">
                   <input
+                    defaultValue={currentRestaurant.address}
+                    onChange={handleChange}
                     type="text"
-                    name="street-address"
-                    id="street-address"
+                    name="address"
+                    id="address"
                     autoComplete="street-address"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
                   />
@@ -273,31 +318,18 @@ const RestaurantHome = () => {
               </div>
             </div>
           </div>
-
-          <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Menu and Specials</h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600">Add and manage the categories of your menu as well as highlight any special deals.</p>
-            
-            <div className="mt-4 flex gap-x-4">
-              <button type="button" className="rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">
-                Edit Menu
-              </button>
-              <button type="button" className="rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">
-                Edit Special Offers
-              </button>
-              <button type="button" className="rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">
-                Edit Categories
-              </button>
-            </div>
-          </div>
         </div>
-
+        {error && <p>Update Failed</p>}
+        {loading && <p>Loading...</p>}
+        {isSuccess && <p>Update Successful</p>}
         <div className="mt-6 flex items-center justify-end gap-x-6">
           <button type="button" className="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
           <button type="submit" className="rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">
             Save
           </button>
         </div>
+        
+
       </form>
     </div>
     </>
