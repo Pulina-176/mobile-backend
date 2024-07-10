@@ -60,5 +60,8 @@ const restaurantSchema = mongoose.Schema(
 
 restaurantSchema.index({ location: '2dsphere'});
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
+const deal = mongoose.model('Deal', dealSchema);
+const menuItem = mongoose.model('MenuItem', menuItemSchema);
 
 export default Restaurant;
+export {deal, menuItem};

@@ -1,4 +1,4 @@
-import Restaurant from "../models/restaurantModel.js";
+import Restaurant,{menuItem} from "../models/restaurantModel.js";
 import bcryptjs from "bcryptjs";
 import jwt from 'jsonwebtoken';
 import { errorHandler } from "../utils/error.js";
@@ -84,5 +84,63 @@ export const signuprestaurant = async (req, res) => {
     catch (error) {
       next(error);
     }
-  }
+  };
     
+  export const showProfile = async (req, res, next) => {
+    try {
+      const restaurant = await Restaurant.findById(req.params.id);
+      const { password, ...rest } = restaurant._doc;
+      res.status(200).json(rest);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  export const addMenu = async (req, res, next) => {
+    const restaurantId = req.params.id;
+    try {
+      const newMenu = {
+        category: req.body.category,
+        itemName: req.body.itemName,
+        description: req.body.description,
+        photo: req.body.photo,
+        price: req.body.price
+      };
+
+      const restaurant = await Restaurant.findById(restaurantId);
+      if(!restaurant) {
+        return res.status(404).send({ message: 'Restaurant not found' });
+      }
+      restaurant.menu.push(newMenu);
+      await restaurant.save();
+      return res.status(201).send(restaurant);
+    } catch (error) {
+      next(error);
+    }
+  };
+//Save a new Restaurant
+// router.post('/',async (request, response) => {
+//     try{
+//         // if(
+//         //     !request.body.title ||
+//         //     !request.body.hotline ||
+//         //     !request.body.description 
+//         // ) {
+//         //     return response.status(400).send({
+//         //         message: 'Send all the required fields',
+//         //     });
+//         // }
+//         // const newRestaurant = {
+//         //     title: request.body.title,
+//         //     hotline: request.body.hotline,
+//         //     description: request.body.description, 
+//         // };
+
+//         // const restaurant = await Restaurant.create(newRestaurant);
+//         // return response.status(201).send(restaurant);
+//     } catch (error){
+//         console.log(error.message);
+//         response.status(500).send({ message: error.message});
+//     }
+
+// });
