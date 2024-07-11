@@ -118,6 +118,23 @@ export const signuprestaurant = async (req, res) => {
       next(error);
     }
   };
+
+  export const addCategory = async (req, res, next) => {
+    const restaurantId = req.params.id;
+    try {
+      const newCategory = req.body.category; // Get the category as a string from the request body
+      const restaurant = await Restaurant.findById(restaurantId);
+      if (!restaurant) {
+        return res.status(404).send({ message: 'Restaurant not found' });
+      }
+      restaurant.categoryList.push(newCategory); // Push the new category string to the categoryList array
+      await restaurant.save();
+      return res.status(201).send(restaurant);
+    } catch (error) {
+      next(error);
+    }
+  };
+  
 //Save a new Restaurant
 // router.post('/',async (request, response) => {
 //     try{
