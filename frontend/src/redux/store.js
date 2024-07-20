@@ -7,12 +7,12 @@ import storage from 'redux-persist/lib/storage';
 const rootReducer = combineReducers({user: userReducer, restaurant: restaurantReducer});
 
 const persistConfig = {
-    key: 'root',
+    key: 'root', //name of the data we save in localstorage
     version: 1,
     storage,
 }
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer) //data will be stored in localstorage and we do not need to add them again and again when refresh
 
 export const store = configureStore({
     reducer: persistedReducer,

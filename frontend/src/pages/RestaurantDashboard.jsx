@@ -14,6 +14,8 @@ import {
 const RestaurantDashboard = () => {
   const [profileData, setProfileData] = useState(null);
   const { currentRestaurant } = useSelector((state) => state.restaurant);
+  console.log(currentRestaurant);
+  console.log(currentRestaurant.menu);
   const menuItems = currentRestaurant.menu;
   const groupedMenuItems = menuItems.reduce((acc, item) => {
     if (!acc[item.category]) {
@@ -206,21 +208,30 @@ const RestaurantDashboard = () => {
               </dt>
               <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0"></dd>
 
-              <div className="card card-compact bg-base-100 w-96 shadow-xl">
-                <figure>
-                  <img
-                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-                    alt="Shoes"
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">Shoes!</h2>
-                  <p>If a dog chews shoes whose shoes does he choose?</p>
-                  <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Buy Now</button>
+              {currentRestaurant.specialDeals.map((deal, index) => (
+                <div
+                  key={index}
+                  className="card card-compact bg-base-100 w-96 shadow-xl"
+                  style={{ width: "20rem", height: "24rem" }}
+                >
+                  <figure>
+                    <img
+                      src= {deal.photo || "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"}
+                      className="w-full"
+                      //alt="Special Offers"
+                    />
+                  </figure>
+                  <div className="card-body">
+                    <h2 className="card-title">{deal.name}</h2>
+                    <p>{deal.dealDescription}</p>
+                    <div className="card-actions justify-end">
+                      <button className="btn btn-primary">
+                        {deal.price_discount}
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

@@ -134,6 +134,29 @@ export const signuprestaurant = async (req, res) => {
       next(error);
     }
   };
+
+  export const addspecialdeals = async (req, res, next) => {
+    const restaurantId = req.params.id;
+    try {
+      const newSpecialDeals = {
+        name: req.body.name,
+        dealDescription: req.body.dealDescription,
+        photo: req.body.photo,
+        price_discount: req.body.price_discount
+      };
+
+      const restaurant = await Restaurant.findById(restaurantId);
+      if(!restaurant) {
+        return res.status(404).send({ message: 'Restaurant not found' });
+      }
+      restaurant.specialDeals.push(newSpecialDeals);
+      await restaurant.save();
+      return res.status(201).send(restaurant);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   
 //Save a new Restaurant
 // router.post('/',async (request, response) => {
