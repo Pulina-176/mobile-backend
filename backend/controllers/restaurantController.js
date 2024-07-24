@@ -157,6 +157,34 @@ export const signuprestaurant = async (req, res) => {
     }
   };
 
+  export const updateLocation = async (req, res, next) => {
+    const restaurantId = req.params.id;
+    try {
+      const restaurant = await Restaurant.findById(restaurantId);
+      if (!restaurant) {
+        return res.status(404).send({ message: 'Restaurant not found' });
+      }
+      const {latitude, longitude} = req.body;
+      const updatedRestaurant = await Restaurant.findByIdAndUpdate(
+        restaurantId,
+        {
+          $set: {
+            location: {
+              type: 'Point',
+              coordinates: [longitude, latitude],
+            },
+          },
+        },
+        { new: true }
+      ) 
+      return res.status(200).send(updatedRestaurant);
+
+    } catch (error) {
+      next(error);
+    }
+  };
+
+
   
 //Save a new Restaurant
 // router.post('/',async (request, response) => {

@@ -8,6 +8,7 @@ import UserSignIn from "./pages/UserSignIn";
 import UserProfile from "./pages/UserProfile";
 import UserSignUp from "./pages/UserSignUp";
 import AddOffers from "./pages/AddOffers";
+import SetRestaurantLocation from "./pages/SetRestaurantLocation";
 import PrivateRoute from "./components/PrivateRoute";
 import RestaurantPrivateRoute from "./components/RestaurantPrivateRoute";
 import CreateMenu from "./pages/CreateMenu";
@@ -31,6 +32,7 @@ const App = () => {
         <Route element={<PrivateRoute />}>
                 <Route path="/profile" element={<UserProfile />} />
         </Route>
+        <Route path="/restaurant/set-location" element={<SetRestaurantLocation />} />
       </Routes>
     </>
   );

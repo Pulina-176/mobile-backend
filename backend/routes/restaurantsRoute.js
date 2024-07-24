@@ -1,6 +1,6 @@
 import express from 'express';
 //import { Restaurant } from '../models/restaurantModel.js';
-import { signuprestaurant, signinrestaurant , updateRestaurant, showProfile, addMenu, addCategory, addspecialdeals} from '../controllers/restaurantController.js';
+import { signuprestaurant, signinrestaurant , updateRestaurant, showProfile, addMenu, addCategory, addspecialdeals, updateLocation} from '../controllers/restaurantController.js';
 import { verifyRestaurant } from '../utils/verifyRestaurant.js';
 
 const router = express.Router();
@@ -12,6 +12,8 @@ router.get('/myprofile/:id',verifyRestaurant, showProfile);
 router.post('/:id/menu',verifyRestaurant, addMenu);
 router.post('/:id/specialdeals',verifyRestaurant, addspecialdeals);
 router.post('/:id/category',verifyRestaurant, addCategory);
+router.post('/:id/update-location',verifyRestaurant, updateLocation);
+
 
 //Save a new Restaurant
 // router.post('/',async (request, response) => {
