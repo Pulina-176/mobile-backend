@@ -11,6 +11,7 @@ import AddOffers from "./pages/AddOffers";
 import SetRestaurantLocation from "./pages/SetRestaurantLocation";
 import PrivateRoute from "./components/PrivateRoute";
 import RestaurantPrivateRoute from "./components/RestaurantPrivateRoute";
+import UserCurrentLocation from "./pages/UserCurrentLocation";
 import CreateMenu from "./pages/CreateMenu";
 import RestaurantDashboard from "./pages/RestaurantDashboard";
 
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path="/profile" element={<UserProfile />} />
         </Route>
         <Route path="/restaurant/set-location" element={<SetRestaurantLocation />} />
+        <Route path="/user/current-location" element ={<UserCurrentLocation/>}/>
       </Routes>
     </>
   );
