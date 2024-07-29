@@ -1,6 +1,8 @@
 import { errorHandler } from "../utils/error.js";
 import bcryptjs from "bcryptjs";
 import User from "../models/userModel.js";
+import Restaurant from "../models/restaurantModel.js";
+import e from "express";
 export const test = (request, response) => {
     response.json({
         message: 'API is working',
@@ -78,3 +80,34 @@ export const addCurrentLocation = async (req, res, next) => {
       next(error);
     }
   };
+
+export const showNearestRestaurant = async (req, res, next) => {
+  const userId = req.params.id;
+  const maxDistance = parseInt(req.query.distance,10) || 5000;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user || !user.currentLocation) {
+      return res.status(404).send({ message: 'Add Location first' });
+    }
+    const userLocation = user.currentLocation.coordinates;
+    const nearestRestaurant = await Restaurant.find({
+      location: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: userLocation
+          },
+          $maxDistance: maxDistance,
+        },
+      },
+    }).limit(10);
+    if (!nearestRestaurant) {
+      return res.status(404).send({ message: 'No restaurant nearby' });
+    }
+    return res.status(200).send(nearestRestaurant);
+  } catch (error) {
+    next(error);
+        }
+      };
+    

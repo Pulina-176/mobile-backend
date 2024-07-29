@@ -96,6 +96,16 @@ export const signuprestaurant = async (req, res) => {
     }
   };
 
+  export const viewProfile = async (req, res, next) => {
+    try {
+      const restaurant = await Restaurant.findById(req.params.id);
+      const { password, ...rest } = restaurant._doc;
+      res.status(200).json(rest);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   export const addMenu = async (req, res, next) => {
     const restaurantId = req.params.id;
     try {

@@ -14,6 +14,8 @@ import RestaurantPrivateRoute from "./components/RestaurantPrivateRoute";
 import UserCurrentLocation from "./pages/UserCurrentLocation";
 import CreateMenu from "./pages/CreateMenu";
 import RestaurantDashboard from "./pages/RestaurantDashboard";
+import NearestRestaurants from "./pages/NearestRestaurants";
+import RestaurantDetails from "./pages/RestaurantDetails";
 
 const App = () => {
   return (
@@ -35,6 +37,8 @@ const App = () => {
         </Route>
         <Route path="/restaurant/set-location" element={<SetRestaurantLocation />} />
         <Route path="/user/current-location" element ={<UserCurrentLocation/>}/>
+        <Route path="/user/nearest-restaurants" element={<NearestRestaurants/>}/>
+        <Route path="/restaurant/:id" element={<RestaurantDetails/>}/>
       </Routes>
     </>
   );
