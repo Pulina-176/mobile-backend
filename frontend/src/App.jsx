@@ -17,6 +17,7 @@ import RestaurantDashboard from "./pages/RestaurantDashboard";
 import NearestRestaurants from "./pages/NearestRestaurants";
 import RestaurantDetails from "./pages/RestaurantDetails";
 import ViewDirections from "./pages/ViewDirections";
+import Landing from "./pages/Landing";
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
         <Route path="/user/nearest-restaurants" element={<NearestRestaurants/>}/>
         <Route path="/restaurant/:id" element={<RestaurantDetails/>}/>
         <Route path="/user/view-directions/:id" element={<ViewDirections/>}/>
+        <Route path="/welcome" element={<Landing />} />
       </Routes>
     </>
   );

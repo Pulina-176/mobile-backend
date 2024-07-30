@@ -49,7 +49,7 @@ const Header = () => {
   };
 
   return (
-    <Disclosure as="nav" className="bg-yellow-600">
+    <Disclosure as="nav" className="bg-yellow-500">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
