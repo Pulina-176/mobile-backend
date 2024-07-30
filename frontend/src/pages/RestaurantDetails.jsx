@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
+import { useParams,useNavigate } from 'react-router-dom';
+import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaMapSigns } from 'react-icons/fa';
 
 const RestaurantDetails = () => {
   const { id } = useParams(); // Get the restaurant ID from the URL
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRestaurantDetails = async () => {
@@ -52,6 +54,9 @@ const RestaurantDetails = () => {
   }
 
   const menuItems = restaurant.menu || [];
+  const handleViewDirections = (id) => {
+      navigate(`/user/view-directions/${id}`);
+  }
   const groupedMenuItems = menuItems.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
@@ -89,6 +94,9 @@ const RestaurantDetails = () => {
       <div className="flex items-center space-x-8 mb-4 ml-16">
         <div className="flex items-center text-sm text-gray-700">
           <FaMapMarkerAlt className="mr-2 text-gray-500" /> {restaurant.address}
+          <button className="ml-4 bg-yellow-500 text-white py-1 px-3 rounded flex items-center" onClick={() => handleViewDirections(restaurant._id)}>
+            <FaMapSigns className="mr-2" /> View Directions
+          </button>
         </div>
         <div className="flex items-center text-sm text-gray-700">
           <FaEnvelope className="mr-2 text-gray-500" /> {restaurant.officialEmail}
@@ -98,9 +106,8 @@ const RestaurantDetails = () => {
         </div>
       </div>
 
-      {/* Restaurant Details */}
+      {/* Restaurant Information */}
       <div className="mt-4 ml-16">
-        
 
         {/* Menu */}
         <div className="overflow-x-auto mt-6">
