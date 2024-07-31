@@ -7,7 +7,7 @@ const SetRestaurantLocation = () => {
   const { currentRestaurant } = useSelector((state) => state.restaurant);
   const dispatch = useDispatch();
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyDfoowcQ1SIva7ugnYpd2sNSVDFPrqS6-w",
+    googleMapsApiKey: "Your_API_KEY",
     libraries: ["places"],
   });
 

@@ -18,6 +18,7 @@ import NearestRestaurants from "./pages/NearestRestaurants";
 import RestaurantDetails from "./pages/RestaurantDetails";
 import ViewDirections from "./pages/ViewDirections";
 import Landing from "./pages/Landing";
+import EditMenu from "./pages/EditMenu";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/restaurant/sign-up" element={<RestaurantSignUp />} />
         <Route path="/restaurant/sign-in" element={<RestaurantSignIn />} />
         <Route path="/restaurant/add-offers" element={<AddOffers />} />
+        <Route path="/restaurant/:id/menu/edit/:menuid" element={<EditMenu />}/>
         <Route path="/sign-in" element={<UserSignIn />} />
         <Route path="/sign-up" element={<UserSignUp />} />
         <Route element={<PrivateRoute />}>

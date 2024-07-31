@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Spinner from "../components/Spinner";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   FaBars,
   FaHome,
@@ -9,6 +11,8 @@ import {
   FaMapMarkerAlt,
   FaBell,
   FaQuestionCircle,
+  FaEdit,
+  FaTrash
 } from "react-icons/fa";
 
 const RestaurantDashboard = () => {
@@ -57,7 +61,7 @@ const RestaurantDashboard = () => {
   }, [currentRestaurant._id]);
 
   if (!profileData) {
-    return <div>Loading...</div>;
+    return <div><Spinner /></div>;
   }
 
   return (
@@ -153,6 +157,7 @@ const RestaurantDashboard = () => {
                     <th>Item</th>
                     <th>Description</th>
                     <th>Price</th>
+                    <th>Settings</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -188,6 +193,24 @@ const RestaurantDashboard = () => {
                           </td>
                           <td>{item.description}</td>
                           <td>{item.price}</td>
+                          <td>
+                            <div className="flex items-center gap-4">
+                              <div className="text-yellow-500 text-lg">
+                            <Link
+                              to={`/restaurant/${currentRestaurant._id}/menu/edit/${item._id}`}
+                            >
+                              <FaEdit/>
+                            </Link>
+                            </div>
+                            <div className="text-red-500 text-lg">
+                            <Link
+                              to={`/restaurant/${currentRestaurant._id}/menu/delete/${item._id}`}
+                            >
+                              <FaTrash/>
+                            </Link>
+                            </div>
+                            </div>
+                          </td>
                         </tr>
                       ))}
                     </React.Fragment>

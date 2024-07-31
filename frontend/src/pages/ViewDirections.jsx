@@ -13,7 +13,7 @@ import { BiSolidCar } from 'react-icons/bi';
 
 const ViewDirections = () => {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyDfoowcQ1SIva7ugnYpd2sNSVDFPrqS6-w", // Replace with your API key
+    googleMapsApiKey: "YOUR_API_KEY", // Replace with your API key
   });
 
   const { currentUser } = useSelector((state) => state.user);

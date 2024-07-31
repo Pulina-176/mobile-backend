@@ -194,6 +194,51 @@ export const signuprestaurant = async (req, res) => {
     }
   };
 
+  export const editMenu = async (req, res, next) => {
+    const restaurantId = req.params.id;
+    const menuId = req.params.menuid;
+    const updatedMenuItem = req.body;
+  
+    try {
+      // Validate restaurantId and menuId
+      const restaurant = await Restaurant.findById(restaurantId);
+      if (!restaurant) {
+        return res.status(404).send({ message: 'Restaurant not found' });
+      }
+
+      const menuItem = restaurant.menu.id(menuId);
+      if (!menuItem) {
+        return res.status(404).send({ message: 'Menu item not found' });
+      }
+      menuItem.set(updatedMenuItem);
+      await restaurant.save();
+      return res.status(200).send(restaurant);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  export const showMenu = async (req, res, next) => {
+    const restaurantId = req.params.id;
+    const menuId = req.params.menuid;
+    try {
+      const restaurant = await Restaurant.findById(restaurantId);
+      if (!restaurant) {
+        return res.status(404).send({ message: 'Restaurant not found' });
+      }
+      const menuItem = restaurant.menu.id(menuId);
+      if (!menuItem) {
+        return res.status(404).send({ message: 'Menu item not found' });
+      }
+      return res.status(200).send(menuItem);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+      
+
+
 
   
 //Save a new Restaurant
