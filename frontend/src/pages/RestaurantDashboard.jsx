@@ -73,6 +73,39 @@ const RestaurantDashboard = () => {
     }
   };
 
+  const handleDeleteOffer = async (id, offerid) => {
+    try {
+      dispatch(updateStart());
+      const response = await fetch(
+        `http://localhost:5555/restaurant/${id}/offers/delete/${offerid}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );  
+
+      if (!response.ok) {
+        // If the response is not ok, throw an error
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete offer");
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      dispatch(updateSuccess(data));
+
+      console.log("Offer deleted successfully:", data);
+    } catch (error) { 
+      console.error("Error deleting offer:", error.message);
+      dispatch(updateFailure());
+    }
+  };
+
+
   useEffect(() => {
     const handleFill = async () => {
       try {
@@ -323,6 +356,38 @@ const RestaurantDashboard = () => {
                     <h2 className="card-title">{deal.name}</h2>
                     <p>{deal.dealDescription}</p>
                     <div className="card-actions justify-end">
+                    <div className="text-red-500 text-lg">
+                                  <button
+
+                                    className="btn"
+                                    onClick={() =>
+                                      document
+                                        .getElementById("my_modal_2")
+                                        .showModal()
+                                    }
+                                  >
+                                    <div className="text-red-500 text-lg">
+                                    <FaTrash />
+                                    </div>
+                                  </button>
+                                  <dialog id="my_modal_2" className="modal">
+                                    <div className="modal-box">
+                                      <h3 className="font-bold text-lg">
+                                        Are You sure you want to delete this Offer?
+                                      </h3>
+                                      <div className="modal-action">
+                                        <form method="dialog">
+                                          {/* if there is a button in form, it will close the modal */}
+                                          <button className="btn btn-error" onClick={() => handleDeleteOffer(currentRestaurant._id, deal._id)} aria-label="Close modal" >Delete</button>
+                                          <span> </span>
+                                          <span></span>
+                                          <button className="btn">Close</button>
+
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </dialog>
+                                </div>
                       <button className="btn btn-primary">
                         {deal.price_discount}
                       </button>

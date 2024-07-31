@@ -272,39 +272,39 @@ export const signuprestaurant = async (req, res) => {
     }
   };
 
-  // export const deleteOffer = async (req, res, next) => {
-  //   const restaurantId = req.params.id;
-  //   const offerId = req.params.offerid;
+  export const deleteOffer = async (req, res, next) => {
+    const restaurantId = req.params.id;
+    const offerId = req.params.offerid;
   
-  //   try {
-  //     // Find the restaurant by ID
-  //     const restaurant = await Restaurant.findById(restaurantId);
-  //     if (!restaurant) {
-  //       return res.status(404).send({ message: 'Restaurant not found' });
-  //     }
+    try {
+      // Find the restaurant by ID
+      const restaurant = await Restaurant.findById(restaurantId);
+      if (!restaurant) {
+        return res.status(404).send({ message: 'Restaurant not found' });
+      }
   
-  //     // Check if offers array exists and is an array
-  //     if (!Array.isArray(restaurant.offers)) {
-  //       return res.status(400).send({ message: 'Offers is not an array' });
-  //     }
+      // Check if offers array exists and is an array
+      if (!Array.isArray(restaurant.specialDeals)) {
+        return res.status(400).send({ message: 'specialDeals is not an array' });
+      }
   
-  //     // Remove the offer item from the restaurant's offers
-  //     const offerItemIndex = restaurant.offers.findIndex(item => item._id.toString() === offerId);
-  //     if (offerItemIndex === -1) {
-  //       return res.status(404).send({ message: 'Offer item not found' });
-  //     } 
-  //     restaurant.offers.splice(offerItemIndex, 1);  
+      // Remove the offer item from the restaurant's offers
+      const offerItemIndex = restaurant.specialDeals.findIndex(item => item._id.toString() === offerId);
+      if (offerItemIndex === -1) {
+        return res.status(404).send({ message: 'Offer item not found' });
+      } 
+      restaurant.specialDeals.splice(offerItemIndex, 1);  
 
-  //     // Save the updated restaurant document 
-  //     const updatedRestaurant = await restaurant.save();
+      // Save the updated restaurant document 
+      const updatedRestaurant = await restaurant.save();
   
-  //     // Return the updated restaurant
-  //     return res.status(200).send(updatedRestaurant);
-  //   } catch (error) {
-  //     // Pass errors to the error handling middleware
-  //     next(error);
-  //   }
-  // };
+      // Return the updated restaurant
+      return res.status(200).send(updatedRestaurant);
+    } catch (error) {
+      // Pass errors to the error handling middleware
+      next(error);
+    }
+  };
   
 
       
