@@ -77,6 +77,7 @@ const CreateMenu = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
+    console.log(formData);
   };
 
   const handleAddCategory = async () => {
@@ -118,6 +119,7 @@ const CreateMenu = () => {
     setError(null);
 
     try {
+
       const res = await fetch(
         `http://localhost:5555/restaurant/${currentRestaurant._id}/menu`,
         {
@@ -139,6 +141,7 @@ const CreateMenu = () => {
 
       const data = await res.json();
       console.log(data);
+      dispatch(updateSuccess(data));
       setSuccess(true);
       //setSubmitDone(true);
       setError(null);

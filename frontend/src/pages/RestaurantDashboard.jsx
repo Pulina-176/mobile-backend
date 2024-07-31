@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Spinner from "../components/Spinner";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -12,14 +13,16 @@ import {
   FaBell,
   FaQuestionCircle,
   FaEdit,
-  FaTrash
+  FaTrash,
 } from "react-icons/fa";
+import { updateStart, updateSuccess, updateFailure } from "../redux/user/restaurantSlice";
 
 const RestaurantDashboard = () => {
+  const dispatch = useDispatch();
   const [profileData, setProfileData] = useState(null);
   const { currentRestaurant } = useSelector((state) => state.restaurant);
   console.log(currentRestaurant);
-  console.log(currentRestaurant.menu);
+  //console.log(currentRestaurant.menu);
   const menuItems = currentRestaurant.menu;
   const groupedMenuItems = menuItems.reduce((acc, item) => {
     if (!acc[item.category]) {
@@ -33,6 +36,42 @@ const RestaurantDashboard = () => {
   const profilePhotoUrl = currentRestaurant.profilePicture;
   // Example cover photo URL
   const coverPhotoUrl = currentRestaurant.coverPhoto;
+
+  const handleDeleteMenuItem = async (id, menuid) => {
+    try {
+      dispatch(updateStart());
+      const response = await fetch(
+        `http://localhost:5555/restaurant/${id}/menu/delete/${menuid}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        // If the response is not ok, throw an error
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete menu item");
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      dispatch(updateSuccess(data));
+
+      console.log("Menu item deleted successfully:", data);
+
+      // Update UI state to reflect the deletion (instead of reloading the page)
+      // For example, you might want to call a function to refresh the menu list or remove the item from state
+      // refreshMenuList(); // Example function, implement as needed
+    } catch (error) {
+      console.error("Error deleting menu item:", error.message);
+      dispatch(updateFailure());
+    }
+  };
 
   useEffect(() => {
     const handleFill = async () => {
@@ -61,7 +100,11 @@ const RestaurantDashboard = () => {
   }, [currentRestaurant._id]);
 
   if (!profileData) {
-    return <div><Spinner /></div>;
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
   }
 
   return (
@@ -84,8 +127,8 @@ const RestaurantDashboard = () => {
           className="h-20 w-20 rounded-full border-4 border-white shadow-lg object-cover"
         />
         <div>
-          <h1 className="text-3xl font-bold">{profileData.title}</h1>
-          <p className="text-sm text-gray-700">{profileData.about}</p>
+          <h1 className="text-3xl font-bold">{currentRestaurant.title}</h1>
+          <p className="text-sm text-gray-700">{currentRestaurant.about}</p>
         </div>
       </div>
 
@@ -115,7 +158,7 @@ const RestaurantDashboard = () => {
                     Restaurant Name
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {profileData.title}
+                    {currentRestaurant.title}
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -123,7 +166,7 @@ const RestaurantDashboard = () => {
                     Address
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {profileData.address}
+                    {currentRestaurant.address}
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -196,19 +239,48 @@ const RestaurantDashboard = () => {
                           <td>
                             <div className="flex items-center gap-4">
                               <div className="text-yellow-500 text-lg">
-                            <Link
-                              to={`/restaurant/${currentRestaurant._id}/menu/edit/${item._id}`}
-                            >
-                              <FaEdit/>
-                            </Link>
-                            </div>
-                            <div className="text-red-500 text-lg">
-                            <Link
-                              to={`/restaurant/${currentRestaurant._id}/menu/delete/${item._id}`}
-                            >
-                              <FaTrash/>
-                            </Link>
-                            </div>
+                                <button className="btn">
+                                <Link
+                                  to={`/restaurant/${currentRestaurant._id}/menu/edit/${item._id}`}
+                                >
+                                  <FaEdit />
+                                </Link>
+                                </button>
+                              </div>
+                              <div>
+                                <div className="text-red-500 text-lg">
+                                  <button
+
+                                    className="btn"
+                                    onClick={() =>
+                                      document
+                                        .getElementById("my_modal_1")
+                                        .showModal()
+                                    }
+                                  >
+                                    <div className="text-red-500 text-lg">
+                                    <FaTrash />
+                                    </div>
+                                  </button>
+                                  <dialog id="my_modal_1" className="modal">
+                                    <div className="modal-box">
+                                      <h3 className="font-bold text-lg">
+                                        Are You sure you want to delete this item?
+                                      </h3>
+                                      <div className="modal-action">
+                                        <form method="dialog">
+                                          {/* if there is a button in form, it will close the modal */}
+                                          <button className="btn btn-error" onClick={() => handleDeleteMenuItem(currentRestaurant._id, item._id)} aria-label="Close modal" >Delete</button>
+                                          <span> </span>
+                                          <span></span>
+                                          <button className="btn">Close</button>
+
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </dialog>
+                                </div>
+                              </div>
                             </div>
                           </td>
                         </tr>
@@ -239,7 +311,10 @@ const RestaurantDashboard = () => {
                 >
                   <figure>
                     <img
-                      src= {deal.photo || "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"}
+                      src={
+                        deal.photo ||
+                        "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                      }
                       className="w-full"
                       //alt="Special Offers"
                     />
