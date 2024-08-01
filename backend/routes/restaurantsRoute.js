@@ -1,6 +1,6 @@
 import express from 'express';
 //import { Restaurant } from '../models/restaurantModel.js';
-import { signuprestaurant, signinrestaurant , updateRestaurant, showProfile, addMenu, addCategory, addspecialdeals, updateLocation, viewProfile, editMenu, showMenu, deleteMenu, deleteOffer, deleteRestaurant} from '../controllers/restaurantController.js';
+import { signuprestaurant, signinrestaurant , updateRestaurant, showProfile, addMenu, addCategory, addspecialdeals, updateLocation, viewProfile, editMenu, showMenu, deleteMenu, deleteOffer, deleteRestaurant,signoutrestaurant} from '../controllers/restaurantController.js';
 import { verifyRestaurant } from '../utils/verifyRestaurant.js';
 
 const router = express.Router();
@@ -15,6 +15,7 @@ router.post('/:id/menu/edit/:menuid',verifyRestaurant, editMenu);
 router.get('/:id/menu/show/:menuid',verifyRestaurant, showMenu);
 router.delete('/:id/menu/delete/:menuid',verifyRestaurant, deleteMenu);
 router.delete('/:id/offers/delete/:offerid',verifyRestaurant, deleteOffer);
+router.get('/signout', signoutrestaurant);
 router.delete('/delete/:id',verifyRestaurant, deleteRestaurant);
 router.post('/:id/specialdeals',verifyRestaurant, addspecialdeals);
 router.post('/:id/category',verifyRestaurant, addCategory);

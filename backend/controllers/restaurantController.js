@@ -321,6 +321,10 @@ export const signuprestaurant = async (req, res) => {
     }
 
   };
+
+  export const signoutrestaurant = async (req, res, next) => {
+    res.clearCookie("access_token").status(200).json("Sign out successful");
+  };
   
 
       

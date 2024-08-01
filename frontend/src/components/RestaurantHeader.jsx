@@ -13,7 +13,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-
+import { signOut } from "../redux/user/restaurantSlice";
 const navigation = [
   { name: "About Us", href: "/", current: true },
   { name: "Super Deals", href: "/sign-in", current: false },
@@ -31,15 +31,16 @@ function classNames(...classes) {
 
 const RestaurantHeader = () => {
   const dispatch = useDispatch();
-  // const handleSignout = async() => {
-  //   try {
-  //     await fetch('http://localhost:5555/auth/signout');
-  //     dispatch(signOut());
+  const handleSignout = async() => {
+    try {
+      await fetch('http://localhost:5555/restaurant/signout');
+      dispatch(signOut());
       
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   const { currentRestaurant } = useSelector((state) => state.restaurant);
   const [currentNav, setCurrentNav] = useState("About Us");
 
@@ -145,6 +146,7 @@ const RestaurantHeader = () => {
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
+                            onClick={handleSignout}
                           >
                             {(currentRestaurant) ? "Sign out" : "Sign in"}
                            
