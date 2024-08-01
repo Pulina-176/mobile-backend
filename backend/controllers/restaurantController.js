@@ -325,6 +325,26 @@ export const signuprestaurant = async (req, res) => {
   export const signoutrestaurant = async (req, res, next) => {
     res.clearCookie("access_token").status(200).json("Sign out successful");
   };
+
+  export const addRating = async (req, res, next) => {
+
+    try{
+      const { rating } = req.body;
+    const restaurantId = req.params.id;
+    const restaurant = await Restaurant.findById(restaurantId);
+    if (!restaurant) {
+      return res.status(404).send({ message: 'Restaurant not found' });
+    }
+    restaurant.totalRating +=  rating;
+    restaurant.numOfRatings += 1;
+    restaurant.averageRating = restaurant.totalRating / restaurant.numOfRatings;
+    const updatedRestaurant = await restaurant.save();
+    //const averageRating = updatedRestaurant.getAverageRating();
+    return res.status(200).send({updatedRestaurant});
+  } catch (error) {
+    next(error);
+  }
+  };
   
 
       
