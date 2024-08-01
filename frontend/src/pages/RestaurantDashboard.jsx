@@ -16,6 +16,9 @@ import {
   FaTrash,
   FaSadCry,
   FaSadTear,
+  FaStar,
+  FaStarHalfAlt,
+  FaRegStar
 } from "react-icons/fa";
 import {
   updateStart,
@@ -40,6 +43,11 @@ const RestaurantDashboard = () => {
     acc[item.category].push(item);
     return acc;
   }, {});
+
+  const fullStars = Math.floor(currentRestaurant.averageRating);
+  const hasHalfStar = currentRestaurant.averageRating % 1 >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  const formattedRating = currentRestaurant.averageRating.toFixed(1);
 
   // Example profile photo URL
   const profilePhotoUrl = currentRestaurant.profilePicture;
@@ -123,7 +131,6 @@ const RestaurantDashboard = () => {
           method: "DELETE",
           credentials: "include",
         }
-
       );
       const data = await res.json();
       if (data.success === false) {
@@ -194,8 +201,19 @@ const RestaurantDashboard = () => {
         <div>
           <h1 className="text-3xl font-bold">{currentRestaurant.title}</h1>
           <p className="text-sm text-gray-700">{currentRestaurant.about}</p>
+          <div className="flex items-center mb-2">
+        {[...Array(fullStars)].map((_, index) => (
+          <FaStar key={index} className="h-5 w-5 text-yellow-400" />
+        ))}
+        {hasHalfStar && <FaStarHalfAlt className="h-5 w-5 text-yellow-400" />}
+        {[...Array(emptyStars)].map((_, index) => (
+          <FaRegStar key={index} className="h-5 w-5 text-gray-300" />
+        ))}
+        <span className="ml-2 text-gray-700">{formattedRating}</span>
+      </div>
         </div>
       </div>
+      
 
       {/* Sidebar */}
       <div className="drawer">
@@ -468,9 +486,13 @@ const RestaurantDashboard = () => {
               />{" "}
               {/* Profile Photo */}
               <div>
-                <h1 className="text-3xl font-bold">{currentRestaurant.title}</h1>{" "}
+                <h1 className="text-3xl font-bold">
+                  {currentRestaurant.title}
+                </h1>{" "}
                 {/* Profile Name */}
-                <p className="text-sm text-gray-700">{currentRestaurant.description}</p>{" "}
+                <p className="text-sm text-gray-700">
+                  {currentRestaurant.description}
+                </p>{" "}
                 {/* Additional Info */}
               </div>
             </div>

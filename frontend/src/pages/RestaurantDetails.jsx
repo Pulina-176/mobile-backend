@@ -6,6 +6,9 @@ import {
   FaPhoneAlt,
   FaMapSigns,
   FaStar,
+  FaStarHalfAlt,
+  FaStarHalf,
+  FaRegStar
 } from "react-icons/fa";
 import StarRating from "../components/StarRating";
 
@@ -16,6 +19,11 @@ const RestaurantDetails = () => {
   const [error, setError] = useState(null);
   const [stars, setStars] = useState(null);
   const [success, setSuccess] = useState(false);
+  const[fullStars, setFullStars] = useState(null);
+  const[hasHalfStar, setHasHalfStar] = useState(null);
+  const[emptyStars, setEmptyStars] = useState(null);
+  const[formattedRating, setFormattedRating] = useState(null);
+
 
   const navigate = useNavigate();
 
@@ -24,14 +32,17 @@ const RestaurantDetails = () => {
     const id = restaurant._id;
     const rating = stars;
     try {
-      const res = await fetch(`http://localhost:5555/restaurant/${id}/addrating`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ rating }),
-      });
+      const res = await fetch(
+        `http://localhost:5555/restaurant/${id}/addrating`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ rating }),
+        }
+      );
       if (!res.ok) {
         throw new Error(`Failed to submit rating: ${res.statusText}`);
       }
@@ -55,11 +66,19 @@ const RestaurantDetails = () => {
           credentials: "include",
         });
         if (!res.ok) {
-          throw new Error(`Failed to fetch restaurant details: ${res.statusText}`);
+          throw new Error(
+            `Failed to fetch restaurant details: ${res.statusText}`
+          );
         }
         const data = await res.json();
         console.log("Fetched data:", data); // Log the fetched data
         setRestaurant(data);
+        setFullStars(Math.floor(data.averageRating));
+        setHasHalfStar(data.averageRating % 1 >= 0.5);
+        setEmptyStars(5 - fullStars - (hasHalfStar ? 1 : 0));
+        setFormattedRating(data.averageRating.toFixed(1));
+        console.log(emptyStars);
+        console.log(restaurant);
       } catch (error) {
         setError("An error occurred while fetching restaurant details.");
         console.error(error);
@@ -69,6 +88,7 @@ const RestaurantDetails = () => {
     };
 
     fetchRestaurantDetails();
+    
   }, [id]);
 
   useEffect(() => {
@@ -88,6 +108,7 @@ const RestaurantDetails = () => {
   }, {});
 
   return (
+    
     <div className="p-4">
       {/* Cover Photo Section */}
       <div
@@ -107,16 +128,33 @@ const RestaurantDetails = () => {
           className="h-20 w-20 rounded-full border-4 border-white shadow-lg object-cover"
         />
         <div>
-        {success && <p className="text-green-500">Rating submitted successfully!</p>}
+          {success && (
+            <p className="text-green-500">Rating submitted successfully!</p>
+          )}
           <h1 className="text-3xl font-bold">{restaurant?.title}</h1>
           <p className="text-sm text-gray-700">{restaurant?.about}</p>
+          <div className="flex items-center mb-2">
+            {[...Array(fullStars)].map((_, index) => (
+              <FaStar key={index} className="h-5 w-5 text-yellow-400" />
+            ))}
+            {hasHalfStar && (
+              <FaStarHalfAlt className="h-5 w-5 text-yellow-400" />
+            )}
+            
+            {[...Array(5-fullStars - (hasHalfStar ? 1 : 0))].map((_, index) => (
+              <FaRegStar key={index} className="h-5 w-5 text-gray-300" />
+            ))}
+    
+            <span className="ml-2 text-gray-700">{formattedRating}</span>
+          </div>
         </div>
       </div>
 
       {/* Restaurant Details in Horizontal Layout */}
       <div className="flex items-center space-x-8 mb-4 ml-16">
         <div className="flex items-center text-sm text-gray-700">
-          <FaMapMarkerAlt className="mr-2 text-gray-500" /> {restaurant?.address}
+          <FaMapMarkerAlt className="mr-2 text-gray-500" />{" "}
+          {restaurant?.address}
           <button
             className="ml-4 bg-yellow-500 text-white py-1 px-3 rounded flex items-center"
             onClick={() => handleViewDirections(restaurant?._id)}
@@ -125,7 +163,8 @@ const RestaurantDetails = () => {
           </button>
         </div>
         <div className="flex items-center text-sm text-gray-700">
-          <FaEnvelope className="mr-2 text-gray-500" /> {restaurant?.officialEmail}
+          <FaEnvelope className="mr-2 text-gray-500" />{" "}
+          {restaurant?.officialEmail}
         </div>
         <div className="flex items-center text-sm text-gray-700">
           <FaPhoneAlt className="mr-2 text-gray-500" /> {restaurant?.hotline}
@@ -142,7 +181,6 @@ const RestaurantDetails = () => {
             <StarRating onRatingChange={(rating) => setStars(rating)} />
             <div className="modal-action">
               <form method="dialog">
-
                 <button
                   type="button"
                   className="btn"
@@ -152,9 +190,7 @@ const RestaurantDetails = () => {
                   Submit
                 </button>
                 <span> </span>
-                <button  className="btn">
-                  Close
-                </button>
+                <button className="btn">Close</button>
               </form>
             </div>
           </div>
