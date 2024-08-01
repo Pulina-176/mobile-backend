@@ -305,6 +305,22 @@ export const signuprestaurant = async (req, res) => {
       next(error);
     }
   };
+
+
+  export const deleteRestaurant = async (req, res, next) => {
+    if (req.restaurant.id !== req.params.id) {
+      return next(errorHandler(401, "You can delete only your account!"));
+    }
+    try{
+      await Restaurant.findByIdAndDelete(req.params.id);
+      res.status(200).json("Restaurant has been deleted");
+
+    }catch (error){
+      next(error);
+
+    }
+
+  };
   
 
       

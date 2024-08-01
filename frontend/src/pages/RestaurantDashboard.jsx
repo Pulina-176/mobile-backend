@@ -14,8 +14,17 @@ import {
   FaQuestionCircle,
   FaEdit,
   FaTrash,
+  FaSadCry,
+  FaSadTear,
 } from "react-icons/fa";
-import { updateStart, updateSuccess, updateFailure } from "../redux/user/restaurantSlice";
+import {
+  updateStart,
+  updateSuccess,
+  updateFailure,
+  deleteRestaurantFailure,
+  deleteRestaurantSuccess,
+  deleteRestaurantStart,
+} from "../redux/user/restaurantSlice";
 
 const RestaurantDashboard = () => {
   const dispatch = useDispatch();
@@ -85,7 +94,7 @@ const RestaurantDashboard = () => {
           },
           credentials: "include",
         }
-      );  
+      );
 
       if (!response.ok) {
         // If the response is not ok, throw an error
@@ -99,12 +108,35 @@ const RestaurantDashboard = () => {
       dispatch(updateSuccess(data));
 
       console.log("Offer deleted successfully:", data);
-    } catch (error) { 
+    } catch (error) {
       console.error("Error deleting offer:", error.message);
       dispatch(updateFailure());
     }
   };
 
+  const handleDeleteRestaurant = async () => {
+    try {
+      dispatch(deleteRestaurantStart());
+      const res = await fetch(
+        `http://localhost:5555/restaurant/delete/${currentRestaurant._id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+
+      );
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteRestaurantFailure(data));
+        return;
+      }
+
+      dispatch(deleteRestaurantSuccess(data));
+    } catch (error) {
+      console.error("Error deleting restaurant:", error);
+      dispatch(deleteRestaurantFailure());
+    }
+  };
 
   useEffect(() => {
     const handleFill = async () => {
@@ -273,17 +305,16 @@ const RestaurantDashboard = () => {
                             <div className="flex items-center gap-4">
                               <div className="text-yellow-500 text-lg">
                                 <button className="btn">
-                                <Link
-                                  to={`/restaurant/${currentRestaurant._id}/menu/edit/${item._id}`}
-                                >
-                                  <FaEdit />
-                                </Link>
+                                  <Link
+                                    to={`/restaurant/${currentRestaurant._id}/menu/edit/${item._id}`}
+                                  >
+                                    <FaEdit />
+                                  </Link>
                                 </button>
                               </div>
                               <div>
                                 <div className="text-red-500 text-lg">
                                   <button
-
                                     className="btn"
                                     onClick={() =>
                                       document
@@ -292,22 +323,33 @@ const RestaurantDashboard = () => {
                                     }
                                   >
                                     <div className="text-red-500 text-lg">
-                                    <FaTrash />
+                                      <FaTrash />
                                     </div>
                                   </button>
                                   <dialog id="my_modal_1" className="modal">
                                     <div className="modal-box">
                                       <h3 className="font-bold text-lg">
-                                        Are You sure you want to delete this item?
+                                        Are You sure you want to delete this
+                                        item?
                                       </h3>
                                       <div className="modal-action">
                                         <form method="dialog">
                                           {/* if there is a button in form, it will close the modal */}
-                                          <button className="btn btn-error" onClick={() => handleDeleteMenuItem(currentRestaurant._id, item._id)} aria-label="Close modal" >Delete</button>
+                                          <button
+                                            className="btn btn-error"
+                                            onClick={() =>
+                                              handleDeleteMenuItem(
+                                                currentRestaurant._id,
+                                                item._id
+                                              )
+                                            }
+                                            aria-label="Close modal"
+                                          >
+                                            Delete
+                                          </button>
                                           <span> </span>
                                           <span></span>
                                           <button className="btn">Close</button>
-
                                         </form>
                                       </div>
                                     </div>
@@ -356,38 +398,45 @@ const RestaurantDashboard = () => {
                     <h2 className="card-title">{deal.name}</h2>
                     <p>{deal.dealDescription}</p>
                     <div className="card-actions justify-end">
-                    <div className="text-red-500 text-lg">
-                                  <button
-
-                                    className="btn"
-                                    onClick={() =>
-                                      document
-                                        .getElementById("my_modal_2")
-                                        .showModal()
-                                    }
-                                  >
-                                    <div className="text-red-500 text-lg">
-                                    <FaTrash />
-                                    </div>
-                                  </button>
-                                  <dialog id="my_modal_2" className="modal">
-                                    <div className="modal-box">
-                                      <h3 className="font-bold text-lg">
-                                        Are You sure you want to delete this Offer?
-                                      </h3>
-                                      <div className="modal-action">
-                                        <form method="dialog">
-                                          {/* if there is a button in form, it will close the modal */}
-                                          <button className="btn btn-error" onClick={() => handleDeleteOffer(currentRestaurant._id, deal._id)} aria-label="Close modal" >Delete</button>
-                                          <span> </span>
-                                          <span></span>
-                                          <button className="btn">Close</button>
-
-                                        </form>
-                                      </div>
-                                    </div>
-                                  </dialog>
-                                </div>
+                      <div className="text-red-500 text-lg">
+                        <button
+                          className="btn"
+                          onClick={() =>
+                            document.getElementById("my_modal_2").showModal()
+                          }
+                        >
+                          <div className=" text-lg">
+                            <FaTrash />
+                          </div>
+                        </button>
+                        <dialog id="my_modal_2" className="modal">
+                          <div className="modal-box">
+                            <h3 className="font-bold text-lg">
+                              Are You sure you want to delete this Offer?
+                            </h3>
+                            <div className="modal-action">
+                              <form method="dialog">
+                                {/* if there is a button in form, it will close the modal */}
+                                <button
+                                  className="btn btn-error"
+                                  onClick={() =>
+                                    handleDeleteOffer(
+                                      currentRestaurant._id,
+                                      deal._id
+                                    )
+                                  }
+                                  aria-label="Close modal"
+                                >
+                                  Delete
+                                </button>
+                                <span> </span>
+                                <span></span>
+                                <button className="btn">Close</button>
+                              </form>
+                            </div>
+                          </div>
+                        </dialog>
+                      </div>
                       <button className="btn btn-primary">
                         {deal.price_discount}
                       </button>
@@ -419,9 +468,9 @@ const RestaurantDashboard = () => {
               />{" "}
               {/* Profile Photo */}
               <div>
-                <h1 className="text-3xl font-bold">Hungry</h1>{" "}
+                <h1 className="text-3xl font-bold">{currentRestaurant.title}</h1>{" "}
                 {/* Profile Name */}
-                <p className="text-sm text-gray-700">Best Food In Town</p>{" "}
+                <p className="text-sm text-gray-700">{currentRestaurant.description}</p>{" "}
                 {/* Additional Info */}
               </div>
             </div>
@@ -455,9 +504,38 @@ const RestaurantDashboard = () => {
               </a>
             </li>
             <li className="mb-2">
-              <a className="flex items-center p-2 rounded-lg hover:bg-gray-200">
-                <FaQuestionCircle className="mr-2" /> Help/Support
+              <a
+                className="flex items-center p-2 rounded-lg hover:bg-gray-200"
+                onClick={() =>
+                  document.getElementById("my_modal_3").showModal()
+                }
+              >
+                <FaTrash className="mr-2" /> Delete Account
               </a>
+              <dialog id="my_modal_3" className="modal">
+                <div className="modal-box">
+                  <h3 className="font-bold text-lg">
+                    Are You sure you want to delete your restaurant?
+                  </h3>
+                  <div className="modal-action">
+                    <form method="dialog">
+                      {/* if there is a button in form, it will close the modal */}
+                      <button
+                        className="btn btn-error"
+                        onClick={() =>
+                          handleDeleteRestaurant(currentRestaurant._id)
+                        }
+                        aria-label="Close modal"
+                      >
+                        Yes,Delete <FaSadTear />
+                      </button>
+                      <span> </span>
+                      <span></span>
+                      <button className="btn">Close</button>
+                    </form>
+                  </div>
+                </div>
+              </dialog>
             </li>
           </ul>
         </div>
