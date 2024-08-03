@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FaEye, FaRegStar, FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import { FaEye, FaRegStar, FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaStar, FaStarHalfAlt, FaSearch, FaChevronDown, FaExpand } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 
 const NearestRestaurants = () => {
   const dispatch = useDispatch();
@@ -59,7 +60,9 @@ const NearestRestaurants = () => {
 
   return (
     <>
+            <Header />
       <div className="container mx-auto p-6">
+
         <div className="text-center mt-10 mb-6">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Discover Your Nearest Eateries!
@@ -76,10 +79,10 @@ const NearestRestaurants = () => {
             </button>
             <button
               type="button"
-              className="inline-flex items-center rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500"
+              className="inline-flex items-center rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-400"
               onClick={handleExpandSearch}
             >
-              <FaEye className="-ml-0.5 mr-1.5 h-5 w-5" />
+              <FaSearch className="-ml-0.5 mr-1.5 h-5 w-5" />
               See More
             </button>
           </div>
@@ -96,6 +99,7 @@ const NearestRestaurants = () => {
               const formattedRating = restaurant.averageRating.toFixed(1);
 
               return (
+                
                 <div
                   key={restaurant._id}
                   className="relative bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105"
@@ -107,9 +111,9 @@ const NearestRestaurants = () => {
                   />
 
                   <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30 flex items-center justify-center opacity-0 transition-opacity duration-300 hover:opacity-100">
-                    <button className="text-white text-sm font-semibold flex items-center bg-yellow-600 px-3 py-1 rounded"
+                    <button className="text-white text-sm font-semibold flex items-center bg-yellow-500 px-3 py-1 rounded"
                     onClick={() => handleViewDetails(restaurant._id)}>
-                      <FaEye className="mr-2" /> View Details
+                      <FaExpand className="mr-2" /> View Details
                     </button>
                   </div>
                   <div className="p-4">
@@ -129,7 +133,7 @@ const NearestRestaurants = () => {
                       <span className="ml-2 text-gray-700">{formattedRating}</span>
                     </div>
                     {restaurant.specialDeals.length > 0 && (
-                      <div className="bg-yellow-600 text-white text-xs font-semibold p-1 rounded-lg mb-2 w-fit">
+                      <div className="bg-yellow-500 text-white text-xs font-semibold p-1 rounded-lg mb-2 w-fit">
                         Special Offers Available
                       </div>
                     )}

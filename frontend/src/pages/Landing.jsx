@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Header from "../components/Header";
+import { useNavigate } from "react-router-dom";
 import {
   FaMap,
   FaUtensils,
@@ -11,6 +12,10 @@ import {
 
 const Landing = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/user/current-location");
+  }
 
   return (
     <div>
@@ -25,9 +30,9 @@ const Landing = () => {
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-neutral-content text-center">
           <div className="max-w-md justify-center">
-            <div className="mb-5 text-5xl font-bold ">
+            {/* <div className="mb-5 text-5xl font-bold ">
               <FaMap />
-            </div>
+            </div> */}
             <h1 className="mb-5 text-5xl font-bold">
               Hello {currentUser?.username}!
             </h1>
@@ -36,7 +41,7 @@ const Landing = () => {
               looking for a quick bite or a special night out, we provide all
               the details you need to make the best choice.
             </p>
-            <button className="btn btn-warning">Get Started</button>
+            <button className="btn btn-warning" onClick={handleNavigate}>Get Started</button>
           </div>
         </div>
       </div>

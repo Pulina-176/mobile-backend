@@ -120,7 +120,7 @@ const ViewDirections = () => {
       <div className="w-1/3 flex flex-col justify-center p-6 bg-white shadow-md rounded-lg">
         <div className="flex flex-col items-center mb-6">
           <FaMap className="text-4xl text-gray-600 mb-2" />
-          <h1 className="text-2xl font-bold text-gray-600 text-center mb-4">Locate Favorite Restaurant</h1>
+          <h1 className="text-2xl font-bold text-gray-600 text-center mb-4">Locate Your Favorite Restaurant</h1>
         </div>
         <div className="bg-gray-100 p-4 shadow-md rounded-lg mb-6">
           <h2 className="text-lg font-semibold mb-2">{restaurant?.title}</h2>

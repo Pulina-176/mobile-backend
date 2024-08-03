@@ -3,7 +3,8 @@ import Header from "../components/Header";
 const Home = () => {
   return (
     <>
-      <Header />
+    <div className="navbar bg-yellow-500 text-gray-900 font-bold">
+</div>
       <div className="relative overflow-hidden bg-white">
         <div className="pb-80 pt-16 sm:pb-40 sm:pt-24 lg:pb-48 lg:pt-40">
           <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
@@ -13,7 +14,7 @@ const Home = () => {
               </h1>
               <div className="mt-6 relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
                 Join the Appete Community today.{" "}
-                <a href="/sign-up" className="font-semibold text-yellow-600">
+                <a href="/sign-up" className="font-semibold text-yellow-500">
                   <span className="absolute inset-0" aria-hidden="true"></span>
                   sign-up <span aria-hidden="true">&rarr;</span>
                 </a>
@@ -95,13 +96,13 @@ const Home = () => {
                 <div className="mt-8">
                   <a
                     href="/sign-in"
-                    className="inline-block rounded-md border border-transparent bg-yellow-600 px-12 py-3 text-center font-medium text-white hover:bg-yellow-700 mr-4"
+                    className="inline-block rounded-md border border-transparent bg-yellow-500 px-12 py-3 text-center font-medium text-white hover:bg-yellow-600 mr-4"
                   >
                     User
                   </a>
                   <a
-                    href="#"
-                    className="inline-block rounded-md border border-transparent bg-yellow-600 px-8 py-3 text-center font-medium text-white hover:bg-yellow-700"
+                    href="/restaurant/sign-up"
+                    className="inline-block rounded-md border border-transparent bg-yellow-500 px-8 py-3 text-center font-medium text-white hover:bg-yellow-600"
                   >
                     Restaurant
                   </a>

@@ -2,14 +2,24 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useJsApiLoader, GoogleMap, Marker, Autocomplete } from '@react-google-maps/api';
 import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/user/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaUtensils, FaUtensilSpoon } from 'react-icons/fa';
 
 const UserCurrentLocation = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "Your_API_KEY",
     libraries: ["places"],
   });
+
+  const handleGoBack = () => {
+    navigate('/welcome');
+  };
+  const handleNext = () => {
+    navigate('/user/nearest-restaurants');
+  };
 
   const [center, setCenter] = useState({ lat: 6.0329, lng: 80.2168 });
   const originRef = useRef();
@@ -84,7 +94,11 @@ const UserCurrentLocation = () => {
   }
 
   return (
+
     <div style={{ height: '100vh', width: '100%' }}>
+      <button className='absolute top-10 left-10 text-3xl text-neutral-700' ><FaArrowAltCircleLeft onClick={handleGoBack} /></button>
+      <button className='absolute top-10 right-10 text-3xl text-neutral-700' ><FaArrowAltCircleRight onClick={handleNext} /></button>
+
       {message.text && (
         <div style={{
           position: 'absolute',
@@ -143,7 +157,7 @@ const UserCurrentLocation = () => {
           Search Location
         </button>
         <button
-          className="flex justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
+          className="flex justify-center rounded-md bg-yellow-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
           onClick={handleSubmit}
         >
           Set Location

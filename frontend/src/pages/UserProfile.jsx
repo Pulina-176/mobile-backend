@@ -2,10 +2,22 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import { useSelector } from "react-redux";
 import { useRef, useEffect } from "react";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 import { app } from "../firebase";
 import { useDispatch } from "react-redux";
-import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure } from "../redux/user/userSlice";
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+} from "../redux/user/userSlice";
 
 const UserProfile = () => {
   const fileRef = useRef(null);
@@ -22,7 +34,7 @@ const UserProfile = () => {
   }, [image]);
   const handleFileUpload = async (image) => {
     const storage = getStorage(app);
-    
+
     const fileName = new Date().getTime() + image.name;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, image);
@@ -38,10 +50,12 @@ const UserProfile = () => {
         console.log(error);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => 
-          setFormData({ ...formData, profilePicture: downloadURL }))
-        });
-      };
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
+          setFormData({ ...formData, profilePicture: downloadURL })
+        );
+      }
+    );
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -50,63 +64,100 @@ const UserProfile = () => {
     e.preventDefault(); // prevent browser from refreshing
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`http://localhost:5555/user/update/${currentUser._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-        credentials: "include",
-      });
+      const res = await fetch(
+        `http://localhost:5555/user/update/${currentUser._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+          credentials: "include",
+        }
+      );
       const data = await res.json();
-      if (data.success === false){
+      if (data.success === false) {
         dispatch(updateUserFailure(data));
         return;
       }
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
-  } catch (error) {
-    dispatch(updateUserFailure(error));
-  }};
+    } catch (error) {
+      dispatch(updateUserFailure(error));
+    }
+  };
 
   const handleDelete = async () => {
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`http://localhost:5555/user/delete/${currentUser._id}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `http://localhost:5555/user/delete/${currentUser._id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
       const data = await res.json();
-      if (data.success === false){
+      if (data.success === false) {
         dispatch(updateUserFailure(data));
         return;
       }
       dispatch(deleteUserSuccess(data));
-  } catch (error) {
-    dispatch(deleteUserFailure(error));
-  } };
+    } catch (error) {
+      dispatch(deleteUserFailure(error));
+    }
+  };
   return (
     <>
       <Header />
       <div className="flex justify-center items-center h-screen">
         <form className="w-full max-w-3xl px-20" onSubmit={handleSubmit}>
           <div>
-            <h1 className="pb-5 text-2xl font-semibold leading-7 text-gray-900">Profile</h1>
+            <h1 className="pb-5 text-2xl font-semibold leading-7 text-gray-900">
+              Profile
+            </h1>
             <div className="col-span-full">
               <div className="mt-2 flex items-center gap-x-2">
                 <div>
-                <img
-                  src={formData.profilePicture || currentUser.profilePicture}
-                  alt="profile"
-                  className="h-24 w-24 self-center rounded-full object-cover"
-                />
-                
+                  <img
+                    src={formData.profilePicture || currentUser.profilePicture}
+                    alt="profile"
+                    className="h-24 w-24 self-center rounded-full object-cover"
+                  />
+
                   {imageError ? (
-                    <progress className="progress progress-error w-56" value="100" max="100">Error Uploading Image</progress>): imagePercent > 0  && imagePercent < 100 ? (
-                      <progress className="progress progress-warning w-56" value={imagePercent} max="100"><span className="text-sm font-medium leading-6 text-yellow-600">{imagePercent}</span></progress>) : imagePercent === 100 ? (
-                        <span className="text-sm font-medium leading-6 text-yellow-600">Image Uploaded Successfully!</span>) : ('')}
+                    <progress
+                      className="progress progress-error w-56"
+                      value="100"
+                      max="100"
+                    >
+                      Error Uploading Image
+                    </progress>
+                  ) : imagePercent > 0 && imagePercent < 100 ? (
+                    <progress
+                      className="progress progress-warning w-56"
+                      value={imagePercent}
+                      max="100"
+                    >
+                      <span className="text-sm font-medium leading-6 text-yellow-600">
+                        {imagePercent}
+                      </span>
+                    </progress>
+                  ) : imagePercent === 100 ? (
+                    <span className="text-sm font-medium leading-6 text-yellow-600">
+                      Image Uploaded Successfully!
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
-                <input type="file" ref={fileRef} hidden accept="image/*" onChange={(e)=> setImage(e.target.files[0])}></input>
+                <input
+                  type="file"
+                  ref={fileRef}
+                  hidden
+                  accept="image/*"
+                  onChange={(e) => setImage(e.target.files[0])}
+                ></input>
                 <button
                   type="button"
                   className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -119,13 +170,16 @@ const UserProfile = () => {
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-4">
-                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Username
                 </label>
                 <div className="mt-2">
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-yellow-600 sm:max-w-md">
                     <input
-                    defaultValue={currentUser.username}
+                      defaultValue={currentUser.username}
                       type="text"
                       name="username"
                       id="username"
@@ -139,12 +193,15 @@ const UserProfile = () => {
               </div>
 
               <div className="sm:col-span-4">
-                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Email address
                 </label>
                 <div className="mt-2">
                   <input
-                  defaultValue={currentUser.email}
+                    defaultValue={currentUser.email}
                     id="email"
                     name="email"
                     type="email"
@@ -157,7 +214,10 @@ const UserProfile = () => {
               </div>
 
               <div className="sm:col-span-4">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Password
                 </label>
                 <div className="mt-2">
@@ -172,12 +232,10 @@ const UserProfile = () => {
                   />
                 </div>
               </div>
-
             </div>
           </div>
 
           <div className="mt-6 flex items-center justify-start gap-x-4">
-          
             <button
               type="submit"
               className="rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"

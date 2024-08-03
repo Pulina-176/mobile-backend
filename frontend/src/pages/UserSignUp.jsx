@@ -1,10 +1,7 @@
-// UserSignUp.js
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaMap } from "react-icons/fa";
 import OAuth from "../components/OAuth";
-import Header from "../components/Header";
+
 const UserSignUp = () => {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
@@ -44,7 +41,7 @@ const UserSignUp = () => {
       setTimeout(() => {
         setSuccess(false);
         navigate("/sign-in");
-      }, 500); // Hide success message after 3 seconds
+      }, 3000); // Hide success message after 3 seconds
     } catch (error) {
       console.error("Error during signup:", error);
       setError(error.message);
@@ -53,116 +50,122 @@ const UserSignUp = () => {
 
   return (
     <>
-      <Header />
-      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <FaMap className="mx-auto h-10 w-auto font-bold text-yellow-600 text-3xl" />
-          <h2 className="mt-10 text-center text-4xl font-bold leading-9 tracking-tight text-gray-900">
-            Join Appete!
-          </h2>
+      <section className="flex flex-col lg:flex-row h-screen">
+        <div className="relative flex-shrink-0 w-full lg:w-1/2">
+          <img
+            alt="Background"
+            src="https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form
-            className="space-y-6"
-            action="#"
-            onSubmit={handleSubmit}
-            method="POST"
-          >
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Username
-              </label>
-              <div className="mt-2">
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  autoComplete="username"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+        <div className="flex flex-col justify-center w-full lg:w-1/2 px-4 py-12 sm:px-6 lg:px-8 lg:py-24">
+          <div className="mx-auto max-w-lg">
+            <h1 className="text-2xl font-bold sm:text-3xl text-center">
+              Get started today!
+            </h1>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Password
-                </label>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+            <p className="mt-4 text-gray-500 text-center">
+              Create your account to start discovering and enjoying the best
+              local dining experiences tailored just for you.
+            </p>
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
-              >
-                Sign up
-              </button>
-              <OAuth />
-            </div>
-          </form>
+            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+              <form className="space-y-6" onSubmit={handleSubmit} method="POST">
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Username
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      autoComplete="username"
+                      required
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Email address
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
 
-          {success && (
-            <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-              Account created successfully!
-            </div>
-          )}
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Password
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      autoComplete="current-password"
+                      required
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
 
-          {error && (
-            <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-              {error}
-            </div>
-          )}
+                <div>
+                  <button
+                    type="submit"
+                    className="flex w-full justify-center rounded-md bg-yellow-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
+                  >
+                    Sign up
+                  </button>
+                  <OAuth />
+                </div>
+              </form>
 
-          <p className="mt-10 text-center text-sm text-gray-500">
-            Have an account?{" "}
-            <Link to="/sign-in">
-              <span className="font-semibold leading-6 text-yellow-600 hover:text-yellow-500">
-                Sign in
-              </span>
-            </Link>
-          </p>
+              {success && (
+                <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded text-center">
+                  Account created successfully!
+                </div>
+              )}
+
+              {error && (
+                <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded text-center">
+                  {error}
+                </div>
+              )}
+
+              <p className="mt-10 text-center text-sm text-gray-500">
+                Have an account?{" "}
+                <Link to="/sign-in">
+                  <span className="font-semibold leading-6 text-yellow-500 hover:text-yellow-400">
+                    Sign in
+                  </span>
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };
