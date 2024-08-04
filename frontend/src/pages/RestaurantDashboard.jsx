@@ -18,7 +18,11 @@ import {
   FaSadTear,
   FaStar,
   FaStarHalfAlt,
-  FaRegStar
+  FaRegStar,
+  FaTags,
+  FaInfo,
+  FaListAlt,
+  FaHamburger,
 } from "react-icons/fa";
 import {
   updateStart,
@@ -192,7 +196,7 @@ const RestaurantDashboard = () => {
       ></div>
 
       {/* Profile Section */}
-      <div className="flex items-center space-x-4 mb-4 pl-16">
+      <div className="flex items-center space-x-4  pl-16">
         <img
           src={profilePhotoUrl}
           alt="Profile Photo"
@@ -202,18 +206,20 @@ const RestaurantDashboard = () => {
           <h1 className="text-3xl font-bold">{currentRestaurant.title}</h1>
           <p className="text-sm text-gray-700">{currentRestaurant.about}</p>
           <div className="flex items-center mb-2">
-        {[...Array(fullStars)].map((_, index) => (
-          <FaStar key={index} className="h-5 w-5 text-yellow-400" />
-        ))}
-        {hasHalfStar && <FaStarHalfAlt className="h-5 w-5 text-yellow-400" />}
-        {[...Array(emptyStars)].map((_, index) => (
-          <FaRegStar key={index} className="h-5 w-5 text-gray-300" />
-        ))}
-        <span className="ml-2 text-gray-700">{formattedRating}</span>
-      </div>
+            {[...Array(fullStars)].map((_, index) => (
+              <FaStar key={index} className="h-5 w-5 text-yellow-400" />
+            ))}
+            {hasHalfStar && (
+              <FaStarHalfAlt className="h-5 w-5 text-yellow-400" />
+            )}
+            {[...Array(emptyStars)].map((_, index) => (
+              <FaRegStar key={index} className="h-5 w-5 text-gray-300" />
+            ))}
+            <span className="ml-2 text-gray-700">{formattedRating}</span>
+          </div>
         </div>
       </div>
-      
+      <hr className="my-4 border-t-2 border-gray-300 mt-12" />
 
       {/* Sidebar */}
       <div className="drawer">
@@ -225,65 +231,140 @@ const RestaurantDashboard = () => {
           >
             <FaBars className="text-2xl" />
           </label>
-          <div className="mt-4 pl-32">
-            <div className="px-4 sm:px-0">
-              <h3 className="text-base font-semibold leading-7 text-gray-900">
-                Restaurant Information
-              </h3>
-              <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                Go to Edit Profile section to edit data.
-              </p>
-            </div>
+          <div className=" pl-32">
+            <dt className="text-3xl font-extrabold text-neutral-700 leading-tight items-center flex gap-4">
+              <FaListAlt className="ml-2" />
+              Restaurant Details
+            </dt>
             <div className="mt-6 border-t border-gray-100">
               <dl className="divide-y divide-gray-100">
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
+                  <dt className="text-md font-medium leading-6 text-gray-900">
                     Restaurant Name
                   </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     {currentRestaurant.title}
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
+                  <dt className="text-md font-medium leading-6 text-gray-900">
                     Address
                   </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     {currentRestaurant.address}
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
+                  <dt className="text-md font-medium leading-6 text-gray-900">
                     Email address
                   </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     {profileData.officialEmail}
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
+                  <dt className="text-md font-medium leading-6 text-gray-900">
                     Hotline
                   </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     {profileData.hotline}
                   </dd>
                 </div>
-                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-lg font-medium leading-6 text-gray-900">
+
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 " >
+                  <dt className="text-3xl font-extrabold text-neutral-700 leading-tight items-center flex gap-4 mt-8 mb-4">
+                    <FaTags className="ml-2" />
+                    Special Offers
+                  </dt>
+                  <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0"></dd>
+
+                  {currentRestaurant.specialDeals.map((deal, index) => (
+                    <div
+                      key={index}
+                      className="card card-compact bg-base-100 w-96 shadow-xl"
+                      style={{ width: "20rem", height: "24rem" }}
+                    >
+                      <figure>
+                        <img
+                          src={
+                            deal.photo ||
+                            "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                          }
+                          className="w-full"
+                          //alt="Special Offers"
+                        />
+                      </figure>
+                      <div className="card-body">
+                        <h2 className="card-title">{deal.name}</h2>
+                        <p>{deal.dealDescription}</p>
+                        <div className="card-actions justify-end">
+                          <div className="text-red-500 text-lg">
+                            <button
+                              className="btn"
+                              onClick={() =>
+                                document
+                                  .getElementById("my_modal_2")
+                                  .showModal()
+                              }
+                            >
+                              <div className=" text-lg">
+                                <FaTrash className="text-red-500" />
+                              </div>
+                            </button>
+                            <dialog id="my_modal_2" className="modal">
+                              <div className="modal-box">
+                                <h3 className="font-bold text-lg text-black">
+                                  Are You sure you want to delete this Offer?
+                                </h3>
+                                <div className="modal-action">
+                                  <form method="dialog">
+                                    {/* if there is a button in form, it will close the modal */}
+                                    <button
+                                      className="btn btn-error"
+                                      onClick={() =>
+                                        handleDeleteOffer(
+                                          currentRestaurant._id,
+                                          deal._id
+                                        )
+                                      }
+                                      aria-label="Close modal"
+                                    >
+                                      Delete
+                                    </button>
+                                    <span> </span>
+                                    <span></span>
+                                    <button className="btn">Close</button>
+                                  </form>
+                                </div>
+                              </div>
+                            </dialog>
+                          </div>
+                          <button className="btn btn-neutral">
+                            {deal.price_discount}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 mx-auto">
+                  <dt className="text-3xl font-extrabold text-neutral-700 leading-tight items-center flex gap-4 mt-8">
+                    <FaHamburger className="ml-2" />
                     Your Menu
                   </dt>
                 </div>
               </dl>
             </div>
 
-            <div className="overflow-x-auto mt-6">
+            <div className="overflow-x-auto mt-6 w-4/5 ">
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Item</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Settings</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -298,11 +379,11 @@ const RestaurantDashboard = () => {
                         </td>
                       </tr>
                       {groupedMenuItems[category].map((item, index) => (
-                        <tr key={index}>
+                        <tr key={index} className="hover:cursor-pointer">
                           <td>
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-12">
                               <div className="avatar">
-                                <div className="mask mask-squircle h-12 w-12">
+                                <div className="mask mask-squircle h-24 w-24">
                                   <img
                                     src={
                                       item.photo ||
@@ -312,14 +393,16 @@ const RestaurantDashboard = () => {
                                   />
                                 </div>
                               </div>
-                              <div>
-                                <div className="">{item.itemName}</div>
+                              <div className="flex flex-col">
+                                <div className=" font-bold text-gray-900 text-lg">
+                                  {item.itemName}
+                                </div>
+                                <div>{item.description}</div>
                               </div>
                             </div>
                           </td>
-                          <td>{item.description}</td>
-                          <td>{item.price}</td>
-                          <td>
+                          <td className="font-bold text-md">{item.price}</td>
+                          <td className="font-bold text-md">
                             <div className="flex items-center gap-4">
                               <div className="text-yellow-500 text-lg">
                                 <button className="btn">
@@ -346,7 +429,7 @@ const RestaurantDashboard = () => {
                                   </button>
                                   <dialog id="my_modal_1" className="modal">
                                     <div className="modal-box">
-                                      <h3 className="font-bold text-lg">
+                                      <h3 className="font-bold text-lg text-black">
                                         Are You sure you want to delete this
                                         item?
                                       </h3>
@@ -381,87 +464,7 @@ const RestaurantDashboard = () => {
                     </React.Fragment>
                   ))}
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <th>Item</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                  </tr>
-                </tfoot>
               </table>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-lg font-medium leading-6 text-gray-900">
-                Special Deals
-              </dt>
-              <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0"></dd>
-
-              {currentRestaurant.specialDeals.map((deal, index) => (
-                <div
-                  key={index}
-                  className="card card-compact bg-base-100 w-96 shadow-xl"
-                  style={{ width: "20rem", height: "24rem" }}
-                >
-                  <figure>
-                    <img
-                      src={
-                        deal.photo ||
-                        "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-                      }
-                      className="w-full"
-                      //alt="Special Offers"
-                    />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">{deal.name}</h2>
-                    <p>{deal.dealDescription}</p>
-                    <div className="card-actions justify-end">
-                      <div className="text-red-500 text-lg">
-                        <button
-                          className="btn"
-                          onClick={() =>
-                            document.getElementById("my_modal_2").showModal()
-                          }
-                        >
-                          <div className=" text-lg">
-                            <FaTrash />
-                          </div>
-                        </button>
-                        <dialog id="my_modal_2" className="modal">
-                          <div className="modal-box">
-                            <h3 className="font-bold text-lg">
-                              Are You sure you want to delete this Offer?
-                            </h3>
-                            <div className="modal-action">
-                              <form method="dialog">
-                                {/* if there is a button in form, it will close the modal */}
-                                <button
-                                  className="btn btn-error"
-                                  onClick={() =>
-                                    handleDeleteOffer(
-                                      currentRestaurant._id,
-                                      deal._id
-                                    )
-                                  }
-                                  aria-label="Close modal"
-                                >
-                                  Delete
-                                </button>
-                                <span> </span>
-                                <span></span>
-                                <button className="btn">Close</button>
-                              </form>
-                            </div>
-                          </div>
-                        </dialog>
-                      </div>
-                      <button className="btn btn-primary">
-                        {deal.price_discount}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
@@ -501,27 +504,27 @@ const RestaurantDashboard = () => {
             <span></span>
             <span></span>
             <li className="mb-2">
-              <a className="flex items-center p-2 rounded-lg hover:bg-gray-200">
+              <a className="flex items-center p-2 rounded-lg hover:bg-gray-200" href="/restaurant/dashboard">
                 <FaHome className="mr-2" /> Home
               </a>
             </li>
             <li className="mb-2">
-              <a className="flex items-center p-2 rounded-lg hover:bg-gray-200">
+              <a className="flex items-center p-2 rounded-lg hover:bg-gray-200" href="/restaurant/home">
                 <FaUserEdit className="mr-2" /> Update Profile
               </a>
             </li>
             <li className="mb-2">
-              <a className="flex items-center p-2 rounded-lg hover:bg-gray-200">
-                <FaUtensils className="mr-2" /> Change Menu
+              <a className="flex items-center p-2 rounded-lg hover:bg-gray-200" href="/restaurant/menu">
+                <FaUtensils className="mr-2" /> Add Menu Items
               </a>
             </li>
             <li className="mb-2">
-              <a className="flex items-center p-2 rounded-lg hover:bg-gray-200">
+              <a className="flex items-center p-2 rounded-lg hover:bg-gray-200" href="/restaurant/add-offers">
                 <FaTag className="mr-2" /> Add Offers
               </a>
             </li>
             <li className="mb-2">
-              <a className="flex items-center p-2 rounded-lg hover:bg-gray-200">
+              <a className="flex items-center p-2 rounded-lg hover:bg-gray-200" href="/restaurant/set-location">
                 <FaMapMarkerAlt className="mr-2" /> Location
               </a>
             </li>

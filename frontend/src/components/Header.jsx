@@ -10,7 +10,7 @@ import {
   Transition,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signOut } from "../redux/user/userSlice";
 import { FaMap } from "react-icons/fa";
@@ -28,6 +28,7 @@ function classNames(...classes) {
 
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   const location = useLocation();
   
@@ -43,6 +44,7 @@ const Header = () => {
     try {
       await fetch('http://localhost:5555/auth/signout');
       dispatch(signOut());
+      navigate('/');
     } catch (error) {
       console.log(error);
     }

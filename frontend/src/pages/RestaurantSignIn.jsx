@@ -50,7 +50,7 @@ const RestaurantSignIn = () => {
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
-        navigate("/restaurant/home");
+        navigate("/restaurant/dashboard");
       }, 500); // Hide success message after 0.5 seconds
     } catch (error) {
       dispatch(signInFailure(error.message));
@@ -59,13 +59,23 @@ const RestaurantSignIn = () => {
 
   return (
     <div>
-      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=yellow&shade=600" alt="Your Company" />
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
-        </div>
+      {/*
+  Heads up! 👋
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+  Plugins:
+    - @tailwindcss/forms
+*/}
+
+<section className="relative flex flex-wrap lg:h-screen lg:items-center">
+  <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
+    <div className="mx-auto max-w-lg text-center">
+      <h1 className="text-2xl font-bold sm:text-3xl">Sign In to Elevate Your Restaurant!</h1>
+
+      <p className="mt-4 text-gray-500">
+      Sign in now to streamline your operations and connect with more customers. Your next step towards growing your business starts here!
+      </p>
+    </div>
+    <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-8">
           <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="officialEmail" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
@@ -75,7 +85,7 @@ const RestaurantSignIn = () => {
                   type="email" 
                   autoComplete="email" 
                   required 
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"
                   onChange={handleChange} />
               </div>
             </div>
@@ -83,9 +93,7 @@ const RestaurantSignIn = () => {
             <div>
               <div className="flex items-center justify-between">
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
-                <div className="text-sm">
-                  <a href="#" className="font-semibold text-yellow-600 hover:text-yellow-500">Forgot password?</a>
-                </div>
+               
               </div>
               <div className="mt-2">
                 <input id="password" 
@@ -93,13 +101,13 @@ const RestaurantSignIn = () => {
                   type="password" 
                   autoComplete="current-password" 
                   required 
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"
                   onChange={handleChange} />
               </div>
             </div>
 
             <div>
-              <button type="submit" className="flex w-full justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">Sign in</button>
+              <button type="submit" className="flex w-full justify-center rounded-md bg-yellow-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500">Sign in</button>
             </div>
           </form>
           {success && (
@@ -115,10 +123,21 @@ const RestaurantSignIn = () => {
           )}
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?
-            <Link to="/restaurant/sign-up" className="font-semibold leading-6 text-yellow-600 hover:text-yellow-500">Sign up now</Link>
+            <Link to="/restaurant/sign-up" className="font-semibold leading-6 text-yellow-500 hover:text-yellow-400">Sign up now</Link>
           </p>
         </div>
-      </div>
+
+    
+  </div>
+
+  <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">
+    <img
+      alt=""
+      src="https://img.freepik.com/free-photo/happy-waiter-serving-food-group-cheerful-friends-pub_637285-12525.jpg?t=st=1722688466~exp=1722692066~hmac=62f2b895b6a24afaf92ea5362e0f93b5c488b8641d23ddbdaa8766f6a8f610c0&w=996"
+      className="absolute inset-0 h-full w-full object-cover"
+    />
+  </div>
+</section>
     </div>
   );
 };

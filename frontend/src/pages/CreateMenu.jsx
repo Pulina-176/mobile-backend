@@ -8,6 +8,8 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { app } from "../firebase";
+import RestaurantHeader from "../components/RestaurantHeader";
+import { FaUpload } from "react-icons/fa";
 
 const CreateMenu = () => {
   const fileInputRef = useRef(null);
@@ -119,7 +121,6 @@ const CreateMenu = () => {
     setError(null);
 
     try {
-
       const res = await fetch(
         `http://localhost:5555/restaurant/${currentRestaurant._id}/menu`,
         {
@@ -160,24 +161,96 @@ const CreateMenu = () => {
 
   return (
     <div>
-      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=yellow&shade=600"
-            alt="Your Company"
-          />
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Add Menu Items
-          </h2>
-        </div>
+      <RestaurantHeader />
+      {/*
+  Heads up! 👋
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
-            <label className="form-control w-full max-w-xs">
-              <div className="label">
-                <span className="label-text">Pick a category first!</span>
+  Plugins:
+    - @tailwindcss/forms
+*/}
+
+      <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-lg">
+          <h1 className="text-center text-2xl font-bold text-neutral-500 sm:text-3xl">
+            Keep Your Menu Exciting!
+          </h1>
+
+          <p className="mx-auto mt-4 max-w-md text-center text-gray-500">
+            Easily update your menu with new dishes, prices, and descriptions.
+            Regularly refreshing your menu keeps it appealing and helps attract
+            new customers while retaining the interest of your regulars.
+          </p>
+
+          <form
+            onSubmit={handleSubmit}
+            className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
+          >
+            <p className="text-center text-lg font-medium">Add Menu Items</p>
+
+            <div>
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="photo"
+                  className="block text-sm font-medium leading-6 text-gray-900 hidden"
+                >
+                  Photo
+                </label>
               </div>
+              <div className="mt-2 mx-auto">
+                <div className="mask mask-squircle h-24 w-24 object-fill mx-auto ">
+                  <img
+                    src={
+                      (formData.photo && formData.photo) ||
+                      "https://i.pinimg.com/originals/61/0b/03/610b03fea307fb76f7186eeb817bffcb.jpg"
+                    }
+                  />
+                </div>
+                {imageError ? (
+                  <progress
+                    className="progress progress-error w-56"
+                    value="100"
+                    max="100"
+                  >
+                    Error Uploading Image
+                  </progress>
+                ) : imagePercent > 0 && imagePercent < 100 ? (
+                  <progress
+                    className="progress progress-warning w-56 mt-2"
+                    value={imagePercent}
+                    max="100"
+                  >
+                    <span className="text-sm font-medium leading-6 text-yellow-600 mt-2">
+                      {imagePercent}
+                    </span>
+                  </progress>
+                ) : imagePercent === 100 ? (
+                  <span className="text-sm font-medium leading-6 text-yellow-600 mt-2">
+                    Image Uploaded Successfully!
+                  </span>
+                ) : (
+                  ""
+                )}
+                <input
+                  id="photo"
+                  type="file"
+                  ref={fileInputRef}
+                  name="photo"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+                <button
+                  className="btn btn-neutral btn-sm mt-2"
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  <FaUpload className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            <div className="label">
+              <span className="label-text mt-8">Pick a category first!</span>
+            </div>
+            <label className="form-control w-full max-w-xs">
               <select
                 className="select select-bordered"
                 value={selectedCategory}
@@ -269,7 +342,7 @@ const CreateMenu = () => {
                   type="text"
                   required
                   onChange={handleChange}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -290,67 +363,8 @@ const CreateMenu = () => {
                   type="text"
                   required
                   onChange={handleChange}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"
                 />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="photo"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Photo
-                </label>
-              </div>
-              <div className="mt-2">
-                <div className="mask mask-squircle h-12 w-12 object-fill">
-                  <img
-                    src={formData.photo}
-                    alt="Avatar Tailwind CSS Component"
-                  />
-                </div>
-                {imageError ? (
-                  <progress
-                    className="progress progress-error w-56"
-                    value="100"
-                    max="100"
-                  >
-                    Error Uploading Image
-                  </progress>
-                ) : imagePercent > 0 && imagePercent < 100 ? (
-                  <progress
-                    className="progress progress-warning w-56 mt-2"
-                    value={imagePercent}
-                    max="100"
-                  >
-                    <span className="text-sm font-medium leading-6 text-yellow-600 mt-2">
-                      {imagePercent}
-                    </span>
-                  </progress>
-                ) : imagePercent === 100 ? (
-                  <span className="text-sm font-medium leading-6 text-yellow-600 mt-2">
-                    Image Uploaded Successfully!
-                  </span>
-                ) : (
-                  ""
-                )}
-                <input
-                  id="photo"
-                  type="file"
-                  ref={fileInputRef}
-                  name="photo"
-                  hidden
-                  accept="image/*"
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
-                <button
-                  className="btn btn-primary btn-sm mt-2"
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  Upload
-                </button>
               </div>
             </div>
 
@@ -370,7 +384,7 @@ const CreateMenu = () => {
                   type="text"
                   required
                   onChange={handleChange}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -397,7 +411,7 @@ const CreateMenu = () => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="flex w-full justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
+                className="flex w-full justify-center rounded-md bg-yellow-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
               >
                 Save Menu Item
               </button>

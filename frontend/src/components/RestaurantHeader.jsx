@@ -15,10 +15,10 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { signOut } from "../redux/user/restaurantSlice";
 const navigation = [
-  { name: "About Us", href: "/", current: true },
-  { name: "Super Deals", href: "/sign-in", current: false },
-  { name: "Restaurants", href: "/sign-in", current: false },
-  { name: "Reviews", href: "/sign-in", current: false },
+  { name: "Home", href: "../restaurant/dashboard", current: true },
+  { name: "Add Offers", href: "../restaurant/add-offers", current: false },
+  { name: "Add Menu", href: "../restaurant/menu", current: false },
+  { name: "Add Location", href: "../restaurant/set-location", current: false },
 ];
 
 
@@ -50,7 +50,7 @@ const RestaurantHeader = () => {
   };
 
   return (
-    <Disclosure as="nav" className="bg-yellow-600">
+    <Disclosure as="nav" className="bg-yellow-500">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -127,7 +127,7 @@ const RestaurantHeader = () => {
                       <MenuItem>
                         {({ active }) => (
                           <a
-                          href= "/profile"
+                          href= "/restaurant/home"
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
