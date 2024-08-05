@@ -22,6 +22,8 @@ const navigation = [
   { name: "My Profile", href: "/profile" },
 ];
 
+const backendurl = import.meta.env.VITE_BACKEND_URL
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -42,7 +44,7 @@ const Header = () => {
 
   const handleSignout = async () => {
     try {
-      await fetch('http://localhost:5555/auth/signout');
+      await fetch(`${backendurl}/auth/signout`);
       dispatch(signOut());
       navigate('/');
     } catch (error) {

@@ -5,12 +5,14 @@ import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/
 import { useNavigate } from 'react-router-dom';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaUtensils, FaUtensilSpoon } from 'react-icons/fa';
 
+const backendurl = import.meta.env.VITE_BACKEND_URL
+
 const UserCurrentLocation = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "Your_API_KEY",
+    googleMapsApiKey: import.meta.env.VITE_MAP_API_KEY,
     libraries: ["places"],
   });
 
@@ -61,7 +63,7 @@ const UserCurrentLocation = () => {
     dispatch(updateUserStart());
 
     try {
-      const res = await fetch(`http://localhost:5555/user/${currentUser._id}/current-location`, {
+      const res = await fetch(`${backendurl}/user/${currentUser._id}/current-location`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,8 +98,8 @@ const UserCurrentLocation = () => {
   return (
 
     <div style={{ height: '100vh', width: '100%' }}>
-      <button className='absolute top-10 left-10 text-3xl text-neutral-700' ><FaArrowAltCircleLeft onClick={handleGoBack} /></button>
-      <button className='absolute top-10 right-10 text-3xl text-neutral-700' ><FaArrowAltCircleRight onClick={handleNext} /></button>
+      <button className='z-10 absolute top-10 left-10 text-5xl text-neutral-900 ' ><FaArrowAltCircleLeft onClick={handleGoBack} /></button>
+      <button className='z-10 absolute top-10 right-10 text-5xl text-neutral-900 ' ><FaArrowAltCircleRight onClick={handleNext} /></button>
 
       {message.text && (
         <div style={{
@@ -168,6 +170,10 @@ const UserCurrentLocation = () => {
           zoom={15}
           center={center}
           mapContainerStyle={{ width: '100%', height: '100%' }}
+          options={{
+            streetViewControl: false,
+            mapTypeControl: false,
+          }}
         >
           <Marker
             position={markerPosition}

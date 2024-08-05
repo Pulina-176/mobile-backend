@@ -2,14 +2,16 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useJsApiLoader, GoogleMap, Marker, Autocomplete } from '@react-google-maps/api';
 import { updateStart, updateSuccess, updateFailure } from '../redux/user/restaurantSlice';
-
+const backendurl = import.meta.env.VITE_BACKEND_URL
 const SetRestaurantLocation = () => {
   const { currentRestaurant } = useSelector((state) => state.restaurant);
   const dispatch = useDispatch();
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "Your_API_KEY",
+    googleMapsApiKey: import.meta.env.VITE_MAP_API_KEY ,
     libraries: ["places"],
   });
+
+  console.log( import.meta.env.VITE_MAP_API_KEY )
 
   const [center, setCenter] = useState({ lat: 6.0329, lng: 80.2168 });
   const originRef = useRef();
@@ -51,7 +53,7 @@ const SetRestaurantLocation = () => {
     dispatch(updateStart());
 
     try {
-      const res = await fetch(`http://localhost:5555/restaurant/${currentRestaurant._id}/update-location`, {
+      const res = await fetch(`${backendurl}/restaurant/${currentRestaurant._id}/update-location`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

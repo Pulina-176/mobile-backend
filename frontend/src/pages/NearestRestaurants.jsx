@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaEye, FaRegStar, FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaStar, FaStarHalfAlt, FaSearch, FaChevronDown, FaExpand } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import Spinner from "../components/Spinner";
 
 const NearestRestaurants = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const NearestRestaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [distance, setDistance] = useState(5000);
   const [loading, setLoading] = useState(false);
+  const backendurl = import.meta.env.VITE_BACKEND_URL
 
   useEffect(() => {
     if (currentUser) {
@@ -23,7 +25,7 @@ const NearestRestaurants = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:5555/user/${currentUser._id}/nearest-restaurant?distance=${distance}`,
+        `${backendurl}/user/${currentUser._id}/nearest-restaurant?distance=${distance}`,
         {
           method: "GET",
           headers: {
@@ -89,7 +91,7 @@ const NearestRestaurants = () => {
           </div>
         </div>
 
-        {loading && <p className="text-center text-gray-500">Loading...</p>}
+        {loading && <p className="text-center text-gray-500"><Spinner /></p>}
 
         {restaurants.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

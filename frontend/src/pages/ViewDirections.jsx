@@ -11,9 +11,11 @@ import {
 import { FaCar, FaWalking, FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaMap } from 'react-icons/fa'; // Added FaMap
 import { BiSolidCar } from 'react-icons/bi';
 
+const backendurl = import.meta.env.VITE_BACKEND_URL
+
 const ViewDirections = () => {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "YOUR_API_KEY", // Replace with your API key
+    googleMapsApiKey: import.meta.env.VITE_MAP_API_KEY, // Replace with your API key
   });
 
   const { currentUser } = useSelector((state) => state.user);
@@ -33,7 +35,7 @@ const ViewDirections = () => {
   useEffect(() => {
     const fetchRestaurantDetails = async () => {
       try {
-        const res = await fetch(`http://localhost:5555/restaurant/${id}`, {
+        const res = await fetch(`${backendurl}/restaurant/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

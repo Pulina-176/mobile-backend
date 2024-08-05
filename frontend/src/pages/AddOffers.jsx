@@ -11,6 +11,8 @@ import { app } from "../firebase";
 import RestaurantHeader from "../components/RestaurantHeader";
 import { FaUpload } from "react-icons/fa";
 
+const backendurl = import.meta.env.VITE_BACKEND_URL
+
 const AddOffers = () => {
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
@@ -66,7 +68,7 @@ const AddOffers = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:5555/restaurant/${currentRestaurant._id}/specialdeals`,
+        `${backendurl}/restaurant/${currentRestaurant._id}/specialdeals`,
         {
           method: "POST",
           headers: {

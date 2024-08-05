@@ -19,6 +19,8 @@ import {
 } from "../redux/user/restaurantSlice";
 import { FaUser } from "react-icons/fa";
 
+const backendurl = import.meta.env.VITE_BACKEND_URL
+
 const RestaurantHome = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -112,7 +114,7 @@ const RestaurantHome = () => {
     try {
       dispatch(updateStart());
       const res = await fetch(
-        ` http://localhost:5555/restaurant/update/${currentRestaurant._id}`,
+        ` ${backendurl}/restaurant/update/${currentRestaurant._id}`,
         {
           method: "POST",
           headers: {

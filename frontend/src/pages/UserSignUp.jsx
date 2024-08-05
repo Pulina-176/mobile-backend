@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
 
+const backendurl = import.meta.env.VITE_BACKEND_URL
+
 const UserSignUp = () => {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
@@ -17,7 +19,7 @@ const UserSignUp = () => {
     setError(null);
 
     try {
-      const res = await fetch("http://localhost:5555/auth/signup", {
+      const res = await fetch(`${backendurl}/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

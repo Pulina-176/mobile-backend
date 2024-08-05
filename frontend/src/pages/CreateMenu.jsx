@@ -11,6 +11,8 @@ import { app } from "../firebase";
 import RestaurantHeader from "../components/RestaurantHeader";
 import { FaUpload } from "react-icons/fa";
 
+const backendurl = import.meta.env.VITE_BACKEND_URL
+
 const CreateMenu = () => {
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
@@ -85,7 +87,7 @@ const CreateMenu = () => {
   const handleAddCategory = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5555/restaurant/${currentRestaurant._id}/category`,
+        `${backendurl}/restaurant/${currentRestaurant._id}/category`,
         {
           method: "POST",
           headers: {
@@ -122,7 +124,7 @@ const CreateMenu = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:5555/restaurant/${currentRestaurant._id}/menu`,
+        `${backendurl}/restaurant/${currentRestaurant._id}/menu`,
         {
           method: "POST",
           headers: {

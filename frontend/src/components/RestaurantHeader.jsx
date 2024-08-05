@@ -21,7 +21,7 @@ const navigation = [
   { name: "Add Location", href: "../restaurant/set-location", current: false },
 ];
 
-
+const backendurl = import.meta.env.VITE_BACKEND_URL
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -33,8 +33,9 @@ const RestaurantHeader = () => {
   const dispatch = useDispatch();
   const handleSignout = async() => {
     try {
-      await fetch('http://localhost:5555/restaurant/signout');
+      await fetch(`${backendurl}/restaurant/signout`);
       dispatch(signOut());
+      navigate("/restaurant/sign-in");
       
     } catch (error) {
       console.log(error);

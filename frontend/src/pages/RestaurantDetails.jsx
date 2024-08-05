@@ -17,6 +17,8 @@ import {
 } from "react-icons/fa";
 import StarRating from "../components/StarRating";
 
+const backendurl = import.meta.env.VITE_BACKEND_URL
+
 const RestaurantDetails = () => {
   const { id } = useParams(); // Get the restaurant ID from the URL
   const [restaurant, setRestaurant] = useState(null);
@@ -37,7 +39,7 @@ const RestaurantDetails = () => {
     const rating = stars;
     try {
       const res = await fetch(
-        `http://localhost:5555/restaurant/${id}/addrating`,
+        `${backendurl}/restaurant/${id}/addrating`,
         {
           method: "POST",
           headers: {
@@ -62,7 +64,7 @@ const RestaurantDetails = () => {
   useEffect(() => {
     const fetchRestaurantDetails = async () => {
       try {
-        const res = await fetch(`http://localhost:5555/restaurant/${id}`, {
+        const res = await fetch(`${backendurl}/restaurant/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

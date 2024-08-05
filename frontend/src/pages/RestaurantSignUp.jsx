@@ -7,6 +7,7 @@ import {
   signUpStart,
 } from "../redux/user/restaurantSlice";
 import { Link } from "react-router-dom";
+const backendurl = import.meta.env.VITE_BACKEND_URL
 
 const RestaurantSignUp = () => {
   const [formData, setFormData] = useState({});
@@ -25,7 +26,7 @@ const RestaurantSignUp = () => {
 
     try {
       dispatch(signUpStart());
-      const res = await fetch("http://localhost:5555/restaurant/signup", {
+      const res = await fetch(`${backendurl}/restaurant/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

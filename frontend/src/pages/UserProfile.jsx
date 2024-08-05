@@ -18,6 +18,8 @@ import {
   deleteUserSuccess,
   deleteUserFailure,
 } from "../redux/user/userSlice";
+import { FaSadCry } from "react-icons/fa";
+const backendurl = import.meta.env.VITE_BACKEND_URL
 
 const UserProfile = () => {
   const fileRef = useRef(null);
@@ -26,6 +28,8 @@ const UserProfile = () => {
   const [imagePercent, setImagePercent] = useState(0);
   const [imageError, setImageError] = useState(false);
   const [formData, setFormData] = useState({});
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     if (image) {
@@ -65,7 +69,7 @@ const UserProfile = () => {
     try {
       dispatch(updateUserStart());
       const res = await fetch(
-        `http://localhost:5555/user/update/${currentUser._id}`,
+        `${backendurl}/user/update/${currentUser._id}`,
         {
           method: "POST",
           headers: {
@@ -81,9 +85,10 @@ const UserProfile = () => {
         return;
       }
       dispatch(updateUserSuccess(data));
-      setUpdateSuccess(true);
+      setSuccess(true);
     } catch (error) {
       dispatch(updateUserFailure(error));
+      setError(true);
     }
   };
 
@@ -91,7 +96,7 @@ const UserProfile = () => {
     try {
       dispatch(deleteUserStart());
       const res = await fetch(
-        `http://localhost:5555/user/delete/${currentUser._id}`,
+        `${backendurl}/user/delete/${currentUser._id}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -234,6 +239,17 @@ const UserProfile = () => {
               </div>
             </div>
           </div>
+          {success && (
+              <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+                Updated successfully!!
+              </div>
+            )}
+
+            {error && (
+              <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                Update Failed! 
+              </div>
+            )}
 
           <div className="mt-6 flex items-center justify-start gap-x-4">
             <button
@@ -251,6 +267,7 @@ const UserProfile = () => {
             </button>
           </div>
         </form>
+        
       </div>
     </>
   );

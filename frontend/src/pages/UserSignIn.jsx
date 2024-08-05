@@ -12,6 +12,8 @@ import OAuth from "../components/OAuth";
 import { FaMap } from "react-icons/fa";
 import { signInFailure } from "../redux/user/restaurantSlice";
 
+const backendurl = import.meta.env.VITE_BACKEND_URL
+
 const UserSignIn = () => {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
@@ -29,7 +31,7 @@ const UserSignIn = () => {
     setError(null);
     try {
       dispatch(signInStart());
-      const res = await fetch("http://localhost:5555/auth/signin", {
+      const res = await fetch(`${backendurl}/auth/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

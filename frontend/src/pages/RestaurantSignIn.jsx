@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signInFailure, signInStart, signInSuccess } from "../redux/user/restaurantSlice";
-
+const backendurl = import.meta.env.VITE_BACKEND_URL
+console.log(backendurl)
 const RestaurantSignIn = () => {
   const [formData, setFormData] = useState({});
   const { loading, error } = useSelector((state) => state.restaurant);
@@ -31,7 +32,7 @@ const RestaurantSignIn = () => {
 
     try {
       dispatch(signInStart());
-      const res = await fetch("http://localhost:5555/restaurant/signin", {
+      const res = await fetch(`${backendurl}/restaurant/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

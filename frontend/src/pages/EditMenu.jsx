@@ -17,6 +17,8 @@ import RestaurantHeader from "../components/RestaurantHeader";
 import { useNavigate } from "react-router-dom";
 import { FaUpload } from "react-icons/fa";
 
+const backendurl = import.meta.env.VITE_BACKEND_URL
+
 const EditMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -72,7 +74,7 @@ const EditMenu = () => {
   const fetchMenuItem = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5555/restaurant/${id}/menu/show/${menuid}`,
+        `${backendurl}/restaurant/${id}/menu/show/${menuid}`,
         {
           method: "GET",
           headers: {
@@ -95,7 +97,7 @@ const EditMenu = () => {
     try {
       dispatch(updateStart());
       const res = await fetch(
-        `http://localhost:5555/restaurant/${id}/menu/edit/${menuid}`,
+        `${backendurl}/restaurant/${id}/menu/edit/${menuid}`,
         {
           method: "POST",
           headers: {

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Spinner from "../components/Spinner";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { signOut } from "../redux/user/restaurantSlice";
 import {
   FaBars,
   FaHome,
@@ -14,7 +16,6 @@ import {
   FaQuestionCircle,
   FaEdit,
   FaTrash,
-  FaSadCry,
   FaSadTear,
   FaStar,
   FaStarHalfAlt,
@@ -23,6 +24,7 @@ import {
   FaInfo,
   FaListAlt,
   FaHamburger,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import {
   updateStart,
@@ -33,7 +35,10 @@ import {
   deleteRestaurantStart,
 } from "../redux/user/restaurantSlice";
 
+const backendurl = import.meta.env.VITE_BACKEND_URL
+
 const RestaurantDashboard = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [profileData, setProfileData] = useState(null);
   const { currentRestaurant } = useSelector((state) => state.restaurant);
@@ -53,16 +58,29 @@ const RestaurantDashboard = () => {
   const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
   const formattedRating = currentRestaurant.averageRating.toFixed(1);
 
+  
+
   // Example profile photo URL
   const profilePhotoUrl = currentRestaurant.profilePicture;
   // Example cover photo URL
   const coverPhotoUrl = currentRestaurant.coverPhoto;
 
+  const handleSignout = async() => {
+    try {
+      await fetch(`${backendurl}/restaurant/signout`);
+      dispatch(signOut());
+      navigate("/restaurant/sign-in");
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleDeleteMenuItem = async (id, menuid) => {
     try {
       dispatch(updateStart());
       const response = await fetch(
-        `http://localhost:5555/restaurant/${id}/menu/delete/${menuid}`,
+        `${backendurl}/restaurant/${id}/menu/delete/${menuid}`,
         {
           method: "DELETE",
           headers: {
@@ -98,7 +116,7 @@ const RestaurantDashboard = () => {
     try {
       dispatch(updateStart());
       const response = await fetch(
-        `http://localhost:5555/restaurant/${id}/offers/delete/${offerid}`,
+        `${backendurl}/restaurant/${id}/offers/delete/${offerid}`,
         {
           method: "DELETE",
           headers: {
@@ -130,7 +148,7 @@ const RestaurantDashboard = () => {
     try {
       dispatch(deleteRestaurantStart());
       const res = await fetch(
-        `http://localhost:5555/restaurant/delete/${currentRestaurant._id}`,
+        `${backendurl}/restaurant/delete/${currentRestaurant._id}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -153,7 +171,7 @@ const RestaurantDashboard = () => {
     const handleFill = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5555/restaurant/myprofile/${currentRestaurant._id}`,
+          `${backendurl}/restaurant/myprofile/${currentRestaurant._id}`,
           {
             method: "GET",
             headers: {
@@ -229,7 +247,7 @@ const RestaurantDashboard = () => {
             htmlFor="my-drawer"
             className="drawer-button p-2 rounded-full shadow-lg bg-yellow-500 text-white hover:bg-yellow-600 cursor-pointer"
           >
-            <FaBars className="text-2xl" />
+            <FaBars className="text-3xl font-extrabold" />
           </label>
           <div className=" pl-32">
             <dt className="text-3xl font-extrabold text-neutral-700 leading-tight items-center flex gap-4">
@@ -301,24 +319,20 @@ const RestaurantDashboard = () => {
                           <div className="text-red-500 text-lg">
                             <button
                               className="btn"
-                              onClick={() =>
-                                document
-                                  .getElementById("my_modal_2")
-                                  .showModal()
-                              }
+                              onClick={() => handleDeleteOffer(currentRestaurant._id, deal._id)}
                             >
                               <div className=" text-lg">
                                 <FaTrash className="text-red-500" />
                               </div>
                             </button>
-                            <dialog id="my_modal_2" className="modal">
+                            {/* <dialog id="my_modal_2" className="modal">
                               <div className="modal-box">
                                 <h3 className="font-bold text-lg text-black">
                                   Are You sure you want to delete this Offer?
                                 </h3>
                                 <div className="modal-action">
                                   <form method="dialog">
-                                    {/* if there is a button in form, it will close the modal */}
+                                    
                                     <button
                                       className="btn btn-error"
                                       onClick={() =>
@@ -337,7 +351,7 @@ const RestaurantDashboard = () => {
                                   </form>
                                 </div>
                               </div>
-                            </dialog>
+                            </dialog> */}
                           </div>
                           <button className="btn btn-neutral">
                             {deal.price_discount}
@@ -417,17 +431,14 @@ const RestaurantDashboard = () => {
                                 <div className="text-red-500 text-lg">
                                   <button
                                     className="btn"
-                                    onClick={() =>
-                                      document
-                                        .getElementById("my_modal_1")
-                                        .showModal()
+                                    onClick={() => handleDeleteMenuItem(currentRestaurant._id, item._id)
                                     }
                                   >
                                     <div className="text-red-500 text-lg">
                                       <FaTrash />
                                     </div>
                                   </button>
-                                  <dialog id="my_modal_1" className="modal">
+                                  {/* <dialog id="my_modal_1" className="modal">
                                     <div className="modal-box">
                                       <h3 className="font-bold text-lg text-black">
                                         Are You sure you want to delete this
@@ -435,7 +446,6 @@ const RestaurantDashboard = () => {
                                       </h3>
                                       <div className="modal-action">
                                         <form method="dialog">
-                                          {/* if there is a button in form, it will close the modal */}
                                           <button
                                             className="btn btn-error"
                                             onClick={() =>
@@ -454,7 +464,7 @@ const RestaurantDashboard = () => {
                                         </form>
                                       </div>
                                     </div>
-                                  </dialog>
+                                  </dialog> */}
                                 </div>
                               </div>
                             </div>
@@ -561,6 +571,15 @@ const RestaurantDashboard = () => {
                   </div>
                 </div>
               </dialog>
+            </li>
+            <li className="mb-2">
+              <a
+                className="flex items-center p-2 rounded-lg hover:bg-gray-200"
+                onClick={() => handleSignout()}
+                
+              >
+                <FaSignOutAlt className="mr-2" /> Sign out
+              </a>
             </li>
           </ul>
         </div>
