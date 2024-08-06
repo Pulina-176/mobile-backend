@@ -17,7 +17,7 @@ app.use(express.json()); //alow json as the input of our backend
 app.use(cookieParser());
 //Middleware for handling CORS POLICY
 app.use(cors({
-    origin: [process.env.FRONTEND_URL],
+    origin: [process.env.FRONTEND_URL,'https://appete.onrender.com'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type'],
     credentials: true, // Allow credentials (cookies)
