@@ -17,7 +17,7 @@ app.use(express.json()); //alow json as the input of our backend
 app.use(cookieParser());
 //Middleware for handling CORS POLICY
 app.use(cors({
-    origin: [process.env.FRONTEND_URL,'https://appete.onrender.com'],
+    origin: [process.env.FRONTEND_URL],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type'],
     credentials: true, // Allow credentials (cookies)
@@ -42,7 +42,7 @@ app.get('/', (request,response)=>{
 
 app.use('/restaurant', restaurantRoute);
 app.use('/user', userRoute);
-app.use('auth', authRoute);
+app.use('/auth', authRoute);
 
 mongoose
     .connect(mongoDBURL)
