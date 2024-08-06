@@ -42,7 +42,7 @@ app.get('/', (request,response)=>{
 
 app.use('/restaurant', restaurantRoute);
 app.use('/user', userRoute);
-app.use('/auth', authRoute);
+app.use('auth', authRoute);
 
 mongoose
     .connect(mongoDBURL)
