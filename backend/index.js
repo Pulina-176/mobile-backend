@@ -18,8 +18,7 @@ app.use(cookieParser());
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true, // Allow credentials (cookies)
+    allowedHeaders: ['Content-Type'],// Allow credentials (cookies)
   }));//to recieve data from different URLS
 app.use(helmet());
 
