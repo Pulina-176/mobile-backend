@@ -16,7 +16,7 @@ app.use(express.json()); //alow json as the input of our backend
 app.use(cookieParser());
 //Middleware for handling CORS POLICY
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: ['http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type'],
     credentials: true, // Allow credentials (cookies)
