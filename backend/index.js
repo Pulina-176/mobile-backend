@@ -13,15 +13,21 @@ import cookieParser from "cookie-parser";
 const app = express();
 dotenv.config();
 app.use(express.json()); //alow json as the input of our backend
+
+app.use(cors());
+
 app.use(cookieParser());
 //Middleware for handling CORS POLICY
-app.use(cors({
-    origin: ['http://localhost:5173', 'https://appete.onrender.com', 'https://appete-service.onrender.com'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true, // Allow credentials (cookies)
-  }));//to recieve data from different URLS
+// app.use(cors({
+//     origin: ['http://localhost:5173', 'https://appete.onrender.com', 'https://appete-service.onrender.com'],
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type'],
+//     credentials: true, // Allow credentials (cookies)
+//   }));//to recieve data from different URLS
+
 app.use(helmet());
+
+
 
 // app.use(
 //     cors({
