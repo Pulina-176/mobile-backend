@@ -2,7 +2,6 @@ import express from "express";
 import dotenv from 'dotenv';
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
-import Restaurant from './models/restaurantModel.js';
 import restaurantRoute from './routes/restaurantsRoute.js';
 import userRoute from './routes/userRoute.js';
 import authRoute from  './routes/authRoute.js';
@@ -16,12 +15,14 @@ app.use(express.json()); //alow json as the input of our backend
 
 app.use(cookieParser());
 //Middleware for handling CORS POLICY
-app.use(cors({
-    origin: [process.env.FRONTEND_URL,'https://appete.onrender.com'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true, // Allow credentials (cookies)
-  }));//to recieve data from different URLS
+// app.use(cors({
+//     origin: [process.env.FRONTEND_URL,'https://appete.onrender.com'],
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type'],
+//     credentials: true, // Allow credentials (cookies)
+//   }));//to recieve data from different URLS
+
+app.use(cors());
 
 app.use(helmet());
 
