@@ -10,5 +10,6 @@ router.post("/update/:id",verifyToken, updateUser)
 router.delete("/delete/:id",verifyToken, deleteUser)
 router.post("/:id/current-location",verifyToken,addCurrentLocation)
 router.get("/:id/nearest-restaurant",verifyToken,showNearestRestaurant)
+router.get("/:id/nearest-restaurant-guest",showNearestRestaurant)
 
 export default router;
