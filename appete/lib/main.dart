@@ -1,6 +1,7 @@
 import 'package:appete/views/entryPoint.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:appete/views/auth/login_User.dart';
 
 
 void main() {
@@ -14,10 +15,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Poppins'),
-      home: MainScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(fontFamily: 'Poppins'),
+        home: LoginPage(),
+        routes: {
+          '/home': (context) => MainScreen(), // Define the home route
+        },
+      );
   }
+
 }
+
+
+
+
 
