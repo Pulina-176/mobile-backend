@@ -1,10 +1,9 @@
 import 'package:appete/controllers/auth_user_controller.dart';
-import 'package:appete/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
-  // final AuthService _loginController = Get.put(AuthService());
+  final AuthService _loginController = Get.put(AuthService());
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +31,22 @@ class LoginPage extends StatelessWidget {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => {
-
+                  
               },
               child: Text('Login'),
             ),
             ElevatedButton(
-              onPressed: () => {}, 
-              // () async {
-              //   dynamic result = await _loginController.signInAnon();
-              //   if (result == null) {
-              //     print('error signing in');
-              //   } else {
-              //     print('signed in');
-              //     print(result.uid);
-              //   } 
-              // },
+              onPressed: 
+              () async {
+                dynamic result = await _loginController.signInAnon();
+                if (result == null) {
+                  print('error signing in');
+                } else {
+                  print('signed in');
+                  print(result.uid);
+                  Get.toNamed('/home');
+                } 
+              },
               child: Text('Go as Guest'),
             ),
           ],
