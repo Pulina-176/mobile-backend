@@ -22,36 +22,35 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 16),
             TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
+            ),
             SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () => {
-                  
-              },
+              onPressed: () => {Get.toNamed('/home')},
               child: Text('Login'),
             ),
             ElevatedButton(
-              onPressed: 
-              () async {
-                dynamic result = await _loginController.signInAnon();
-                if (result == null) {
-                  print('error signing in');
-                } else {
-                  print('signed in');
-                  print(result.uid);
-                  Get.toNamed('/home');
-                } 
-              },
+              onPressed: signAsGuest,
               child: Text('Go as Guest'),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void signAsGuest() async {
+    dynamic result = await _loginController.signInAnon();
+    if (result == null) {
+      print('error signing in');
+    } else {
+      print('signed in');
+      print(result.uid);
+      Get.toNamed('/start');
+    }
   }
 }
