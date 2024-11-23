@@ -1,13 +1,19 @@
+import 'package:appete/controllers/current_address_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomePage_User extends StatelessWidget {
-  const HomePage_User({super.key});
+  HomePage_User({super.key});
+
+  final CurrentAddressController _addressController = Get.put(CurrentAddressController());
+  late String test;
 
   @override
   Widget build(BuildContext context) {
+    test = _addressController.getAddress;
     return Scaffold(
-      body: const Center(
-        child: Text("Home Page"),
+      body: Center(
+        child: Text(test),
       ),
     );
   }

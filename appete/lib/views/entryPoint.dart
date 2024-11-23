@@ -10,7 +10,7 @@ class MainScreen extends StatelessWidget {
   MainScreen({super.key});
   // This widget is the home page of the application
 
-  List<Widget> pageList = const [
+  List<Widget> pageList = [
     HomePage_User(),
     FavoritesPage(),
     FavoritesPage(),
