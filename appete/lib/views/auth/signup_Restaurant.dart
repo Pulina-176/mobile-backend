@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class RestaurantSignUp extends StatelessWidget {
-  const RestaurantSignUp({super.key});
+  RestaurantSignUp({super.key});
+
+  final TextEditingController _email = TextEditingController();  
+  final TextEditingController _password = TextEditingController();  
+  final TextEditingController _confirmed_password = TextEditingController();  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.amber[200],
         elevation: 0.0,
@@ -21,16 +25,38 @@ class RestaurantSignUp extends StatelessWidget {
             children: <Widget>[
               SizedBox(height: 20.0),
               TextFormField(
+                controller: _email,
                 onChanged: (value) => {
 
                 },
+                decoration: InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                controller: _password,
                 obscureText: true,
                 onChanged: (val) {
 
                 },
+                decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                controller: _confirmed_password,
+                obscureText: true,
+                onChanged: (val) {
+
+                },
+                decoration: InputDecoration(
+                labelText: 'Confirm Password',
+                border: OutlineInputBorder(),
+              ),
               ),
               SizedBox(height: 20.0),
               ElevatedButton(
@@ -47,4 +73,15 @@ class RestaurantSignUp extends StatelessWidget {
       ),
     );
   }
+
+  bool validateForm() {
+    if (_email.text.isEmpty) {
+      return false;
+    }
+    if (_password.text != _confirmed_password.text || _password.text.length < 6) {
+      return false;
+    }
+    return true;
+  }
+
 }

@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:appete/views/entryPoint.dart';
 import 'package:appete/views/auth/user_start.dart';
 import 'package:appete/views/auth/login_User.dart';
+import 'package:flutter/foundation.dart';
 
 
 import 'package:flutter/material.dart';
@@ -15,9 +16,26 @@ import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp().then((value) {
-      Get.put(AuthService());
+  
+  if(kIsWeb) {
+    Firebase.initializeApp(
+      options: const FirebaseOptions(
+            apiKey: "AIzaSyCsQ2VBjZRHOAwvtzz4XytSyVjAxgaPTdQ",
+            authDomain: "appete-project.firebaseapp.com",
+            projectId: "appete-project",
+            storageBucket: "appete-project.firebasestorage.app",
+            messagingSenderId: "535458211873",
+            appId: "1:535458211873:web:f262f14ebe6a905fee5b60"
+        )
+    ).then((value) {
+        Get.put(AuthService());
   });
+  }
+  else{
+    await Firebase.initializeApp().then((value) {
+        Get.put(AuthService());
+  });
+  }
 
   runApp(const MyApp());
 }
