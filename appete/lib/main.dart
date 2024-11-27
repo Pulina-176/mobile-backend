@@ -1,6 +1,8 @@
 // Firebase setup
 import 'package:appete/controllers/auth_user_controller.dart';
+import 'package:appete/views/auth/login_Restaurant.dart';
 import 'package:appete/views/auth/signup_Restaurant.dart';
+import 'package:appete/views/entryPoint_restaurant.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
@@ -48,10 +50,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: 'Poppins'),
-        home: RestaurantSignUp(),
+        theme: ThemeData(fontFamily: 'Inter'),
+        home: LoginPage_Restaurant(),
         routes: {
           '/home': (context) => MainScreen(), // Define the home route
+          '/home-rest': (context) => MainScreen_Restaurant(),
           '/start': (context) => UserStart()  // User Start Page
         },
       );
