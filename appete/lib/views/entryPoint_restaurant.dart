@@ -1,18 +1,19 @@
 import 'package:appete/controllers/tab_index_controller.dart';
 import 'package:appete/views/favourites/favorites_page.dart';
 import 'package:appete/views/home_User/home_page.dart';
+import 'package:appete/views/home_restaurant/home_r_page.dart';
 import 'package:appete/widgets/body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:appete/widgets/bottomNav.dart';
 import 'package:get/get.dart';
 
-class MainScreen extends StatelessWidget {
-  MainScreen({super.key});
+class MainScreen_Restaurant extends StatelessWidget {
+  MainScreen_Restaurant({super.key});
   // This widget is the home page of the application
 
   List<Widget> pageList = [
-    HomePage_User(),
+    HomePage_Restaurant(),
     FavoritesPage(),
     FavoritesPage(),
     HomePage_User()
