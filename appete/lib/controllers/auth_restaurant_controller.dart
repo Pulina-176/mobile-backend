@@ -9,10 +9,12 @@ class AuthRestaurantController extends GetxController{
   // Reference to FireStore collection
   final CollectionReference restaurantCollection = FirebaseFirestore.instance.collection('restaurants');
 
-  Future updateRestaurantData(String? uid, String name, String address) async{
+  Future updateRestaurantData(String? uid, String name, String address) async{  // this is used only for the signup process
     return await restaurantCollection.doc(uid).set({
+      'id': uid,
       'name': name,
-      'address': address
+      'address': address,
+      'categoryList': []
     }).catchError((e) => {
       print(e)
     }); 

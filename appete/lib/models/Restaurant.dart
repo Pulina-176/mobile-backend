@@ -6,34 +6,34 @@ String userToJson(List<Restaurant> data) => json.encode(List<dynamic>.from(data.
 
 class Restaurant {
 
+  String id;
   String name;
   String address;
   var categoryList = <String>[];
+  
 
   var deals = <Deal>[];
   var menuItems = <MenuItem>[]; 
   
   Restaurant({
+    required this.id,
     required this.name,
-    required this.address
-  });
-
-  void setMenuItem(MenuItem menu_item) {
-    menuItems.add(menu_item);
-  }
-
-  void setDeal(Deal deal) {
-    deals.add(deal);
-  }
+    required this.address, 
+    List<String>? categoryList, // Use nullable type
+}) : categoryList = categoryList ?? []; // Initialize with default
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
+    id: json["id"],
     name: json["name"],
-    address: json["address"]
+    address: json["address"],
+    categoryList: List<String>.from(json["categoryList"])
   );
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "name": name,
-    "address": address
+    "address": address,
+    "categoryList": categoryList
   };
 
 

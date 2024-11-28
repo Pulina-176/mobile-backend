@@ -21,8 +21,42 @@ class RestaurantController extends GetxController {
       DocumentSnapshot<Object?> querySnapshot = await restaurantCollection.doc(uid).get();
       _currentRestaurant.value = // extract from doc and form Restaurant object
           Restaurant.fromJson(querySnapshot.data() as Map<String, dynamic>);
+          print(querySnapshot.data());
+          print("query ${_currentRestaurant.value?.categoryList}");
     } catch (e) {
       Get.snackbar('Error', 'Failed to fetch restaurant data: $e');
     }
+  }
+
+  Future<void> addCategory(String category) async {
+    try{
+      _currentRestaurant.value?.categoryList.add(category);
+      await restaurantCollection.doc(_currentRestaurant.value?.id).update({"categoryList": _currentRestaurant.value?.categoryList});
+
+    }
+    catch(e){
+      Get.snackbar("Error", e.toString());
+    }
+  } 
+
+  Future<void> deleteCategory(String category) async {
+    try{
+      _currentRestaurant.value?.categoryList.remove(category);
+      await restaurantCollection.doc(_currentRestaurant.value?.id).update({"categoryList": _currentRestaurant.value?.categoryList});
+    }
+    catch(e){
+      Get.snackbar("Error", e.toString());
+    }
+  }
+
+  List<String> getCategories() {
+    try{
+      return _currentRestaurant.value!.categoryList;
+    }
+    catch(e) {
+      Get.snackbar("error", e.toString());
+      return [];
+    }
+
   }
 }

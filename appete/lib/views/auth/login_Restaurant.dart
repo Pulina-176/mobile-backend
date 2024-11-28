@@ -57,6 +57,7 @@ class LoginPage_Restaurant extends StatelessWidget {
         String uid = result.uid; // Unique ID for logged in user
 
         if (uid.isNotEmpty) {
+            print('getting uid doc ${uid}');
             await _currentRestaurant.getRestaurant(uid);
             Get.toNamed('/home-rest');
         }
