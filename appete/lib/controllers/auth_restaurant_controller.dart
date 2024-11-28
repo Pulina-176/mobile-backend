@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 class AuthRestaurantController extends GetxController{
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  late Rx<User?> _restaurant;
 
   // Reference to FireStore collection
   final CollectionReference restaurantCollection = FirebaseFirestore.instance.collection('restaurants');
@@ -32,6 +31,7 @@ class AuthRestaurantController extends GetxController{
     }
     catch (e) {
        Get.snackbar("Error", e.toString());
+       print(e.toString());
     }
   }
 

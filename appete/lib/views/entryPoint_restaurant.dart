@@ -1,6 +1,7 @@
 import 'package:appete/controllers/tab_index_controller.dart';
 import 'package:appete/views/favourites/favorites_page.dart';
 import 'package:appete/views/home_User/home_page.dart';
+import 'package:appete/views/home_restaurant/add_item.dart';
 import 'package:appete/views/home_restaurant/home_r_page.dart';
 import 'package:appete/widgets/body.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class MainScreen_Restaurant extends StatelessWidget {
   List<Widget> pageList = [
     HomePage_Restaurant(),
     FavoritesPage(),
-    FavoritesPage(),
+    AddItemPage(),
     HomePage_User()
   ];
 

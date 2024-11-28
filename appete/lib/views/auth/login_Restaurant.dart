@@ -1,10 +1,12 @@
 import 'package:appete/controllers/auth_restaurant_controller.dart';
 import 'package:appete/controllers/auth_user_controller.dart';
+import 'package:appete/controllers/restaurant_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginPage_Restaurant extends StatelessWidget {
-  final AuthRestaurantController _login = Get.put(AuthRestaurantController());
+  final AuthRestaurantController _login = Get.put(AuthRestaurantController()); // controller for authorization handling of Restaurant accounts
+  final RestaurantController _currentRestaurant = Get.put(RestaurantController()); // controller for logged restaurant functions
 
   final TextEditingController _email = TextEditingController();  
   final TextEditingController _password = TextEditingController();
@@ -19,6 +21,7 @@ class LoginPage_Restaurant extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: _email,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
@@ -26,6 +29,7 @@ class LoginPage_Restaurant extends StatelessWidget {
             ),
             SizedBox(height: 16),
             TextField(
+              controller: _password,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -48,6 +52,26 @@ class LoginPage_Restaurant extends StatelessWidget {
     String? email = _email.text; 
     String? password = _password.text;
 
-    dynamic result = await _login.signInWithEmailAndPassword(email, password);
+    if (validateForm()) {
+        dynamic result = await _login.signInWithEmailAndPassword(email, password);
+        String uid = result.uid; // Unique ID for logged in user
+
+        if (uid.isNotEmpty) {
+            await _currentRestaurant.getRestaurant(uid);
+            Get.toNamed('/home-rest');
+        }
+    }
+  }
+
+  bool validateForm() {
+    if (_email.text.isEmpty) {
+      Get.snackbar("Missing field", "You need to enter a valid email");
+      return false;
+    }
+    if (_password.text.isEmpty) {
+      Get.snackbar("Missing field", "Password is missing!");
+      return false;
+    }
+    return true;
   }
 }

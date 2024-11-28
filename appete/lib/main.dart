@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/home': (context) => MainScreen(), // Define the home route
           '/home-rest': (context) => MainScreen_Restaurant(),
+          '/signin-rest': (context) => LoginPage_Restaurant(),
           '/start': (context) => UserStart()  // User Start Page
         },
       );
