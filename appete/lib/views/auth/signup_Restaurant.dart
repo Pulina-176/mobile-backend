@@ -112,7 +112,7 @@ class RestaurantSignUp extends StatelessWidget {
 
     if (validateForm()) {
         dynamic result = await _restaurant.registerWithEmailAndPassword(email, password, name, address);
-        Get.toNamed('/home-rest');
+        Get.toNamed('/signin-rest');
     }
   }
 
