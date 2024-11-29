@@ -20,20 +20,24 @@ class Restaurant {
     required this.name,
     required this.address, 
     List<String>? categoryList, // Use nullable type
-}) : categoryList = categoryList ?? []; // Initialize with default
+    List<MenuItem>? menuItems, // Use nullable type
+  }) : categoryList = categoryList ?? [], // Initialize with default
+       menuItems = menuItems ?? []; // Initialize with default
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
     id: json["id"],
     name: json["name"],
     address: json["address"],
-    categoryList: List<String>.from(json["categoryList"])
+    categoryList: List<String>.from(json["categoryList"]),
+    menuItems: List<MenuItem>.from(json["menuItems"].map((x) => MenuItem.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
     "address": address,
-    "categoryList": categoryList
+    "categoryList": categoryList,
+    "menuItem": menuItems
   };
 
 
@@ -74,14 +78,14 @@ class MenuItem {
   String category;
   String itemName;
   String description;
-  String photo;
+  // String photo;
   String price;
 
   MenuItem({
     required this.category,
     required this.itemName,
     required this.description,
-    required this.photo,
+    // required this.photo,
     required this.price,
   });
 
@@ -89,7 +93,7 @@ class MenuItem {
     category: json["category"],
     itemName: json["itemName"],
     description: json["description"],
-    photo: json["photo"],
+    // photo: json["photo"],
     price: json["price"],
   );
 
@@ -97,7 +101,7 @@ class MenuItem {
     "category": category,
     "itemName": itemName,
     "description": description,
-    "photo": photo,
+    // "photo": photo,
     "price": price,
   };
 }
