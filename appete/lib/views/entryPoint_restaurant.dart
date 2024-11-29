@@ -22,15 +22,18 @@ class MainScreen_Restaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(TabIndexController());  // controller to identify which tab is opened
+    final controller = Get.put(
+        TabIndexController()); // controller to identify which tab is opened
     return Scaffold(
-        appBar: appBar(),
-        body: Body(controller: controller, pageList: pageList), // pass down props to Body
-        );
+      appBar: appBar(),
+      body: Body(
+          controller: controller,
+          pageList: pageList), // pass down props to Body
+    );
   }
 
   AppBar appBar() {
-  return AppBar(
+    return AppBar(
       title: Text(
         'Appete',
         style: TextStyle(
@@ -84,6 +87,5 @@ class MainScreen_Restaurant extends StatelessWidget {
         )
       ],
     );
-}
-
+  }
 }
