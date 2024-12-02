@@ -1,99 +1,110 @@
 import 'package:flutter/material.dart';
-import 'package:appete/constants/uidata.dart'; // Import uidata where restaurants list is defined
+import 'package:get/get.dart';
+import 'package:appete/controllers/search_near_controller.dart'; // Import SearchNearController
+import 'package:appete/controllers/current_address_controller.dart'; // Import CurrentAddressController
+import 'package:appete/models/Restaurant.dart'; // Import the Restaurant model
 
 class NearbyRestaurantList extends StatelessWidget {
-  const NearbyRestaurantList({super.key});
+  final SearchNearController searchNearController =
+      Get.put(SearchNearController());
+  final CurrentAddressController currentAddressController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    searchNearController.fetchRestaurants();
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Nearby Restaurants", // Title for the AppBar
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true, // Center the title
-        backgroundColor: Colors.yellow[700], // Customize the background color
-        elevation: 4, // Shadow for the AppBar
+        title: Text('Search Restaurants'),
+        backgroundColor: Colors.green,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(12),
-        child: GridView.builder(
-          physics: const BouncingScrollPhysics(), // Smooth scrolling
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1, // 2 widgets per row
-            crossAxisSpacing: 12, // Space between columns
-            mainAxisSpacing: 12, // Space between rows
-            childAspectRatio: 4 / 3, // Adjusted height for widgets
-          ),
-          itemCount: restaurants.length,
-          itemBuilder: (context, index) {
-            var restaurant = restaurants[index]; // Get restaurant details
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            // Search bar for filtering restaurants by city
+            TextField(
+              onChanged: (value) {
+                searchNearController.setCity(currentAddressController, value);
+              },
+              decoration: InputDecoration(
+                labelText: 'Search by City',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+            SizedBox(height: 20),
+            // Clear search button
+            ElevatedButton(
+              onPressed: () {
+                searchNearController.clearSearch();
+              },
+              child: Text('Clear Search'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+                onPressed: () {
+                  searchNearController.searchByCity(currentAddressController);
+                },
+                child: Text('Get Restaurants')),
+            SizedBox(height: 20),
+            // Reactive list of filtered restaurants
+            Expanded(
+              child: Obx(() {
+                // Show loading indicator if restaurants are being fetched
+                if (searchNearController.getFilteredRestaurants.isEmpty) {
+                  return Center(child: CircularProgressIndicator());
+                }
 
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(12), // Rounded corners
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 6,
-                    offset: const Offset(2, 2), // Shadow positioning
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Display restaurant image
-                  ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(12),
-                    ),
-                    child: Image.asset(
-                      "assets/images/home.png", // Replace with actual image path
-                      height: 140, // Image height
-                      width: double.infinity,
-                      fit: BoxFit.cover, // Ensures the image fills the space
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Display restaurant name
-                          Text(
-                            "Hungry Galle", // Replace with actual key
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 6),
-                          // Display restaurant location or rating
-                          Text(
-                            "Restaurant Location", // Replace with actual key
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
+                // Display the filtered restaurants list
+                return ListView.builder(
+                  itemCount: searchNearController.getFilteredRestaurants.length,
+                  itemBuilder: (context, index) {
+                    final restaurant =
+                        searchNearController.getFilteredRestaurants[index];
+                    return RestaurantCard(restaurant: restaurant);
+                  },
+                );
+              }),
+            ),
+          ],
         ),
       ),
     );
+  }
+}
+
+// Widget for displaying a single restaurant
+class RestaurantCard extends StatelessWidget {
+  final Restaurant restaurant;
+
+  const RestaurantCard({required this.restaurant});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        elevation: 5,
+        child: SizedBox(
+          height: 100,
+          child: ListTile(
+              leading: restaurant.photo.isNotEmpty
+                  ? Image.network(
+                      restaurant.photo, // Use the photo URL
+                      width: 100,
+                      height: 120,
+                      fit: BoxFit.cover,
+                    )
+                  : Icon(Icons
+                      .restaurant), // Placeholder if photo is not available
+              title: Text(restaurant.name),
+              subtitle: Text(restaurant.address),
+              trailing: IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: () {
+                  // Navigate to the restaurant details page and pass the restaurant ID
+                  Get.toNamed('/view-rest', arguments: {'id': restaurant.id});
+                },
+              )),
+        ));
   }
 }

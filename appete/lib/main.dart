@@ -4,6 +4,7 @@ import 'package:appete/views/welcome/appStart.dart';
 import 'package:appete/views/auth/login_Restaurant.dart';
 import 'package:appete/views/auth/signup_Restaurant.dart';
 import 'package:appete/views/entryPoint_restaurant.dart';
+import 'package:appete/views/favourites/widgets/view_restaurant.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 // // Import the Cloudinary packages.
@@ -16,18 +17,18 @@ import 'package:cloudinary/cloudinary.dart';
 import 'package:appete/views/entryPoint.dart';
 import 'package:appete/views/auth/user_start.dart';
 import 'package:appete/views/auth/login_User.dart';
-import 'package:flutter/foundation.dart'; 
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // CloudinaryContext.cloudinary =
   //     Cloudinary.fromCloudName(cloudName: 'dskifca6z');
-  
-  if(kIsWeb) {
+
+  if (kIsWeb) {
     Firebase.initializeApp(
             options: const FirebaseOptions(
                 apiKey: "AIzaSyCsQ2VBjZRHOAwvtzz4XytSyVjAxgaPTdQ",
@@ -63,7 +64,9 @@ class MyApp extends StatelessWidget {
         '/home-rest': (context) => MainScreen_Restaurant(),
         '/signin-rest': (context) => LoginPage_Restaurant(),
         '/start': (context) => UserStart(), // User Start Page
-        '/restaurant-signup': (context) => RestaurantSignUp()
+        '/restaurant-signup': (context) => RestaurantSignUp(),
+        '/view-rest': (context) =>
+            ViewRestaurant(restaurantId: Get.arguments['id']),
       },
     );
   }
