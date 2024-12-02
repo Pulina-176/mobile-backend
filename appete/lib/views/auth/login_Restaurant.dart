@@ -2,16 +2,16 @@ import 'dart:io';
 
 import 'package:appete/controllers/auth_restaurant_controller.dart';
 import 'package:appete/controllers/auth_user_controller.dart';
+import 'package:appete/controllers/menu_controller.dart';
 import 'package:appete/controllers/restaurant_controller.dart';
 import 'package:appete/views/auth/signup_Restaurant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginPage_Restaurant extends StatelessWidget {
-  final AuthRestaurantController _login = Get.put(
-      AuthRestaurantController()); // controller for authorization handling of Restaurant accounts
-  final RestaurantController _currentRestaurant = Get.put(
-      RestaurantController()); // controller for logged restaurant functions
+  final AuthRestaurantController _login = Get.put(AuthRestaurantController()); // controller for authorization handling of Restaurant accounts
+  final RestaurantController _currentRestaurant = Get.put(RestaurantController()); // controller for logged restaurant functions
+  final Menu_Controller _menu = Get.put(Menu_Controller()); // controller for getting menu Items
 
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
@@ -85,11 +85,12 @@ class LoginPage_Restaurant extends StatelessWidget {
       dynamic result = await _login.signInWithEmailAndPassword(email, password);
       String uid = result.uid; // Unique ID for logged in user
 
-      if (uid.isNotEmpty) {
-        print('getting uid doc ${uid}');
-        await _currentRestaurant.getRestaurant(uid);
-        Get.toNamed('/home-rest');
-      }
+        if (uid.isNotEmpty) {
+            print('getting uid doc ${uid}');
+            await _currentRestaurant.getRestaurant(uid);
+            await _menu.fetchMenuItems(uid);
+            Get.toNamed('/home-rest');
+        }
     }
   }
 

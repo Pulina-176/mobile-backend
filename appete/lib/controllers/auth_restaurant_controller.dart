@@ -14,10 +14,22 @@ class AuthRestaurantController extends GetxController{
       'id': uid,
       'name': name,
       'address': address,
-      'categoryList': []
+      'categoryList': [],
+      'menuItems' : []
     }).catchError((e) => {
       print(e)
     }); 
+  }
+
+  // sign out
+  Future<void> signOut() async {
+    try {
+      await _auth.signOut();
+      Get.snackbar("Success", "Signed out successfully");
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+      print(e.toString());
+    }
   }
 
   // sign in with email and password
