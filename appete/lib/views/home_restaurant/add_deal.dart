@@ -1,6 +1,7 @@
 import 'package:appete/controllers/menu_controller.dart';
 import 'package:appete/controllers/restaurant_controller.dart';
 import 'package:appete/models/Restaurant.dart';
+import 'package:appete/views/home_restaurant/widgets/dealImagePicker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,16 +17,14 @@ class AddDeal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false, // This removes the back button
-        title: Text('Add Deal'),
-      ),
-      body: Padding(
+
+      body: SingleChildScrollView( // Wrap the body with SingleChildScrollView for scrolling
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
+              UploadDealImage(),
               TextFormField(
                 controller: _titleController,
                 decoration: InputDecoration(labelText: 'Promotion Title'),
@@ -72,6 +71,7 @@ class AddDeal extends StatelessWidget {
                       name: title,
                       dealDescription: description,
                       priceDiscount: offer,
+                      photo: 'https://via.placeholder.com/150',
                     );
 
                     // Add deal to the database

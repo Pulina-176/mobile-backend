@@ -23,11 +23,11 @@ class BottomNavigation extends StatelessWidget {
         label: 'Home',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.search),
+        icon: Icon(Icons.list),
         label: 'Search',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.favorite),
+        icon: Icon(Icons.add),
         label: 'Favorites',
       ),
       BottomNavigationBarItem(

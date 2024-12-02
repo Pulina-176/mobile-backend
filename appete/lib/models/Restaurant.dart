@@ -63,27 +63,27 @@ class Restaurant {
 class Deal {
   String name;
   String dealDescription;
-  // String photo;
+  String photo;
   String priceDiscount;
 
   Deal({
     required this.name,
     required this.dealDescription,
-    // required this.photo,
+    required this.photo,
     required this.priceDiscount,
   });
 
   factory Deal.fromJson(Map<String, dynamic> json) => Deal(
     name: json["name"],
     dealDescription: json["dealDescription"],
-    // photo: json["photo"],
+    photo: json["photo"],
     priceDiscount: json["priceDiscount"],
   );
 
   Map<String, dynamic> toJson() => {
     "name": name,
     "dealDescription": dealDescription,
-    // "photo": photo,
+    "photo": photo,
     "priceDiscount": priceDiscount,
   };
 }
