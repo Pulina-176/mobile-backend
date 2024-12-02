@@ -1,6 +1,7 @@
 import 'package:appete/controllers/tab_index_controller.dart';
 import 'package:appete/views/favourites/favorites_page.dart';
 import 'package:appete/views/home_restaurant/home_r_page.dart';
+import 'package:appete/views/home_restaurant/restaurant_profile.dart';
 import 'package:appete/views/home_restaurant/update_rest.dart';
 import 'package:appete/views/home_restaurant/view_rest.dart';
 import 'package:appete/widgets/body.dart';
@@ -16,7 +17,7 @@ class MainScreen_Restaurant extends StatelessWidget {
     HomePage_Restaurant(),
     ViewRest(),
     UpdateRest(),
-    FavoritesPage()
+    RestaurantProfile()
   ];
 
   @override

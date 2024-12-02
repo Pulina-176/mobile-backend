@@ -9,6 +9,7 @@ class UpdateRest extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false, // Removes the back button
           title: Text('Update Restaurant'),
           bottom: TabBar(
             tabs: [
