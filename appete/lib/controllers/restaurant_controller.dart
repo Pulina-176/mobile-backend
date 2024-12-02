@@ -66,4 +66,27 @@ class RestaurantController extends GetxController {
     }
 
   }
+
+  //=========================== P R O F I L E ===========================
+  void setProfile (String name, String address, String hotline, String about) async {
+      try {
+        _currentRestaurant.value!.name = name;
+        await restaurantCollection.doc(_currentRestaurant.value?.id).update({"name": name});
+        
+        _currentRestaurant.value!.about = about;
+        await restaurantCollection.doc(_currentRestaurant.value?.id).update({"about": about});
+        
+        _currentRestaurant.value!.address = address;
+        await restaurantCollection.doc(_currentRestaurant.value?.id).update({"address": address});
+        
+        _currentRestaurant.value!.hotline = hotline;
+        await restaurantCollection.doc(_currentRestaurant.value?.id).update({"hotline": hotline});
+
+        Get.snackbar("Success", "Profile updated");
+      } on Exception catch (e) {
+        // TODO
+        Get.snackbar("Error", e.toString());
+      }
+  }
+
 }

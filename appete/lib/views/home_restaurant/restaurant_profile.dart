@@ -1,7 +1,23 @@
+import 'package:appete/controllers/restaurant_controller.dart';
+import 'package:appete/widgets/imagePicker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RestaurantProfile extends StatelessWidget {
-  const RestaurantProfile({super.key});
+
+  final RestaurantController _currentRestaurant = Get.put(RestaurantController());
+
+  late final TextEditingController nameController;
+  late final TextEditingController aboutController;
+  late final TextEditingController hotlineController;
+  late final TextEditingController addressController;
+
+  RestaurantProfile() {
+    nameController = TextEditingController(text: _currentRestaurant.currentRestaurant!.name);
+    aboutController = TextEditingController(text: _currentRestaurant.currentRestaurant!.about);
+    hotlineController = TextEditingController(text: _currentRestaurant.currentRestaurant!.hotline);
+    addressController = TextEditingController(text: _currentRestaurant.currentRestaurant!.address);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +82,7 @@ class RestaurantProfile extends StatelessWidget {
                         ),
                       ),
                     ),
+                    UploadImageWidget(),
                   ],
                 ),
               ],
@@ -75,6 +92,7 @@ class RestaurantProfile extends StatelessWidget {
 
           // Editable Fields
           TextField(
+            controller: nameController,
             decoration: InputDecoration(
               labelText: 'Name',
               labelStyle: TextStyle(
@@ -103,6 +121,7 @@ class RestaurantProfile extends StatelessWidget {
           const SizedBox(height: 16),
 
           TextField(
+            controller: aboutController,
             decoration: InputDecoration(
               labelText: 'About',
               labelStyle: TextStyle(
@@ -132,6 +151,7 @@ class RestaurantProfile extends StatelessWidget {
           const SizedBox(height: 16),
 
           TextField(
+            controller: hotlineController,
             decoration: InputDecoration(
               labelText: 'Hotline',
               labelStyle: TextStyle(
@@ -160,6 +180,7 @@ class RestaurantProfile extends StatelessWidget {
           const SizedBox(height: 16),
 
           TextField(
+            controller: addressController,
             decoration: InputDecoration(
               labelText: 'Address',
               labelStyle: TextStyle(
@@ -191,6 +212,7 @@ class RestaurantProfile extends StatelessWidget {
           ElevatedButton.icon(
             onPressed: () {
               // Save changes
+              SaveChanges();
             },
             icon: const Icon(
               Icons.save,
@@ -214,5 +236,15 @@ class RestaurantProfile extends StatelessWidget {
         ],
       ),
     );
+  }
+
+
+  void SaveChanges() {
+    try{
+      _currentRestaurant.setProfile(nameController.text, addressController.text, hotlineController.text, aboutController.text);
+    }
+    catch(e) {
+      Get.snackbar("error", e.toString());
+    }
   }
 }

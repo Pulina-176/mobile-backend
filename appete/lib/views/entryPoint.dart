@@ -4,7 +4,6 @@ import 'package:appete/views/home_User/home_page.dart';
 import 'package:appete/widgets/body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:appete/widgets/bottomNav.dart';
 import 'package:get/get.dart';
 
 class MainScreen extends StatelessWidget {
