@@ -15,20 +15,22 @@ class SearchNearController extends GetxController {
   // Method to fetch all restaurants from Firestore
   Future<void> fetchRestaurants() async {
     try {
-      // Get all documents from the restaurants collection
       QuerySnapshot snapshot = await restaurantCollection.get();
 
-      // Convert each document to a Restaurant object and add it to the list
+      // Print the fetched documents
+      // snapshot.docs.forEach((doc) {
+      //   print("Fetched restaurant data: ${doc.data()}");
+      // });
+
+      // Convert the documents to a list of Restaurant objects
       List<Restaurant> restaurants = snapshot.docs.map((doc) {
         return Restaurant.fromJson(doc.data() as Map<String, dynamic>);
       }).toList();
 
-      // Set the fetched restaurants to the restaurant list
+      // Update the restaurant list
       setRestaurantList(restaurants);
-      print(restaurants);
     } catch (e) {
       print("Error fetching restaurants: $e");
-      Get.snackbar("Error", "Failed to fetch restaurants.");
     }
   }
 

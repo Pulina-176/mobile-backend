@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:appete/controllers/search_near_controller.dart'; // Import SearchNearController
 import 'package:appete/controllers/current_address_controller.dart'; // Import CurrentAddressController
 import 'package:appete/models/Restaurant.dart'; // Import the Restaurant model
-import 'package:appete/views/favourites/widgets/view_restaurant.dart';
 
 class NearbyRestaurantList extends StatelessWidget {
   final SearchNearController searchNearController =
@@ -83,24 +82,29 @@ class RestaurantCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      elevation: 5,
-      child: ListTile(
-          // leading: Image.network(
-          //   restaurant.imageUrl, // Image URL of the restaurant
-          //   width: 50,
-          //   height: 50,
-          //   fit: BoxFit.cover,
-          // ),
-          title: Text(restaurant.name),
-          subtitle: Text(restaurant.address),
-          trailing: IconButton(
-            icon: Icon(Icons.arrow_forward_ios),
-            onPressed: () {
-              // Navigate to the restaurant details page and pass the restaurant ID
-              Get.toNamed('/view-rest', arguments: {'id': restaurant.id});
-            },
-          )),
-    );
+        margin: EdgeInsets.symmetric(vertical: 10),
+        elevation: 5,
+        child: SizedBox(
+          height: 100,
+          child: ListTile(
+              leading: restaurant.photo.isNotEmpty
+                  ? Image.network(
+                      restaurant.photo, // Use the photo URL
+                      width: 100,
+                      height: 120,
+                      fit: BoxFit.cover,
+                    )
+                  : Icon(Icons
+                      .restaurant), // Placeholder if photo is not available
+              title: Text(restaurant.name),
+              subtitle: Text(restaurant.address),
+              trailing: IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: () {
+                  // Navigate to the restaurant details page and pass the restaurant ID
+                  Get.toNamed('/view-rest', arguments: {'id': restaurant.id});
+                },
+              )),
+        ));
   }
 }
