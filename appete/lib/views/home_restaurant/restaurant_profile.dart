@@ -22,21 +22,7 @@ class RestaurantProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.yellow[700], // Yellow background for AppBar
-        title: const Text(
-          'Edit Profile',
-          style: TextStyle(
-            color: Colors.black, // Black color for text
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Poppins',
-          ),
-          textAlign: TextAlign.center,
-        ),
-        centerTitle: true,
-      ),
+      
       body: ListView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(16.0),
