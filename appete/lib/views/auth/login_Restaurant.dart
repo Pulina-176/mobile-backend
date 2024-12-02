@@ -1,14 +1,19 @@
+import 'dart:io';
+
 import 'package:appete/controllers/auth_restaurant_controller.dart';
 import 'package:appete/controllers/auth_user_controller.dart';
 import 'package:appete/controllers/restaurant_controller.dart';
+import 'package:appete/views/auth/signup_Restaurant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginPage_Restaurant extends StatelessWidget {
-  final AuthRestaurantController _login = Get.put(AuthRestaurantController()); // controller for authorization handling of Restaurant accounts
-  final RestaurantController _currentRestaurant = Get.put(RestaurantController()); // controller for logged restaurant functions
+  final AuthRestaurantController _login = Get.put(
+      AuthRestaurantController()); // controller for authorization handling of Restaurant accounts
+  final RestaurantController _currentRestaurant = Get.put(
+      RestaurantController()); // controller for logged restaurant functions
 
-  final TextEditingController _email = TextEditingController();  
+  final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
   @override
@@ -41,6 +46,31 @@ class LoginPage_Restaurant extends StatelessWidget {
               onPressed: LogIn,
               child: Text('Log In'),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text("Don't have an account? "),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RestaurantSignUp(), // Replace with your signup page widget
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    "Sign-Up",
+                    style: TextStyle(
+                      color: Colors.blue, // Make it look like a link
+                      decoration: TextDecoration
+                          .underline, // Add underline for emphasis
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -48,19 +78,18 @@ class LoginPage_Restaurant extends StatelessWidget {
   }
 
   void LogIn() async {
-
-    String? email = _email.text; 
+    String? email = _email.text;
     String? password = _password.text;
 
     if (validateForm()) {
-        dynamic result = await _login.signInWithEmailAndPassword(email, password);
-        String uid = result.uid; // Unique ID for logged in user
+      dynamic result = await _login.signInWithEmailAndPassword(email, password);
+      String uid = result.uid; // Unique ID for logged in user
 
-        if (uid.isNotEmpty) {
-            print('getting uid doc ${uid}');
-            await _currentRestaurant.getRestaurant(uid);
-            Get.toNamed('/home-rest');
-        }
+      if (uid.isNotEmpty) {
+        print('getting uid doc ${uid}');
+        await _currentRestaurant.getRestaurant(uid);
+        Get.toNamed('/home-rest');
+      }
     }
   }
 
