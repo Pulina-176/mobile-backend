@@ -1,8 +1,8 @@
 import 'package:appete/controllers/tab_index_controller.dart';
 import 'package:appete/views/favourites/favorites_page.dart';
-import 'package:appete/views/home_restaurant/add_item.dart';
 import 'package:appete/views/home_restaurant/home_r_page.dart';
-import 'package:appete/views/home_restaurant/view_menu..dart';
+import 'package:appete/views/home_restaurant/update_rest.dart';
+import 'package:appete/views/home_restaurant/view_rest.dart';
 import 'package:appete/widgets/body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,8 +14,8 @@ class MainScreen_Restaurant extends StatelessWidget {
 
   List<Widget> pageList = [
     HomePage_Restaurant(),
-    ViewMenu_Restaurant(),
-    AddItemPage(),
+    ViewRest(),
+    UpdateRest(),
     FavoritesPage()
   ];
 

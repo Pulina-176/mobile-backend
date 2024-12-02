@@ -3,6 +3,10 @@ import 'package:appete/controllers/current_address_controller.dart';
 import 'package:appete/controllers/menu_controller.dart';
 import 'package:appete/controllers/restaurant_controller.dart';
 import 'package:appete/models/Restaurant.dart';
+
+// import 'package:cloudinary_url_gen/cloudinary.dart';
+// import 'package:cloudinary_flutter/image/cld_image.dart';
+// import 'package:cloudinary_flutter/cloudinary_context.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,9 +18,7 @@ class ViewMenu_Restaurant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       return Scaffold(
-      appBar: AppBar(
-        title: Text('Menu'),
-      ),
+      
       body: Obx(() {
         if (_menu.menuItems.isEmpty) {
           return Center(child: Text('No menu items available'));
@@ -42,12 +44,20 @@ class ViewMenu_Restaurant extends StatelessWidget {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      // SizedBox(
+                      //     width: 200,
+                      //     height: 140,
+                      //     // Add a Cloudinary CldImageWidget that wraps Flutter's authenticated Image widget.
+                      //     child: CldImageWidget(
+                      //       publicId: 'cld-sample',
+                      //       )
+                      // ),
                       Text('\$${item.price}'),
                       IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),
                         onPressed: () {
                           _menu.deleteMenuItem(_restaurant.currentRestaurant!.id , item);
-                        },
+                        }, 
                       ),
                     ],
                   ),
@@ -57,7 +67,7 @@ class ViewMenu_Restaurant extends StatelessWidget {
           }).toList(),
         );
       }),
-    );
+    ); 
 
   }
 }

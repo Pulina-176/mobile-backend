@@ -22,6 +22,7 @@ class AddItemPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // This removes the back button
         title: Text('Add Item'),
       ),
       body: Padding(

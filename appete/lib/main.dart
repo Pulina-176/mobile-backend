@@ -5,11 +5,15 @@ import 'package:appete/views/auth/signup_Restaurant.dart';
 import 'package:appete/views/entryPoint_restaurant.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+// // Import the Cloudinary packages.
+// import 'package:cloudinary_url_gen/cloudinary.dart';
+// import 'package:cloudinary_flutter/image/cld_image.dart';
+// import 'package:cloudinary_flutter/cloudinary_context.dart';
 
 import 'package:appete/views/entryPoint.dart';
 import 'package:appete/views/auth/user_start.dart';
 import 'package:appete/views/auth/login_User.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart'; 
 
 
 import 'package:flutter/material.dart';
@@ -18,6 +22,9 @@ import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // CloudinaryContext.cloudinary =
+  //     Cloudinary.fromCloudName(cloudName: 'dskifca6z');
   
   if(kIsWeb) {
     Firebase.initializeApp(
