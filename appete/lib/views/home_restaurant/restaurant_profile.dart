@@ -34,12 +34,7 @@ class RestaurantProfile extends StatelessWidget {
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundColor: Colors.yellow[10],
-                      backgroundImage:
-                          const AssetImage('assets/images/welcome1.png'),
-                    ),
+                   
                     
                     UploadImageWidget(),
                   ],

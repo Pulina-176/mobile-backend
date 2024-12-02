@@ -3,7 +3,7 @@ import 'package:appete/controllers/restaurant_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UploadImageWidget extends StatelessWidget {
+class UploadDealImage extends StatelessWidget {
 
   final UploadController controller = Get.put(UploadController());
   final RestaurantController _currentRestaurant = Get.put(RestaurantController());
@@ -17,7 +17,7 @@ class UploadImageWidget extends StatelessWidget {
           children: [
             Obx(() {
               return CircleAvatar(
-                radius: 80, // Adjust size as needed
+                radius: 50, // Adjust size as needed
                 backgroundImage: controller.imageFile.value != null
                     ? FileImage(controller.imageFile.value!) as ImageProvider
                     : NetworkImage(_currentRestaurant.currentRestaurant!.photo),
