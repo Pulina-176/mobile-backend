@@ -52,7 +52,7 @@ class UploadController extends GetxController {
     if (response.statusCode == 200) {
       final responseBody = await response.stream.bytesToString();
       final data = jsonDecode(responseBody);
-      Get.snackbar("Success", "Image uploaded: ${data['secure_url']}",
+      Get.snackbar("Success", "Image uploaded successfully",
           snackPosition: SnackPosition.BOTTOM);
       await restaurantCollection.doc(_currentRestaurant.currentRestaurant?.id).update({"photo": data['secure_url']});
       _currentRestaurant.currentRestaurant?.photo = data['secure_url'];

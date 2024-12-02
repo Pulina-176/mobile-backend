@@ -24,7 +24,6 @@ class RestaurantController extends GetxController {
       DocumentSnapshot<Object?> querySnapshot = await restaurantCollection.doc(uid).get();
       _currentRestaurant.value = // extract from doc and form Restaurant object
           Restaurant.fromJson(querySnapshot.data() as Map<String, dynamic>);
-      Get.snackbar("message", _currentRestaurant.value!.menuItems[0].price.toString());
           
       // Update categories
       categories.value = List<String>.from(_currentRestaurant.value!.categoryList);

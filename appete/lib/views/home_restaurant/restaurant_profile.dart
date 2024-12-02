@@ -40,34 +40,7 @@ class RestaurantProfile extends StatelessWidget {
                       backgroundImage:
                           const AssetImage('assets/images/welcome1.png'),
                     ),
-                    Positioned(
-                      bottom: 0,
-                      right: 4,
-                      child: Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(
-                              255, 9, 1, 3), // Yellow for edit icon
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: const Icon(Icons.edit,
-                              size: 16, color: Colors.white),
-                          onPressed: () {
-                            // Add functionality to update profile picture
-                          },
-                        ),
-                      ),
-                    ),
+                    
                     UploadImageWidget(),
                   ],
                 ),
