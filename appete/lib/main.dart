@@ -1,5 +1,6 @@
 // Firebase setup
 import 'package:appete/controllers/auth_user_controller.dart';
+import 'package:appete/views/favourites/widgets/nearby_res.dart';
 import 'package:appete/views/home_restaurant/restaurant_profile.dart';
 import 'package:appete/views/welcome/appStart.dart';
 import 'package:appete/views/auth/login_Restaurant.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Inter', primaryColor: Colors.redAccent),
-      home: AppStart(),
+      home: NearbyRestaurantList(),
       routes: {
         '/home': (context) => MainScreen(), // Define the home route
         '/home-rest': (context) => MainScreen_Restaurant(),
