@@ -1,7 +1,5 @@
 // Firebase setup
 import 'package:appete/controllers/auth_user_controller.dart';
-import 'package:appete/views/favourites/widgets/nearby_res.dart';
-import 'package:appete/views/home_restaurant/restaurant_profile.dart';
 import 'package:appete/views/welcome/appStart.dart';
 import 'package:appete/views/auth/login_Restaurant.dart';
 import 'package:appete/views/auth/signup_Restaurant.dart';
@@ -13,6 +11,8 @@ import 'package:firebase_core/firebase_core.dart';
 // import 'package:cloudinary_url_gen/cloudinary.dart';
 // import 'package:cloudinary_flutter/image/cld_image.dart';
 // import 'package:cloudinary_flutter/cloudinary_context.dart';
+
+import 'package:cloudinary/cloudinary.dart';
 
 import 'package:appete/views/entryPoint.dart';
 import 'package:appete/views/auth/user_start.dart';

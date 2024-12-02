@@ -15,7 +15,11 @@ class AuthRestaurantController extends GetxController{
       'name': name,
       'address': address,
       'categoryList': [],
-      'menuItems' : []
+      'menuItems' : [],
+      'deals' : [],
+      'about': "",
+      'hotline': "",
+      'photo': ""
     }).catchError((e) => {
       print(e)
     }); 

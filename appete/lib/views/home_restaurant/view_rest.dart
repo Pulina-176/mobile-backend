@@ -10,6 +10,7 @@ class ViewRest extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Your Restaurant'),
+          automaticallyImplyLeading: false, // Removes the back button
           bottom: TabBar(
             tabs: [
               Tab(text: 'Menu'),

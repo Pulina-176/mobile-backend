@@ -10,6 +10,10 @@ class Restaurant {
   String id;
   String name;
   String address;
+  String about;
+  String hotline;
+  String photo;
+  
   var categoryList = <String>[];
 
   var deals = <Deal>[];
@@ -19,6 +23,9 @@ class Restaurant {
     required this.id,
     required this.name,
     required this.address,
+    required this.about,
+    required this.hotline,
+    required this.photo,
     List<String>? categoryList, // Use nullable type
     List<MenuItem>? menuItems, // Use nullable type
     List<Deal>? deals, // Use nullable type
@@ -31,7 +38,10 @@ class Restaurant {
     address: json["address"],
     categoryList: List<String>.from(json["categoryList"]),
     menuItems: List<MenuItem>.from(json["menuItems"].map((x) => MenuItem.fromJson(x))),
-    deals: List<Deal>.from(json["deals"].map((x) => Deal.fromJson(x))),
+    deals: List<Deal>.from(json["deals"].map((x) => Deal.fromJson(x))), 
+    about: json["about"], 
+    hotline: json["hotline"],
+    photo: json["photo"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -41,6 +51,9 @@ class Restaurant {
     "categoryList": categoryList,
     "menuItem": menuItems,
     "deals": deals,
+    "about": about,
+    "hotline": hotline,
+    "photo": photo,
   };
 
 
