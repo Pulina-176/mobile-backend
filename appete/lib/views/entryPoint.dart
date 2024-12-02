@@ -1,5 +1,6 @@
 import 'package:appete/controllers/tab_index_controller.dart';
 import 'package:appete/views/favourites/favorites_page.dart';
+import 'package:appete/views/favourites/widgets/nearby_res.dart';
 import 'package:appete/views/home_User/home_page.dart';
 import 'package:appete/widgets/body.dart';
 import 'package:flutter/material.dart';
@@ -13,22 +14,25 @@ class MainScreen extends StatelessWidget {
 
   List<Widget> pageList = [
     HomePage_User(),
-    FavoritesPage(),
+    NearbyRestaurantList(),
     FavoritesPage(),
     HomePage_User()
   ];
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(TabIndexController());  // controller to identify which tab is opened
+    final controller = Get.put(
+        TabIndexController()); // controller to identify which tab is opened
     return Scaffold(
-        appBar: appBar(),
-        body: Body(controller: controller, pageList: pageList), // pass down props to Body
-        );
+      appBar: appBar(),
+      body: Body(
+          controller: controller,
+          pageList: pageList), // pass down props to Body
+    );
   }
 
   AppBar appBar() {
-  return AppBar(
+    return AppBar(
       title: Text(
         'Appete',
         style: TextStyle(
@@ -82,6 +86,5 @@ class MainScreen extends StatelessWidget {
         )
       ],
     );
-}
-
+  }
 }

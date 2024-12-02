@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 class CurrentAddressController extends GetxController {
-  
   RxString _currentAddress = ''.obs;
 
   String get getAddress => _currentAddress.value;
@@ -11,5 +10,4 @@ class CurrentAddressController extends GetxController {
   void clearCurrentUsername() {
     _currentAddress.value = '';
   }
-  
 }
