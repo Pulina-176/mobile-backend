@@ -15,7 +15,7 @@ class MainScreen_Restaurant extends StatelessWidget {
 
   List<Widget> pageList = [
     HomePage_Restaurant(),
-    ViewRest(),
+    ViewRestaurant(restaurantId: Get.arguments['id']),
     UpdateRest(),
     RestaurantProfile()
   ];
