@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Inter', primaryColor: Colors.redAccent),
-      home: NearbyRestaurantList(),
+      home: AppStart(),
       routes: {
         '/home': (context) => MainScreen(), // Define the home route
         '/home-rest': (context) => MainScreen_Restaurant(),
