@@ -1,11 +1,19 @@
 import 'package:appete/controllers/tab_index_controller.dart';
 import 'package:appete/views/favourites/favorites_page.dart';
+<<<<<<< HEAD
 import 'package:appete/views/home_restaurant/home_r_page.dart';
 import 'package:appete/views/home_restaurant/update_rest.dart';
 import 'package:appete/views/home_restaurant/view_rest.dart';
+=======
+import 'package:appete/views/home_User/home_page.dart';
+import 'package:appete/views/home_restaurant/add_item.dart';
+import 'package:appete/views/home_restaurant/home_r_page.dart';
+import 'package:appete/views/home_restaurant/restaurant_profile.dart';
+>>>>>>> origin/main
 import 'package:appete/widgets/body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:appete/widgets/bottomNav.dart';
 import 'package:get/get.dart';
 
 class MainScreen_Restaurant extends StatelessWidget {
@@ -14,22 +22,31 @@ class MainScreen_Restaurant extends StatelessWidget {
 
   List<Widget> pageList = [
     HomePage_Restaurant(),
+<<<<<<< HEAD
     ViewRest(),
     UpdateRest(),
     FavoritesPage()
+=======
+    AddItemPage(),
+    HomePage_User(),
+    RestaurantProfile(),
+>>>>>>> origin/main
   ];
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(TabIndexController());  // controller to identify which tab is opened
+    final controller = Get.put(
+        TabIndexController()); // controller to identify which tab is opened
     return Scaffold(
-        appBar: appBar(),
-        body: Body(controller: controller, pageList: pageList), // pass down props to Body
-        );
+      appBar: appBar(),
+      body: Body(
+          controller: controller,
+          pageList: pageList), // pass down props to Body
+    );
   }
 
   AppBar appBar() {
-  return AppBar(
+    return AppBar(
       title: Text(
         'Appete',
         style: TextStyle(
@@ -83,6 +100,5 @@ class MainScreen_Restaurant extends StatelessWidget {
         )
       ],
     );
-}
-
+  }
 }

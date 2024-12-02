@@ -1,24 +1,24 @@
 import 'dart:convert';
 
-List<Restaurant> restaurantFromJson(String str) => List<Restaurant>.from(json.decode(str).map((x) => Restaurant.fromJson(x)));
+List<Restaurant> restaurantFromJson(String str) =>
+    List<Restaurant>.from(json.decode(str).map((x) => Restaurant.fromJson(x)));
 
-String userToJson(List<Restaurant> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String userToJson(List<Restaurant> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Restaurant {
-
   String id;
   String name;
   String address;
   var categoryList = <String>[];
-  
 
   var deals = <Deal>[];
-  var menuItems = <MenuItem>[]; 
-  
+  var menuItems = <MenuItem>[];
+
   Restaurant({
     required this.id,
     required this.name,
-    required this.address, 
+    required this.address,
     List<String>? categoryList, // Use nullable type
     List<MenuItem>? menuItems, // Use nullable type
     List<Deal>? deals, // Use nullable type
@@ -75,7 +75,6 @@ class Deal {
   };
 }
 
-
 // Object for MenuItems
 class MenuItem {
   String category;
@@ -93,18 +92,18 @@ class MenuItem {
   });
 
   factory MenuItem.fromJson(Map<String, dynamic> json) => MenuItem(
-    category: json["category"],
-    itemName: json["itemName"],
-    description: json["description"],
-    // photo: json["photo"],
-    price: json["price"],
-  );
+        category: json["category"],
+        itemName: json["itemName"],
+        description: json["description"],
+        // photo: json["photo"],
+        price: json["price"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "category": category,
-    "itemName": itemName,
-    "description": description,
-    // "photo": photo,
-    "price": price,
-  };
+        "category": category,
+        "itemName": itemName,
+        "description": description,
+        // "photo": photo,
+        "price": price,
+      };
 }
