@@ -16,11 +16,18 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Stack(
       children: [
-        pageList[controller.tabIndex],
+          // Main content (the page list)
+          SafeArea(  // Wrap the page content inside a SafeArea to avoid overlap
+            child: pageList[controller.tabIndex],
+          ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Theme(data: Theme.of(context).copyWith(canvasColor: Colors.orange[200]),
-          child: BottomNavigation()),
+          child: Padding(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom), // Avoid overlap
+                child: Theme(
+                  data: Theme.of(context).copyWith(canvasColor: Colors.orange[200]),
+                  child: BottomNavigation(),
+                )),
         ),
       ],
     ));
