@@ -1,5 +1,6 @@
 // Firebase setup
 import 'package:appete/controllers/auth_user_controller.dart';
+import 'package:appete/views/home_restaurant/restaurant_profile.dart';
 import 'package:appete/views/welcome/appStart.dart';
 import 'package:appete/views/auth/login_Restaurant.dart';
 import 'package:appete/views/auth/signup_Restaurant.dart';
@@ -79,6 +80,7 @@ class MyApp extends StatelessWidget {
         '/restaurant-signup': (context) => RestaurantSignUp(),
         '/view-rest': (context) =>
             ViewRestaurant(restaurantId: Get.arguments['id']),
+        '/edit-profile': (context) => RestaurantProfile(),
       },
     );
   }
