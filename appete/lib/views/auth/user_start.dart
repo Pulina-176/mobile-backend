@@ -9,8 +9,9 @@ import 'package:get/get.dart';
 class UserStart extends StatelessWidget {
   UserStart({super.key});
 
-  final CurrentAddressController _addressController = Get.put(CurrentAddressController());
-  final TextEditingController _addressField = TextEditingController();  
+  final CurrentAddressController _addressController =
+      Get.put(CurrentAddressController());
+  final TextEditingController _addressField = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,10 @@ class UserStart extends StatelessWidget {
             children: <Widget>[
               const Text(
                 'Hi, where u at?',
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 20),
               TextField(
@@ -39,7 +43,20 @@ class UserStart extends StatelessWidget {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: saveCurrentAddress,
-                child: const Text('Submit'),
+                style: ElevatedButton.styleFrom(
+                  elevation: 0.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  backgroundColor: Colors.black,
+                ),
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.white),
+                ),
               ),
             ],
           ),
@@ -58,21 +75,24 @@ class UserStart extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                   ),
-            title: Text('Oops!'),
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            ),
+            title: Text('Oops!',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 187, 110, 47),
+                    fontWeight: FontWeight.bold)),
             content: Text("We really need to know where you are right now :/"),
             actions: <Widget>[
-                      TextButton(
-                        child: Text(
-                          "Got it",
-                          style: TextStyle(color: Colors.orange[500]),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
+              TextButton(
+                child: Text(
+                  "Got it",
+                  style: TextStyle(color: Colors.orange[500]),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           );
         },
       );

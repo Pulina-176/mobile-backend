@@ -13,7 +13,6 @@ class NearbyRestaurantList extends StatelessWidget {
   Widget build(BuildContext context) {
     searchNearController.fetchRestaurants();
     return Scaffold(
-
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -25,24 +24,36 @@ class NearbyRestaurantList extends StatelessWidget {
               },
               decoration: InputDecoration(
                 labelText: 'Search by City',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                prefixIcon: Icon(Icons.search, color: Colors.black),
               ),
             ),
             SizedBox(height: 20),
-            // Clear search button
-            ElevatedButton(
-              onPressed: () {
-                searchNearController.clearSearch();
-              },
-              child: Text('Clear Search'),
+            // Button row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    searchNearController.searchByCity(currentAddressController);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 187, 110, 47),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text('Search',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      )),
+                )
+              ],
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-                onPressed: () {
-                  searchNearController.searchByCity(currentAddressController);
-                },
-                child: Text('Get Restaurants')),
             SizedBox(height: 20),
             // Reactive list of filtered restaurants
             Expanded(
@@ -79,29 +90,80 @@ class RestaurantCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        elevation: 5,
-        child: SizedBox(
-          height: 100,
-          child: ListTile(
-              leading: restaurant.photo.isNotEmpty
+      margin: EdgeInsets.symmetric(vertical: 10),
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: () {
+          Get.toNamed('/view-rest', arguments: {'id': restaurant.id});
+        },
+        child: Row(
+          children: [
+            // Restaurant Image
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
+              ),
+              child: restaurant.photo.isNotEmpty
                   ? Image.network(
-                      restaurant.photo, // Use the photo URL
+                      restaurant.photo,
                       width: 100,
-                      height: 120,
+                      height: 100,
                       fit: BoxFit.cover,
                     )
-                  : Icon(Icons
-                      .restaurant), // Placeholder if photo is not available
-              title: Text(restaurant.name),
-              subtitle: Text(restaurant.address),
-              trailing: IconButton(
-                icon: Icon(Icons.arrow_forward_ios),
-                onPressed: () {
-                  // Navigate to the restaurant details page and pass the restaurant ID
-                  Get.toNamed('/view-rest', arguments: {'id': restaurant.id});
-                },
-              )),
-        ));
+                  : Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.grey[300],
+                      child: Icon(
+                        Icons.restaurant,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ),
+            ),
+            // Restaurant Info
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      restaurant.name,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 50, 50, 50),
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      restaurant.address,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Arrow Icon
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                color: Color.fromARGB(255, 187, 110, 47),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
