@@ -57,7 +57,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Inter', primaryColor: Colors.redAccent),
+      theme: ThemeData(
+        primaryColor: const Color.fromARGB(255, 255, 115, 92),
+        fontFamily: 'Inter',
+        inputDecorationTheme: InputDecorationTheme(
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: BorderSide(color: Colors.black)),
+            labelStyle: TextStyle(color: Colors.black),
+            hintStyle: TextStyle(color: Colors.black)),
+        textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.black),
+      ),
       home: AppStart(),
       routes: {
         '/home': (context) => MainScreen(), // Define the home route

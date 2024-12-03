@@ -35,54 +35,42 @@ class MainScreen extends StatelessWidget {
       title: Text(
         'Appete',
         style: TextStyle(
-          color: Colors.black,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
+          color: Colors.white,
+          fontSize: 20, // Slightly larger font size for modern design
+          fontWeight: FontWeight.w600,
         ),
       ),
-      backgroundColor: Colors.orange[500],
-      elevation: 0.5,
+      backgroundColor: Colors
+          .black, // Use a modern, minimalistic color like black or dark grey
+      elevation: 0.0, // Remove the shadow for a flatter design
       centerTitle: true,
       leading: GestureDetector(
-          onTap: () {
-            ();
-          },
-          child: Container(
-            margin: const EdgeInsets.all(10),
-            alignment: Alignment.center,
-            child: SvgPicture.asset(
-              'assets/icons/chevron-left-svgrepo-com.svg',
-              width: 20,
-              height: 20,
-            ),
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              color: Colors.orange[500],
-              borderRadius: BorderRadius.circular(10),
-            ),
-          )),
+        onTap: () {
+          // Add navigation functionality
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white, // Use a standard icon with white color
+            size: 20,
+          ),
+        ),
+      ),
       actions: [
         GestureDetector(
           onTap: () {
-            ();
+            // Add menu functionality
           },
           child: Container(
-            margin: const EdgeInsets.all(10),
-            alignment: Alignment.center,
-            child: SvgPicture.asset(
-              'assets/icons/menu-dots-svgrepo-com.svg',
-              width: 20,
-              height: 20,
-            ),
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              color: Colors.orange[500],
-              borderRadius: BorderRadius.circular(10),
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            child: Icon(
+              Icons.more_vert,
+              color: Colors.white, // Standard modern icon
+              size: 22,
             ),
           ),
-        )
+        ),
       ],
     );
   }

@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:appete/controllers/auth_restaurant_controller.dart';
-import 'package:appete/controllers/auth_user_controller.dart';
 import 'package:appete/controllers/menu_controller.dart';
 import 'package:appete/controllers/restaurant_controller.dart';
 import 'package:appete/views/auth/signup_Restaurant.dart';
@@ -9,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginPage_Restaurant extends StatelessWidget {
-  final AuthRestaurantController _login = Get.put(AuthRestaurantController()); // controller for authorization handling of Restaurant accounts
-  final RestaurantController _currentRestaurant = Get.put(RestaurantController()); // controller for logged restaurant functions
-  final Menu_Controller _menu = Get.put(Menu_Controller()); // controller for getting menu Items
+  final AuthRestaurantController _login = Get.put(AuthRestaurantController());
+  final RestaurantController _currentRestaurant =
+      Get.put(RestaurantController());
+  final Menu_Controller _menu = Get.put(Menu_Controller());
 
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
@@ -19,88 +17,158 @@ class LoginPage_Restaurant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _email,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Header Image
+              const SizedBox(height: 50),
+              Image.asset(
+                'assets/images/login.png',
+                height: 150,
+                fit: BoxFit.contain,
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _password,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 20),
+              const Text(
+                'Welcome Back!',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: LogIn,
-              child: Text('Log In'),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text("Don't have an account? "),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            RestaurantSignUp(), // Replace with your signup page widget
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    "Sign-Up",
-                    style: TextStyle(
-                      color: Colors.blue, // Make it look like a link
-                      decoration: TextDecoration
-                          .underline, // Add underline for emphasis
-                    ),
+              const SizedBox(height: 10),
+              const Text(
+                'Please log in to continue',
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+              ),
+              const SizedBox(height: 30),
+              // Email Input
+              TextField(
+                controller: _email,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  hintText: 'Enter your email',
+                  hintStyle: const TextStyle(fontSize: 14),
+                  prefixIcon: const Icon(Icons.email_outlined),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(height: 16),
+              // Password Input
+              TextField(
+                controller: _password,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  hintText: 'Enter your password',
+                  hintStyle: const TextStyle(fontSize: 14),
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              // Login Button
+              SizedBox(
+                height: 40,
+                width: 300,
+                child: ElevatedButton(
+                    onPressed: () => {LogIn()},
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      backgroundColor: const Color.fromARGB(255, 255, 115, 92),
+                    ),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Colors.white),
+                    )),
+              ),
+              const SizedBox(height: 16),
+              // Signup Redirect
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Don't have an account? "),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RestaurantSignUp(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "Sign-Up",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 255, 115, 92),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
   }
 
   void LogIn() async {
-    String? email = _email.text;
-    String? password = _password.text;
+    String email = _email.text.trim();
+    String password = _password.text.trim();
 
     if (validateForm()) {
       dynamic result = await _login.signInWithEmailAndPassword(email, password);
-      String uid = result.uid; // Unique ID for logged in user
+      if (result == null) {
+        Get.snackbar(
+          "Login Failed",
+          "Invalid email or password. Please try again.",
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return;
+      }
 
-        if (uid.isNotEmpty) {
-            print('getting uid doc ${uid}');
-            await _currentRestaurant.getRestaurant(uid);
-            await _menu.fetchMenuItems(uid);
-            Get.toNamed('/home-rest');
+      String uid = result.uid;
+      if (uid.isNotEmpty) {
+        try {
+          await _currentRestaurant.getRestaurant(uid);
+          await _menu.fetchMenuItems(uid);
+          Get.toNamed('/home-rest');
+        } catch (e) {
+          Get.snackbar(
+            "Error",
+            "Failed to fetch restaurant details: $e",
+            snackPosition: SnackPosition.BOTTOM,
+          );
         }
+      }
     }
   }
 
   bool validateForm() {
     if (_email.text.isEmpty) {
-      Get.snackbar("Missing field", "You need to enter a valid email");
+      Get.snackbar("Missing Field", "You need to enter a valid email",
+          snackPosition: SnackPosition.TOP);
       return false;
     }
     if (_password.text.isEmpty) {
-      Get.snackbar("Missing field", "Password is missing!");
+      Get.snackbar("Missing Field", "Password is missing!",
+          snackPosition: SnackPosition.TOP);
       return false;
     }
     return true;
