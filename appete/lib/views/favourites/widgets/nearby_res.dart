@@ -13,10 +13,7 @@ class NearbyRestaurantList extends StatelessWidget {
   Widget build(BuildContext context) {
     searchNearController.fetchRestaurants();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Search Restaurants'),
-        backgroundColor: Colors.green,
-      ),
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

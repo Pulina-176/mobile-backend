@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:appete/controllers/menu_controller.dart';
 import 'package:appete/controllers/restaurant_controller.dart';
 import 'package:appete/models/Restaurant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,6 +17,7 @@ class UploadController extends GetxController {
   final _picker = ImagePicker();
 
   final RestaurantController _currentRestaurant = Get.put(RestaurantController()); // current restaurant profile
+  final Menu_Controller _menu_controller = Get.put(Menu_Controller());
 
   // Reference to Firestore collection
   final CollectionReference restaurantCollection =
@@ -64,6 +66,41 @@ class UploadController extends GetxController {
       Get.snackbar(
         "Error",
         "Failed to upload image. Status: ${response.statusCode}",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+    Future<void> uploadDealImage() async {
+    if (imageFile.value == null) return;
+
+    isUploading.value = true;
+
+    final url = "https://api.cloudinary.com/v1_1/$cloudName/image/upload";
+    final request = http.MultipartRequest("POST", Uri.parse(url));
+    request.fields['upload_preset'] = uploadPreset;
+    request.files.add(await http.MultipartFile.fromPath(
+      'file',
+      imageFile.value!.path,
+    ));
+
+    final response = await request.send();
+
+    isUploading.value = false;
+
+    if (response.statusCode == 200) {
+      final responseBody = await response.stream.bytesToString();
+      final data = jsonDecode(responseBody);
+      
+      // Clear the selected image
+      imageFile.value = null;
+
+      _menu_controller.temp_dealImage.value = data['secure_url'];
+      
+    } else {
+      Get.snackbar(
+        "Error",
+        "Failed to choose image. Status: ${response.statusCode}",
         snackPosition: SnackPosition.BOTTOM,
       );
     }

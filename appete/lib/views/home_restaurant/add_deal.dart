@@ -71,7 +71,7 @@ class AddDeal extends StatelessWidget {
                       name: title,
                       dealDescription: description,
                       priceDiscount: offer,
-                      photo: 'https://via.placeholder.com/150',
+                      photo: _deal_controller.temp_dealImage.value ?? 'https://res.cloudinary.com/dskifca6z/image/upload/v1732943760/cld-sample-4.jpg',
                     );
 
                     // Add deal to the database

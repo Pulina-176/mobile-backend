@@ -44,7 +44,7 @@ class UploadDealImage extends StatelessWidget {
                   ),
                   SizedBox(width: 10),
                   ElevatedButton(
-                    onPressed: controller.uploadImage,
+                    onPressed: controller.uploadDealImage,
                     child: Text("Upload Image"),
                   ),
                 ],

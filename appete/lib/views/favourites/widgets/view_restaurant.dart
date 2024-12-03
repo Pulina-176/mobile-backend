@@ -1,3 +1,4 @@
+import 'package:appete/controllers/restaurant_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +8,9 @@ import 'package:appete/models/Restaurant.dart';
 class ViewRestaurant extends StatelessWidget {
   final String restaurantId; // Restaurant ID passed from the previous page
 
-  const ViewRestaurant({required this.restaurantId});
+  final RestaurantController _controller = Get.put(RestaurantController());
+
+  ViewRestaurant({required this.restaurantId});
 
   Future<Map<String, dynamic>> fetchRestaurantDetails() async {
     try {
@@ -17,6 +20,7 @@ class ViewRestaurant extends StatelessWidget {
           .get();
 
       if (snapshot.exists) {
+        _controller.getRestaurant(restaurantId);
         return snapshot.data() as Map<String, dynamic>;
       } else {
         throw Exception("Restaurant not found");
@@ -65,13 +69,20 @@ class ViewRestaurant extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                Row(children: [
+                  Text(
                   restaurant.name,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                  ElevatedButton(onPressed: () => {
+                    Get.toNamed('/view-deals')
+                  }, 
+                  child: Text("test"))
+                ]),
+                
                 const SizedBox(height: 8),
                 Text(
                   restaurant.address,

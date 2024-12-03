@@ -67,6 +67,9 @@ class Menu_Controller extends GetxController {
   }
 
   // ================================ D E A L S =================================
+
+  final RxString temp_dealImage = ''.obs;   // Saves the image URL of a to be uploaded deal image temporarily
+
   /// Add a new deal to the restaurant
   Future<void> addDeal(String restaurantId, Deal deal) async {
     try {
